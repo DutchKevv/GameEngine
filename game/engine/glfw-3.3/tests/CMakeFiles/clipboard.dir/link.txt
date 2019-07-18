@@ -1,0 +1,1 @@
+/usr/bin/c99-gcc -g  -rdynamic CMakeFiles/clipboard.dir/clipboard.c.o CMakeFiles/clipboard.dir/__/deps/getopt.c.o CMakeFiles/clipboard.dir/__/deps/glad_gl.c.o  -o clipboard ../src/libglfw3d.a -lm -lrt -lm -ldl -lX11 -lpthread 

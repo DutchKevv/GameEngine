@@ -1,4 +1,7 @@
 {
     "cmake.configureOnOpen": true,
-    "cmake.sourceDirectory": "${workspaceRoot}/game"
+    "cmake.sourceDirectory": "${workspaceRoot}/game",
+    "files.associations": {
+        "vector": "cpp"
+    }
 }

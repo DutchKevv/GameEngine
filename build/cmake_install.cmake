@@ -39,7 +39,8 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/kewin/Projects/game-engine/build/build/cmake_install.cmake")
+  include("/home/kewin/Projects/game-engine/game/engine/glfw-3.3/cmake_install.cmake")
+  include("/home/kewin/Projects/game-engine/game/engine/json/cmake_install.cmake")
 
 endif()
 

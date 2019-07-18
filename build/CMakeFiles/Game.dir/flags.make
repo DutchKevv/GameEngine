@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_FLAGS = -g  
 
-CXX_DEFINES = 
+CXX_DEFINES = -DGLEW_STATIC -DTW_NO_DIRECT3D -DTW_NO_LIB_PRAGMA -DTW_STATIC -D_CRT_SECURE_NO_WARNINGS
 
-CXX_INCLUDES = -I/home/kewin/Projects/game-engine/game/../engine/include 
+CXX_INCLUDES = -I/home/kewin/Projects/game-engine/game/include -I/home/kewin/Projects/game-engine/engine/vendor/glad/include -I/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/include -I/home/kewin/Projects/game-engine/engine/vendor/stb/include -I/home/kewin/Projects/game-engine/engine/vendor/json/include -I/home/kewin/Projects/game-engine/engine/vendor/assimp-4.0.1/include -I/home/kewin/Projects/game-engine/game/engine/assimp/include -I/home/kewin/Projects/game-engine/engine/include 
 

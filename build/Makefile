@@ -56,6 +56,29 @@ CMAKE_BINARY_DIR = /home/kewin/Projects/game-engine/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
@@ -68,16 +91,17 @@ install/strip/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
 
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -99,30 +123,6 @@ list_install_components:
 list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -157,6 +157,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named Engine
+
+# Build rule for target.
+Engine: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Engine
+.PHONY : Engine
+
+# fast build rule for target.
+Engine/fast:
+	$(MAKE) -f CMakeFiles/Engine.dir/build.make CMakeFiles/Engine.dir/build
+.PHONY : Engine/fast
+
+#=============================================================================
 # Target rules for targets named Game
 
 # Build rule for target.
@@ -170,19 +183,6 @@ Game/fast:
 .PHONY : Game/fast
 
 #=============================================================================
-# Target rules for targets named GameEngine
-
-# Build rule for target.
-GameEngine: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 GameEngine
-.PHONY : GameEngine
-
-# fast build rule for target.
-GameEngine/fast:
-	$(MAKE) -f build/CMakeFiles/GameEngine.dir/build.make build/CMakeFiles/GameEngine.dir/build
-.PHONY : GameEngine/fast
-
-#=============================================================================
 # Target rules for targets named uninstall
 
 # Build rule for target.
@@ -192,7 +192,7 @@ uninstall: cmake_check_build_system
 
 # fast build rule for target.
 uninstall/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/CMakeFiles/uninstall.dir/build.make build/vendor/glfw-3.3/CMakeFiles/uninstall.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/CMakeFiles/uninstall.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/CMakeFiles/uninstall.dir/build
 .PHONY : uninstall/fast
 
 #=============================================================================
@@ -205,7 +205,7 @@ glfw: cmake_check_build_system
 
 # fast build rule for target.
 glfw/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/src/CMakeFiles/glfw.dir/build.make build/vendor/glfw-3.3/src/CMakeFiles/glfw.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/src/CMakeFiles/glfw.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/src/CMakeFiles/glfw.dir/build
 .PHONY : glfw/fast
 
 #=============================================================================
@@ -218,7 +218,7 @@ wave: cmake_check_build_system
 
 # fast build rule for target.
 wave/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/examples/CMakeFiles/wave.dir/build.make build/vendor/glfw-3.3/examples/CMakeFiles/wave.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/wave.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/wave.dir/build
 .PHONY : wave/fast
 
 #=============================================================================
@@ -231,7 +231,7 @@ simple: cmake_check_build_system
 
 # fast build rule for target.
 simple/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/examples/CMakeFiles/simple.dir/build.make build/vendor/glfw-3.3/examples/CMakeFiles/simple.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/simple.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/simple.dir/build
 .PHONY : simple/fast
 
 #=============================================================================
@@ -244,7 +244,7 @@ gears: cmake_check_build_system
 
 # fast build rule for target.
 gears/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/examples/CMakeFiles/gears.dir/build.make build/vendor/glfw-3.3/examples/CMakeFiles/gears.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/gears.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/gears.dir/build
 .PHONY : gears/fast
 
 #=============================================================================
@@ -257,7 +257,7 @@ boing: cmake_check_build_system
 
 # fast build rule for target.
 boing/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/examples/CMakeFiles/boing.dir/build.make build/vendor/glfw-3.3/examples/CMakeFiles/boing.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/boing.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/boing.dir/build
 .PHONY : boing/fast
 
 #=============================================================================
@@ -270,7 +270,7 @@ heightmap: cmake_check_build_system
 
 # fast build rule for target.
 heightmap/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/examples/CMakeFiles/heightmap.dir/build.make build/vendor/glfw-3.3/examples/CMakeFiles/heightmap.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/heightmap.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/heightmap.dir/build
 .PHONY : heightmap/fast
 
 #=============================================================================
@@ -283,7 +283,7 @@ splitview: cmake_check_build_system
 
 # fast build rule for target.
 splitview/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/examples/CMakeFiles/splitview.dir/build.make build/vendor/glfw-3.3/examples/CMakeFiles/splitview.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/splitview.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/splitview.dir/build
 .PHONY : splitview/fast
 
 #=============================================================================
@@ -296,7 +296,7 @@ offscreen: cmake_check_build_system
 
 # fast build rule for target.
 offscreen/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/examples/CMakeFiles/offscreen.dir/build.make build/vendor/glfw-3.3/examples/CMakeFiles/offscreen.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/offscreen.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/offscreen.dir/build
 .PHONY : offscreen/fast
 
 #=============================================================================
@@ -309,7 +309,7 @@ particles: cmake_check_build_system
 
 # fast build rule for target.
 particles/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/examples/CMakeFiles/particles.dir/build.make build/vendor/glfw-3.3/examples/CMakeFiles/particles.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/particles.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/particles.dir/build
 .PHONY : particles/fast
 
 #=============================================================================
@@ -322,7 +322,7 @@ sharing: cmake_check_build_system
 
 # fast build rule for target.
 sharing/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/examples/CMakeFiles/sharing.dir/build.make build/vendor/glfw-3.3/examples/CMakeFiles/sharing.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/sharing.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/examples/CMakeFiles/sharing.dir/build
 .PHONY : sharing/fast
 
 #=============================================================================
@@ -335,7 +335,7 @@ title: cmake_check_build_system
 
 # fast build rule for target.
 title/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/title.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/title.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/title.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/title.dir/build
 .PHONY : title/fast
 
 #=============================================================================
@@ -348,7 +348,7 @@ timeout: cmake_check_build_system
 
 # fast build rule for target.
 timeout/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/timeout.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/timeout.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/timeout.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/timeout.dir/build
 .PHONY : timeout/fast
 
 #=============================================================================
@@ -361,7 +361,7 @@ monitors: cmake_check_build_system
 
 # fast build rule for target.
 monitors/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/monitors.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/monitors.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/monitors.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/monitors.dir/build
 .PHONY : monitors/fast
 
 #=============================================================================
@@ -374,7 +374,7 @@ clipboard: cmake_check_build_system
 
 # fast build rule for target.
 clipboard/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/clipboard.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/clipboard.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/clipboard.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/clipboard.dir/build
 .PHONY : clipboard/fast
 
 #=============================================================================
@@ -387,7 +387,7 @@ cursor: cmake_check_build_system
 
 # fast build rule for target.
 cursor/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/cursor.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/cursor.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/cursor.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/cursor.dir/build
 .PHONY : cursor/fast
 
 #=============================================================================
@@ -400,7 +400,7 @@ msaa: cmake_check_build_system
 
 # fast build rule for target.
 msaa/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/msaa.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/msaa.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/msaa.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/msaa.dir/build
 .PHONY : msaa/fast
 
 #=============================================================================
@@ -413,7 +413,7 @@ glfwinfo: cmake_check_build_system
 
 # fast build rule for target.
 glfwinfo/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/glfwinfo.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/glfwinfo.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/glfwinfo.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/glfwinfo.dir/build
 .PHONY : glfwinfo/fast
 
 #=============================================================================
@@ -426,7 +426,7 @@ threads: cmake_check_build_system
 
 # fast build rule for target.
 threads/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/threads.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/threads.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/threads.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/threads.dir/build
 .PHONY : threads/fast
 
 #=============================================================================
@@ -439,7 +439,7 @@ reopen: cmake_check_build_system
 
 # fast build rule for target.
 reopen/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/reopen.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/reopen.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/reopen.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/reopen.dir/build
 .PHONY : reopen/fast
 
 #=============================================================================
@@ -452,7 +452,7 @@ opacity: cmake_check_build_system
 
 # fast build rule for target.
 opacity/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/opacity.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/opacity.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/opacity.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/opacity.dir/build
 .PHONY : opacity/fast
 
 #=============================================================================
@@ -465,7 +465,7 @@ iconify: cmake_check_build_system
 
 # fast build rule for target.
 iconify/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/iconify.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/iconify.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/iconify.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/iconify.dir/build
 .PHONY : iconify/fast
 
 #=============================================================================
@@ -478,7 +478,7 @@ gamma: cmake_check_build_system
 
 # fast build rule for target.
 gamma/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/gamma.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/gamma.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/gamma.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/gamma.dir/build
 .PHONY : gamma/fast
 
 #=============================================================================
@@ -491,7 +491,7 @@ vulkan: cmake_check_build_system
 
 # fast build rule for target.
 vulkan/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/vulkan.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/vulkan.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/vulkan.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/vulkan.dir/build
 .PHONY : vulkan/fast
 
 #=============================================================================
@@ -504,7 +504,7 @@ events: cmake_check_build_system
 
 # fast build rule for target.
 events/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/events.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/events.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/events.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/events.dir/build
 .PHONY : events/fast
 
 #=============================================================================
@@ -517,7 +517,7 @@ icon: cmake_check_build_system
 
 # fast build rule for target.
 icon/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/icon.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/icon.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/icon.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/icon.dir/build
 .PHONY : icon/fast
 
 #=============================================================================
@@ -530,7 +530,7 @@ joysticks: cmake_check_build_system
 
 # fast build rule for target.
 joysticks/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/joysticks.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/joysticks.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/joysticks.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/joysticks.dir/build
 .PHONY : joysticks/fast
 
 #=============================================================================
@@ -543,7 +543,7 @@ windows: cmake_check_build_system
 
 # fast build rule for target.
 windows/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/windows.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/windows.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/windows.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/windows.dir/build
 .PHONY : windows/fast
 
 #=============================================================================
@@ -556,7 +556,7 @@ empty: cmake_check_build_system
 
 # fast build rule for target.
 empty/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/empty.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/empty.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/empty.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/empty.dir/build
 .PHONY : empty/fast
 
 #=============================================================================
@@ -569,7 +569,7 @@ inputlag: cmake_check_build_system
 
 # fast build rule for target.
 inputlag/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/inputlag.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/inputlag.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/inputlag.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/inputlag.dir/build
 .PHONY : inputlag/fast
 
 #=============================================================================
@@ -582,8 +582,453 @@ tearing: cmake_check_build_system
 
 # fast build rule for target.
 tearing/fast:
-	$(MAKE) -f build/vendor/glfw-3.3/tests/CMakeFiles/tearing.dir/build.make build/vendor/glfw-3.3/tests/CMakeFiles/tearing.dir/build
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/tearing.dir/build.make /home/kewin/Projects/game-engine/game/engine/glfw-3.3/tests/CMakeFiles/tearing.dir/build
 .PHONY : tearing/fast
+
+#=============================================================================
+# Target rules for targets named ContinuousSubmit
+
+# Build rule for target.
+ContinuousSubmit: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ContinuousSubmit
+.PHONY : ContinuousSubmit
+
+# fast build rule for target.
+ContinuousSubmit/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousSubmit.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousSubmit.dir/build
+.PHONY : ContinuousSubmit/fast
+
+#=============================================================================
+# Target rules for targets named ContinuousMemCheck
+
+# Build rule for target.
+ContinuousMemCheck: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ContinuousMemCheck
+.PHONY : ContinuousMemCheck
+
+# fast build rule for target.
+ContinuousMemCheck/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousMemCheck.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousMemCheck.dir/build
+.PHONY : ContinuousMemCheck/fast
+
+#=============================================================================
+# Target rules for targets named ContinuousConfigure
+
+# Build rule for target.
+ContinuousConfigure: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ContinuousConfigure
+.PHONY : ContinuousConfigure
+
+# fast build rule for target.
+ContinuousConfigure/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousConfigure.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousConfigure.dir/build
+.PHONY : ContinuousConfigure/fast
+
+#=============================================================================
+# Target rules for targets named ExperimentalSubmit
+
+# Build rule for target.
+ExperimentalSubmit: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ExperimentalSubmit
+.PHONY : ExperimentalSubmit
+
+# fast build rule for target.
+ExperimentalSubmit/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalSubmit.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalSubmit.dir/build
+.PHONY : ExperimentalSubmit/fast
+
+#=============================================================================
+# Target rules for targets named ExperimentalMemCheck
+
+# Build rule for target.
+ExperimentalMemCheck: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ExperimentalMemCheck
+.PHONY : ExperimentalMemCheck
+
+# fast build rule for target.
+ExperimentalMemCheck/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalMemCheck.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalMemCheck.dir/build
+.PHONY : ExperimentalMemCheck/fast
+
+#=============================================================================
+# Target rules for targets named ExperimentalTest
+
+# Build rule for target.
+ExperimentalTest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ExperimentalTest
+.PHONY : ExperimentalTest
+
+# fast build rule for target.
+ExperimentalTest/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalTest.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalTest.dir/build
+.PHONY : ExperimentalTest/fast
+
+#=============================================================================
+# Target rules for targets named ContinuousTest
+
+# Build rule for target.
+ContinuousTest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ContinuousTest
+.PHONY : ContinuousTest
+
+# fast build rule for target.
+ContinuousTest/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousTest.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousTest.dir/build
+.PHONY : ContinuousTest/fast
+
+#=============================================================================
+# Target rules for targets named ContinuousUpdate
+
+# Build rule for target.
+ContinuousUpdate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ContinuousUpdate
+.PHONY : ContinuousUpdate
+
+# fast build rule for target.
+ContinuousUpdate/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousUpdate.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousUpdate.dir/build
+.PHONY : ContinuousUpdate/fast
+
+#=============================================================================
+# Target rules for targets named ExperimentalBuild
+
+# Build rule for target.
+ExperimentalBuild: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ExperimentalBuild
+.PHONY : ExperimentalBuild
+
+# fast build rule for target.
+ExperimentalBuild/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalBuild.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalBuild.dir/build
+.PHONY : ExperimentalBuild/fast
+
+#=============================================================================
+# Target rules for targets named NightlyMemoryCheck
+
+# Build rule for target.
+NightlyMemoryCheck: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 NightlyMemoryCheck
+.PHONY : NightlyMemoryCheck
+
+# fast build rule for target.
+NightlyMemoryCheck/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyMemoryCheck.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyMemoryCheck.dir/build
+.PHONY : NightlyMemoryCheck/fast
+
+#=============================================================================
+# Target rules for targets named NightlyBuild
+
+# Build rule for target.
+NightlyBuild: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 NightlyBuild
+.PHONY : NightlyBuild
+
+# fast build rule for target.
+NightlyBuild/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyBuild.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyBuild.dir/build
+.PHONY : NightlyBuild/fast
+
+#=============================================================================
+# Target rules for targets named ExperimentalUpdate
+
+# Build rule for target.
+ExperimentalUpdate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ExperimentalUpdate
+.PHONY : ExperimentalUpdate
+
+# fast build rule for target.
+ExperimentalUpdate/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalUpdate.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalUpdate.dir/build
+.PHONY : ExperimentalUpdate/fast
+
+#=============================================================================
+# Target rules for targets named ContinuousBuild
+
+# Build rule for target.
+ContinuousBuild: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ContinuousBuild
+.PHONY : ContinuousBuild
+
+# fast build rule for target.
+ContinuousBuild/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousBuild.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousBuild.dir/build
+.PHONY : ContinuousBuild/fast
+
+#=============================================================================
+# Target rules for targets named Continuous
+
+# Build rule for target.
+Continuous: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Continuous
+.PHONY : Continuous
+
+# fast build rule for target.
+Continuous/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/Continuous.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/Continuous.dir/build
+.PHONY : Continuous/fast
+
+#=============================================================================
+# Target rules for targets named Experimental
+
+# Build rule for target.
+Experimental: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Experimental
+.PHONY : Experimental
+
+# fast build rule for target.
+Experimental/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/Experimental.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/Experimental.dir/build
+.PHONY : Experimental/fast
+
+#=============================================================================
+# Target rules for targets named ExperimentalConfigure
+
+# Build rule for target.
+ExperimentalConfigure: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ExperimentalConfigure
+.PHONY : ExperimentalConfigure
+
+# fast build rule for target.
+ExperimentalConfigure/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalConfigure.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalConfigure.dir/build
+.PHONY : ExperimentalConfigure/fast
+
+#=============================================================================
+# Target rules for targets named NightlyStart
+
+# Build rule for target.
+NightlyStart: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 NightlyStart
+.PHONY : NightlyStart
+
+# fast build rule for target.
+NightlyStart/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyStart.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyStart.dir/build
+.PHONY : NightlyStart/fast
+
+#=============================================================================
+# Target rules for targets named NightlyTest
+
+# Build rule for target.
+NightlyTest: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 NightlyTest
+.PHONY : NightlyTest
+
+# fast build rule for target.
+NightlyTest/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyTest.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyTest.dir/build
+.PHONY : NightlyTest/fast
+
+#=============================================================================
+# Target rules for targets named NightlyUpdate
+
+# Build rule for target.
+NightlyUpdate: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 NightlyUpdate
+.PHONY : NightlyUpdate
+
+# fast build rule for target.
+NightlyUpdate/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyUpdate.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyUpdate.dir/build
+.PHONY : NightlyUpdate/fast
+
+#=============================================================================
+# Target rules for targets named ContinuousCoverage
+
+# Build rule for target.
+ContinuousCoverage: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ContinuousCoverage
+.PHONY : ContinuousCoverage
+
+# fast build rule for target.
+ContinuousCoverage/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousCoverage.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousCoverage.dir/build
+.PHONY : ContinuousCoverage/fast
+
+#=============================================================================
+# Target rules for targets named ExperimentalStart
+
+# Build rule for target.
+ExperimentalStart: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ExperimentalStart
+.PHONY : ExperimentalStart
+
+# fast build rule for target.
+ExperimentalStart/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalStart.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalStart.dir/build
+.PHONY : ExperimentalStart/fast
+
+#=============================================================================
+# Target rules for targets named Nightly
+
+# Build rule for target.
+Nightly: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 Nightly
+.PHONY : Nightly
+
+# fast build rule for target.
+Nightly/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/Nightly.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/Nightly.dir/build
+.PHONY : Nightly/fast
+
+#=============================================================================
+# Target rules for targets named NightlyConfigure
+
+# Build rule for target.
+NightlyConfigure: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 NightlyConfigure
+.PHONY : NightlyConfigure
+
+# fast build rule for target.
+NightlyConfigure/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyConfigure.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyConfigure.dir/build
+.PHONY : NightlyConfigure/fast
+
+#=============================================================================
+# Target rules for targets named NightlyCoverage
+
+# Build rule for target.
+NightlyCoverage: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 NightlyCoverage
+.PHONY : NightlyCoverage
+
+# fast build rule for target.
+NightlyCoverage/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyCoverage.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyCoverage.dir/build
+.PHONY : NightlyCoverage/fast
+
+#=============================================================================
+# Target rules for targets named ExperimentalCoverage
+
+# Build rule for target.
+ExperimentalCoverage: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ExperimentalCoverage
+.PHONY : ExperimentalCoverage
+
+# fast build rule for target.
+ExperimentalCoverage/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalCoverage.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ExperimentalCoverage.dir/build
+.PHONY : ExperimentalCoverage/fast
+
+#=============================================================================
+# Target rules for targets named NightlyMemCheck
+
+# Build rule for target.
+NightlyMemCheck: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 NightlyMemCheck
+.PHONY : NightlyMemCheck
+
+# fast build rule for target.
+NightlyMemCheck/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyMemCheck.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlyMemCheck.dir/build
+.PHONY : NightlyMemCheck/fast
+
+#=============================================================================
+# Target rules for targets named ContinuousStart
+
+# Build rule for target.
+ContinuousStart: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ContinuousStart
+.PHONY : ContinuousStart
+
+# fast build rule for target.
+ContinuousStart/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousStart.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/ContinuousStart.dir/build
+.PHONY : ContinuousStart/fast
+
+#=============================================================================
+# Target rules for targets named NightlySubmit
+
+# Build rule for target.
+NightlySubmit: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 NightlySubmit
+.PHONY : NightlySubmit
+
+# fast build rule for target.
+NightlySubmit/fast:
+	$(MAKE) -f /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlySubmit.dir/build.make /home/kewin/Projects/game-engine/game/engine/json/CMakeFiles/NightlySubmit.dir/build
+.PHONY : NightlySubmit/fast
+
+home/kewin/Projects/game-engine/engine/include/engine/context.o: home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o
+
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/context.o
+
+# target to build an object file
+home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o:
+	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o
+
+home/kewin/Projects/game-engine/engine/include/engine/context.i: home/kewin/Projects/game-engine/engine/include/engine/context.cpp.i
+
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/context.i
+
+# target to preprocess a source file
+home/kewin/Projects/game-engine/engine/include/engine/context.cpp.i:
+	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.i
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/context.cpp.i
+
+home/kewin/Projects/game-engine/engine/include/engine/context.s: home/kewin/Projects/game-engine/engine/include/engine/context.cpp.s
+
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/context.s
+
+# target to generate assembly for a file
+home/kewin/Projects/game-engine/engine/include/engine/context.cpp.s:
+	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.s
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/context.cpp.s
+
+home/kewin/Projects/game-engine/engine/include/engine/engine.o: home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o
+
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/engine.o
+
+# target to build an object file
+home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o:
+	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o
+
+home/kewin/Projects/game-engine/engine/include/engine/engine.i: home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.i
+
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/engine.i
+
+# target to preprocess a source file
+home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.i:
+	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.i
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.i
+
+home/kewin/Projects/game-engine/engine/include/engine/engine.s: home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.s
+
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/engine.s
+
+# target to generate assembly for a file
+home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.s:
+	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.s
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.s
+
+home/kewin/Projects/game-engine/engine/include/engine/logger.o: home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o
+
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/logger.o
+
+# target to build an object file
+home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o:
+	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o
+
+home/kewin/Projects/game-engine/engine/include/engine/logger.i: home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.i
+
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/logger.i
+
+# target to preprocess a source file
+home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.i:
+	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.i
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.i
+
+home/kewin/Projects/game-engine/engine/include/engine/logger.s: home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.s
+
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/logger.s
+
+# target to generate assembly for a file
+home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.s:
+	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.s
+.PHONY : home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.s
 
 src/main.o: src/main.cpp.o
 
@@ -591,6 +1036,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
+	$(MAKE) -f CMakeFiles/Engine.dir/build.make CMakeFiles/Engine.dir/src/main.cpp.o
 	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
@@ -600,6 +1046,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
+	$(MAKE) -f CMakeFiles/Engine.dir/build.make CMakeFiles/Engine.dir/src/main.cpp.i
 	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
@@ -609,6 +1056,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
+	$(MAKE) -f CMakeFiles/Engine.dir/build.make CMakeFiles/Engine.dir/src/main.cpp.s
 	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
@@ -618,14 +1066,14 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/strip"
-	@echo "... edit_cache"
-	@echo "... rebuild_cache"
-	@echo "... list_install_components"
 	@echo "... install/local"
+	@echo "... edit_cache"
+	@echo "... install/strip"
+	@echo "... Engine"
 	@echo "... Game"
 	@echo "... install"
-	@echo "... GameEngine"
+	@echo "... rebuild_cache"
+	@echo "... list_install_components"
 	@echo "... uninstall"
 	@echo "... glfw"
 	@echo "... wave"
@@ -657,6 +1105,43 @@ help:
 	@echo "... empty"
 	@echo "... inputlag"
 	@echo "... tearing"
+	@echo "... ContinuousSubmit"
+	@echo "... ContinuousMemCheck"
+	@echo "... ContinuousConfigure"
+	@echo "... ExperimentalSubmit"
+	@echo "... ExperimentalMemCheck"
+	@echo "... ExperimentalTest"
+	@echo "... ContinuousTest"
+	@echo "... ContinuousUpdate"
+	@echo "... ExperimentalBuild"
+	@echo "... NightlyMemoryCheck"
+	@echo "... NightlyBuild"
+	@echo "... ExperimentalUpdate"
+	@echo "... ContinuousBuild"
+	@echo "... Continuous"
+	@echo "... Experimental"
+	@echo "... ExperimentalConfigure"
+	@echo "... NightlyStart"
+	@echo "... NightlyTest"
+	@echo "... NightlyUpdate"
+	@echo "... ContinuousCoverage"
+	@echo "... ExperimentalStart"
+	@echo "... Nightly"
+	@echo "... NightlyConfigure"
+	@echo "... NightlyCoverage"
+	@echo "... ExperimentalCoverage"
+	@echo "... NightlyMemCheck"
+	@echo "... ContinuousStart"
+	@echo "... NightlySubmit"
+	@echo "... home/kewin/Projects/game-engine/engine/include/engine/context.o"
+	@echo "... home/kewin/Projects/game-engine/engine/include/engine/context.i"
+	@echo "... home/kewin/Projects/game-engine/engine/include/engine/context.s"
+	@echo "... home/kewin/Projects/game-engine/engine/include/engine/engine.o"
+	@echo "... home/kewin/Projects/game-engine/engine/include/engine/engine.i"
+	@echo "... home/kewin/Projects/game-engine/engine/include/engine/engine.s"
+	@echo "... home/kewin/Projects/game-engine/engine/include/engine/logger.o"
+	@echo "... home/kewin/Projects/game-engine/engine/include/engine/logger.i"
+	@echo "... home/kewin/Projects/game-engine/engine/include/engine/logger.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

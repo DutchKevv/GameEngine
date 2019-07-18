@@ -57,9 +57,81 @@ include CMakeFiles/Game.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/Game.dir/flags.make
 
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o: CMakeFiles/Game.dir/flags.make
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o: /home/kewin/Projects/game-engine/engine/include/engine/engine.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/game-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o -c /home/kewin/Projects/game-engine/engine/include/engine/engine.cpp
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kewin/Projects/game-engine/engine/include/engine/engine.cpp > CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.i
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kewin/Projects/game-engine/engine/include/engine/engine.cpp -o CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.s
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o.requires:
+
+.PHONY : CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o.requires
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o.provides: CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o.requires
+	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o.provides.build
+.PHONY : CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o.provides
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o.provides.build: CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o
+
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o: CMakeFiles/Game.dir/flags.make
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o: /home/kewin/Projects/game-engine/engine/include/engine/context.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/game-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o -c /home/kewin/Projects/game-engine/engine/include/engine/context.cpp
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kewin/Projects/game-engine/engine/include/engine/context.cpp > CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.i
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kewin/Projects/game-engine/engine/include/engine/context.cpp -o CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.s
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o.requires:
+
+.PHONY : CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o.requires
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o.provides: CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o.requires
+	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o.provides.build
+.PHONY : CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o.provides
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o.provides.build: CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o
+
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o: CMakeFiles/Game.dir/flags.make
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o: /home/kewin/Projects/game-engine/engine/include/engine/logger.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/game-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o -c /home/kewin/Projects/game-engine/engine/include/engine/logger.cpp
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kewin/Projects/game-engine/engine/include/engine/logger.cpp > CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.i
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kewin/Projects/game-engine/engine/include/engine/logger.cpp -o CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.s
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o.requires:
+
+.PHONY : CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o.requires
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o.provides: CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o.requires
+	$(MAKE) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o.provides.build
+.PHONY : CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o.provides
+
+CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o.provides.build: CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o
+
+
 CMakeFiles/Game.dir/src/main.cpp.o: CMakeFiles/Game.dir/flags.make
 CMakeFiles/Game.dir/src/main.cpp.o: /home/kewin/Projects/game-engine/game/src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/game-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Game.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/game-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Game.dir/src/main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Game.dir/src/main.cpp.o -c /home/kewin/Projects/game-engine/game/src/main.cpp
 
 CMakeFiles/Game.dir/src/main.cpp.i: cmake_force
@@ -83,15 +155,28 @@ CMakeFiles/Game.dir/src/main.cpp.o.provides.build: CMakeFiles/Game.dir/src/main.
 
 # Object files for target Game
 Game_OBJECTS = \
+"CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o" \
+"CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o" \
+"CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o" \
 "CMakeFiles/Game.dir/src/main.cpp.o"
 
 # External object files for target Game
 Game_EXTERNAL_OBJECTS =
 
+Game: CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o
+Game: CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o
+Game: CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o
 Game: CMakeFiles/Game.dir/src/main.cpp.o
 Game: CMakeFiles/Game.dir/build.make
+Game: libEngined.so
+Game: /usr/lib/x86_64-linux-gnu/libGL.so
+Game: /usr/lib/x86_64-linux-gnu/libGLU.so
+Game: /home/kewin/Projects/game-engine/game/engine/glfw-3.3/src/libglfw3d.a
+Game: /usr/lib/x86_64-linux-gnu/librt.so
+Game: /usr/lib/x86_64-linux-gnu/libm.so
+Game: /usr/lib/x86_64-linux-gnu/libX11.so
 Game: CMakeFiles/Game.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kewin/Projects/game-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Game"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kewin/Projects/game-engine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Game"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Game.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -99,6 +184,9 @@ CMakeFiles/Game.dir/build: Game
 
 .PHONY : CMakeFiles/Game.dir/build
 
+CMakeFiles/Game.dir/requires: CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/engine.cpp.o.requires
+CMakeFiles/Game.dir/requires: CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/context.cpp.o.requires
+CMakeFiles/Game.dir/requires: CMakeFiles/Game.dir/home/kewin/Projects/game-engine/engine/include/engine/logger.cpp.o.requires
 CMakeFiles/Game.dir/requires: CMakeFiles/Game.dir/src/main.cpp.o.requires
 
 .PHONY : CMakeFiles/Game.dir/requires

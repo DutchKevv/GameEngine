@@ -6,44 +6,48 @@
 #include <glm/ext.hpp>
 #include <engine/engine.h>
 
-void error_callback(int error, const char *description)
-{
-    fprintf(stderr, "Error: %s\n", description);
-}
+// void error_callback(int error, const char *description)
+// {
+//     fprintf(stderr, "Error: %s\n", description);
+// }
 
 // Main execution  function
 int main(void)
 {
 
     Engine *engine = new Engine(0);
+
+    engine->init();
+    engine->renderer->createWindow();
+
     // Engine engine(0);
 
-    GLFWwindow *window;
+    // GLFWwindow *window;
 
-    glfwSetErrorCallback(error_callback);
+    // glfwSetErrorCallback(error_callback);
 
-    if (!glfwInit())
-    {
-        // Initialization failed
-    }
+    // if (!glfwInit())
+    // {
+    //     // Initialization failed
+    // }
 
-    window = glfwCreateWindow(640, 480, "Game Engine", NULL, NULL);
+    // window = glfwCreateWindow(640, 480, "Game Engine", NULL, NULL);
 
-    if (!window)
-    {
-        // Window or OpenGL context creation failed
-    }
+    // if (!window)
+    // {
+    //     // Window or OpenGL context creation failed
+    // }
 
-    while (!glfwWindowShouldClose(window))
-    {
-        float ratio;
-        int width, height;
+    // while (!glfwWindowShouldClose(window))
+    // {
+    //     float ratio;
+    //     int width, height;
 
-        glfwPollEvents();
-    }
+    //     glfwPollEvents();
+    // }
 
-    glfwDestroyWindow(window);
-    glfwTerminate();
+    // glfwDestroyWindow(window);
+    // glfwTerminate();
 
-    exit(EXIT_SUCCESS);
+    // exit(EXIT_SUCCESS);
 }

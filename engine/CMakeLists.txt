@@ -27,8 +27,8 @@ set(SOURCE_FILES
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseRenderObj.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/engine.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/engine.cpp
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderer.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderer.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderer.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderer.cpp
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/constants.h
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/camera.h
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/camera.cpp

@@ -7,21 +7,25 @@
 #include "context.h"
 #include "logger.h"
 
-Engine::Engine(int type) {
-    consoleLog("Engine init");
-
-    context->type = type;
-    // this->init();
+Engine::Engine(int type)
+{
+    context->type = 0;
 }
 
-// int Engine::init() {
-//     this->renderer = new Renderer();
-//     context->renderer = this->renderer;
+void Engine::init()
+{
+    consoleLog("Engine init");
 
-//     this->renderer->initWindow();
+    this->renderer = new Renderer();
+}
 
-//     return 0;
-// }
+void Engine::start() {
+
+}
+
+void Engine::stop() {
+    
+}
 
 // int Engine::addDataObj(BaseDataObj *dataObj, int id) {
 //     if (id == -1)

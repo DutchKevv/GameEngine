@@ -5,7 +5,7 @@
 #include <nlohmann/json.hpp>
 #include <iostream>
 
-// #include "renderer.h"
+#include "renderer.h"
 // #include "constants.h"
 // #include "baseDataObj.h"
 
@@ -18,13 +18,17 @@ private:
     int counter = 0;
 
 public:
-    // Renderer *renderer;
+    Renderer *renderer;
 
     // vector<BaseDataObj *> dataObjects;
 
     Engine(int type = 0);
 
-    // int init();
+    void init();
+
+    void start();
+
+    void stop();
 
     // int addDataObj(BaseDataObj *dataObj, int id = -1);
 

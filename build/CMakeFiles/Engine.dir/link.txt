@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -g  -shared -Wl,-soname,libEngined.so -o libEngined.so CMakeFiles/Engine.dir/src/main.cpp.o -lGL -lGLU /home/kewin/Projects/game-engine/game/engine/glfw-3.3/src/libglfw3d.a -lrt -lm -ldl -lX11 -lpthread 

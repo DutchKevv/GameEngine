@@ -1,9 +1,11 @@
-#include "logger.h"
+#define STB_IMAGE_IMPLEMENTATION
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #include <emscripten/html5.h>
 #endif
+
+#include "logger.h"
 
 using namespace std;
 

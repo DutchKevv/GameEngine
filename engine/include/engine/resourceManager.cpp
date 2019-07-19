@@ -1,11 +1,5 @@
-/*******************************************************************
-** This code is part of Breakout.
-**
-** Breakout is free software: you can redistribute it and/or modify
-** it under the terms of the CC BY 4.0 license as published by
-** Creative Commons, either version 4 of the License, or (at your
-** option) any later version.
-******************************************************************/
+#define STB_IMAGE_IMPLEMENTATION
+
 #include "resourceManager.h"
 #include <STB/stb_image.h>
 #include "logger.h"
@@ -17,7 +11,6 @@
 // Instantiate static variables
 std::map<std::string, Texture2D>    ResourceManager::Textures;
 std::map<std::string, Shader>       ResourceManager::Shaders;
-
 
 Shader ResourceManager::LoadShader(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile, std::string name) {
     Shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);

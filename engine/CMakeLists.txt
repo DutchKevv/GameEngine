@@ -34,8 +34,8 @@ set(SOURCE_FILES
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/camera.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/context.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/context.cpp
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/shader.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/shader.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/shader.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/shader.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/logger.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/logger.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/constants.h
@@ -45,10 +45,10 @@ set(SOURCE_FILES
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseRenderObj.h
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseDataObj.cpp
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseDataObj.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/texture.cpp
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/texture.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/resourceManager.cpp
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/resourceManager.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/texture.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/texture.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/resourceManager.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/resourceManager.h
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/spriteRenderer.cpp
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/spriteRenderer.h
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/model.h
@@ -57,6 +57,7 @@ set(SOURCE_FILES
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/mesh.cpp
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/world.cpp
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/world.h
+        ${CMAKE_CURRENT_LIST_DIR}/vendor/glad/src/glad.c
         )
 
 
@@ -73,6 +74,7 @@ include_directories( ${OPENGL_INCLUDE_DIRS} )
 
 # GLAD
 include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glad/include)
+# include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glad/src)
 
 # GLFW
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw-3.3 ${CMAKE_CURRENT_SOURCE_DIR}/engine/glfw-3.3)
@@ -91,14 +93,10 @@ set(ASSIMP_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp-4.0.1/include ${
 include_directories(${ASSIMP_INCLUDE_DIRS})
 link_directories(${ASSIMP_LIBRARY_DIRS})
 
-# set(ASSIMP_LIBRARY_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/vendor/assimp/code)
-# set(ASSIMP_INCLUDE_DIRS "lib/assimp/include" "lib/assimp/build/include")
-# add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/assimp-4.0.1 ${CMAKE_CURRENT_SOURCE_DIR}/engine/assimp)
-# include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/assimp-4.0.1/include)
-
 # ENGINE
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 
+# EMSCRIPTEN
 if (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
     include_directories(
             /emscripten/

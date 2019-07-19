@@ -16,7 +16,7 @@
 unsigned int width = 1920;
 unsigned int height = 1080;
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
 // settings
@@ -24,20 +24,19 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 const char *vertexShaderSource = "#version 330 core\n"
-    "layout (location = 0) in vec3 aPos;\n"
-    "void main()\n"
-    "{\n"
-    "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-    "}\0";
+                                 "layout (location = 0) in vec3 aPos;\n"
+                                 "void main()\n"
+                                 "{\n"
+                                 "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
+                                 "}\0";
 const char *fragmentShaderSource = "#version 330 core\n"
-    "out vec4 FragColor;\n"
-    "void main()\n"
-    "{\n"
-    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-    "}\n\0";
+                                   "out vec4 FragColor;\n"
+                                   "void main()\n"
+                                   "{\n"
+                                   "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+                                   "}\n\0";
 
 using namespace std;
-
 
 void error_callback(int error, const char *description)
 {
@@ -48,8 +47,9 @@ Renderer::Renderer(){
 
 };
 
-void Renderer::createWindow(){
- 
+void Renderer::createWindow()
+{
+
     glfwSetErrorCallback(error_callback);
 
     if (!glfwInit())
@@ -63,26 +63,19 @@ void Renderer::createWindow(){
     {
         // Window or OpenGL context creation failed
     }
-    
+};
 
-    while (!glfwWindowShouldClose(window))
+void Renderer::destroyWindow()
+{
+    if (window)
     {
-        float ratio;
-        int width, height;
-
-        glfwPollEvents();
+        glfwDestroyWindow(window);
     }
+};
 
-    glfwDestroyWindow(window);
+void Renderer::destroy()
+{
     glfwTerminate();
-};
-
-void Renderer::destroyWindow(){
-
-};
-
-void Renderer::destroy(){
-
 };
 
 // int Renderer::attachWorld(World *world) {

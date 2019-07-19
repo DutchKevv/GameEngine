@@ -21,7 +21,6 @@ void Engine::init()
 
 void Engine::start()
 {
-
     this->isRunning = true;
 
     while (!glfwWindowShouldClose(this->renderer->window))

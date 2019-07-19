@@ -19,10 +19,11 @@ public:
     // vector<World*> worlds;
     // SpriteRenderer *sprite;
 
-    Renderer();
-
     void createWindow();
     void destroyWindow();
+
+    void update();
+    void draw();
 
     void destroy();
 };

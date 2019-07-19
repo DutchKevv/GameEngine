@@ -23,8 +23,8 @@ include_directories(${ASSIMP_INCLUDE_DIRS})
 link_directories(${ASSIMP_LIBRARY_DIRS})
 
 set(SOURCE_FILES
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseRenderObj.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseRenderObj.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/engine.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/engine.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderer.h

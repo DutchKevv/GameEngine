@@ -100,9 +100,13 @@ void error_callback(int error, const char *description)
     fprintf(stderr, "Error: %s\n", description);
 }
 
-Renderer::Renderer(){
+void Renderer::update() {
 
-};
+}
+
+void Renderer::draw() {
+
+}
 
 void Renderer::createWindow()
 {

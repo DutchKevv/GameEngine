@@ -13,15 +13,72 @@
 #include "engine.h"
 #include "context.h"
 
-unsigned int width = 1920;
-unsigned int height = 1080;
-
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+
+/*
+ *
+ *
+ *
+ * EVENT CALLBACKS
+ *
+ *
+ * EVENT CALLBACKS
+ *
+ *
+ * EVENT CALLBACKS
+ *
+ *
+ * EVENT CALLBACKS
+ *
+ *
+ *
+ */
+
+void _keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
+{
+    //    renderer->keyCallback(window, key, scancode, action, mods);
+}
+
+void _mouseCallback(GLFWwindow *window, double xpos, double ypos)
+{
+    // context->renderer->mouseCallback(window, xpos, ypos);
+}
+
+void _scroll_callback(GLFWwindow *window, double xOffset, double yOffet)
+{
+    // context->renderer->scrollCallback(xOffset, yOffet);
+}
+
+void _windowSizeCallback(GLFWwindow *window, int width, int height)
+{
+    // context->renderer->windowSizeCallback(width, height);
+}
+
+// glfw: whenever the window size changed (by OS or user resize) this callback function executes
+// ---------------------------------------------------------------------------------------------
+void _framebuffer_size_callback(GLFWwindow *window, int width, int height)
+{
+    // make sure the viewport matches the new window dimensions; note that width and
+    // height will be significantly larger than specified on retina displays.
+    //    glViewport(0, 0, width, height);
+}
+
+void _errorCallback(int error, const char *description)
+{
+    consoleLog(error);
+    consoleLog(description);
+    //    renderer->errorCallback(error, description);
+}
+
+void _windowCloseCallback(GLFWwindow *window)
+{
+    //    renderer->windowCloseCallback(window);
+}
 
 const char *vertexShaderSource = "#version 330 core\n"
                                  "layout (location = 0) in vec3 aPos;\n"
@@ -49,20 +106,39 @@ Renderer::Renderer(){
 
 void Renderer::createWindow()
 {
-
     glfwSetErrorCallback(error_callback);
 
+    // initialize GLFW
     if (!glfwInit())
     {
         // Initialization failed
+        fprintf(stderr, "Failed to initialize GLFW\n");
     }
 
-    window = glfwCreateWindow(640, 480, "Game Engine", NULL, NULL);
+    // openGL version and options
+    glfwWindowHint(GLFW_SAMPLES, 1);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    // create window
+    context->window = this->window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Game Engine", NULL, NULL);
 
     if (!window)
     {
         // Window or OpenGL context creation failed
+        fprintf(stderr, "Failed to create window\n");
     }
+
+    glfwMakeContextCurrent(context->window);
+
+    glfwSetWindowSizeCallback(context->window, _windowSizeCallback);
+    glfwSetWindowCloseCallback(context->window, _windowCloseCallback);
+    glfwSetFramebufferSizeCallback(context->window, _framebuffer_size_callback);
+
+    glfwGetWindowSize(context->window, &context->windowW, &context->windowH);
+    context->mouseLastX = context->windowW / 2.0f;
+    context->mouseLastY = context->windowW / 2.0f;
 };
 
 void Renderer::destroyWindow()
@@ -75,14 +151,9 @@ void Renderer::destroyWindow()
 
 void Renderer::destroy()
 {
+    destroyWindow();
     glfwTerminate();
 };
-
-// int Renderer::attachWorld(World *world) {
-//     world->init();
-//     this->worlds.push_back(world);
-//     return 0;
-// }
 
 /**
  * Game Loop

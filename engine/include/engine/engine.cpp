@@ -19,12 +19,28 @@ void Engine::init()
     this->renderer = new Renderer();
 }
 
-void Engine::start() {
+void Engine::start()
+{
 
+    this->isRunning = true;
+
+    while (!glfwWindowShouldClose(this->renderer->window))
+    {
+        this->tick();
+    }
 }
 
-void Engine::stop() {
-    
+void Engine::tick()
+{
+    float ratio;
+    int width, height;
+
+    glfwPollEvents();
+}
+
+void Engine::stop()
+{
+    this->isRunning = false;
 }
 
 // int Engine::addDataObj(BaseDataObj *dataObj, int id) {

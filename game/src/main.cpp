@@ -19,6 +19,7 @@ int main(void)
 
     engine->init();
     engine->renderer->createWindow();
+    engine->start();
 
     // Engine engine(0);
 

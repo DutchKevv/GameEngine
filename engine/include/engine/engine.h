@@ -18,6 +18,7 @@ private:
     int counter = 0;
 
 public:
+    bool isRunning;
     Renderer *renderer;
 
     // vector<BaseDataObj *> dataObjects;
@@ -29,6 +30,8 @@ public:
     void start();
 
     void stop();
+
+    void tick();
 
     // int addDataObj(BaseDataObj *dataObj, int id = -1);
 

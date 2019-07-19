@@ -6,9 +6,11 @@
 // #include "camera.h"
 // #include "renderer.h"
 
-struct Context {
+struct Context
+{
 
     Context();
+
 
     int type;
     int windowW;

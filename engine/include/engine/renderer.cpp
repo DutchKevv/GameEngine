@@ -9,7 +9,6 @@
 #include "logger.h"
 // #include "text.h"
 #include "renderer.h"
-// #include "baseRenderObj.h"
 #include "engine.h"
 #include "context.h"
 
@@ -21,16 +20,6 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 /*
- *
- *
- *
- * EVENT CALLBACKS
- *
- *
- * EVENT CALLBACKS
- *
- *
- * EVENT CALLBACKS
  *
  *
  * EVENT CALLBACKS
@@ -100,12 +89,24 @@ void error_callback(int error, const char *description)
     fprintf(stderr, "Error: %s\n", description);
 }
 
-void Renderer::update() {
-
+void Renderer::update()
+{
+    for (RenderObject *obj : children)
+    {
+        obj->update();
+    }
 }
 
-void Renderer::draw() {
+void Renderer::draw()
+{
+    for (RenderObject *obj : children)
+    {
+        obj->draw();
+    }
 
+    // We are done
+    glfwSwapBuffers(context->window);
+    glfwPollEvents();
 }
 
 void Renderer::createWindow()
@@ -136,13 +137,27 @@ void Renderer::createWindow()
 
     glfwMakeContextCurrent(context->window);
 
+    // on window resize
     glfwSetWindowSizeCallback(context->window, _windowSizeCallback);
+
+    // on window close
     glfwSetWindowCloseCallback(context->window, _windowCloseCallback);
+
+    // on window 'internal' resize
     glfwSetFramebufferSizeCallback(context->window, _framebuffer_size_callback);
 
-    glfwGetWindowSize(context->window, &context->windowW, &context->windowH);
-    context->mouseLastX = context->windowW / 2.0f;
-    context->mouseLastY = context->windowW / 2.0f;
+    this->resizeWindow(SCR_WIDTH, SCR_HEIGHT);
+};
+
+// set the window size
+void Renderer::resizeWindow(int width, int height)
+{
+    if (window)
+    {
+        glfwGetWindowSize(context->window, &context->windowW, &context->windowH);
+        context->mouseLastX = context->windowW / 2.0f;
+        context->mouseLastY = context->windowW / 2.0f;
+    }
 };
 
 void Renderer::destroyWindow()

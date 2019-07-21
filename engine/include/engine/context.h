@@ -3,8 +3,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "constants.h"
-// #include "camera.h"
-// #include "renderer.h"
+#include "camera.h"
+#include "renderer.h"
 
 struct Context
 {
@@ -23,8 +23,8 @@ struct Context
     bool firstMouse;
 
     GLFWwindow *window;
-    // Renderer *renderer;
-    // Camera *camera;
+    Renderer *renderer;
+    Camera *camera;
 };
 
 extern Context *context;

@@ -9,20 +9,13 @@ BaseObject::BaseObject()  {
 
 }
 
-int BaseObject::init() {
-    return 0;
+void BaseObject::init() {
+
 }
 //
-int BaseObject::update() {
-    return 0;
+void BaseObject::update() {
+
 }
 
-int BaseObject::draw() {
-
-    return 0;
-}
-
-int BaseObject::destroy() {
-
-    return 0;
+void BaseObject::destroy() {
 }

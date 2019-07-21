@@ -41,8 +41,8 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/constants.h
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/text.h
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/text.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseRenderObj.cpp
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseRenderObj.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderObject.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderObject.h
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseDataObj.cpp
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseDataObj.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/texture.cpp
@@ -55,8 +55,8 @@ set(SOURCE_FILES
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/model.cpp
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/mesh.h
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/mesh.cpp
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/world.cpp
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/world.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/scene.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/scene.h
         ${CMAKE_CURRENT_LIST_DIR}/vendor/glad/src/glad.c
         )
 

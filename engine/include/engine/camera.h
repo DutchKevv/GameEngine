@@ -16,7 +16,8 @@
 #include <glm/detail/type_mat.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "logger.h"
-#include "baseRenderObj.h"
+#include "baseObject.h"
+#include "renderObject.h"
 
 #include <vector>
 #include <string>
@@ -59,7 +60,7 @@ public:
         RIGHT
     };
 
-    BaseRenderObj *fixedLookToObj;
+    BaseObject *fixedLookToObj;
 
     // Constructor with vectors
     Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f),
@@ -83,7 +84,7 @@ public:
         updateCameraVectors();
     }
 
-    void lookToObj(BaseRenderObj &instance) {
+    void lookToObj(RenderObject &instance) {
         Position.x = instance.position.x;
         Position.y = instance.position.y + 0.3f;
         Position.z = instance.position.z - 1.0f;

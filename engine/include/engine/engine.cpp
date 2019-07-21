@@ -31,10 +31,7 @@ void Engine::start()
 
 void Engine::tick()
 {
-    float ratio;
-    int width, height;
-
-    glfwPollEvents();
+    
 }
 
 void Engine::stop()

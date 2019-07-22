@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 2.8)
 
 project(Engine)
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -85,15 +88,15 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw-3.3/include)
 # STB
 include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/stb/include)
 
-# JSON
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/json ${CMAKE_CURRENT_SOURCE_DIR}/engine/json)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/json/include)
-
 # ASSIMP
 set(ASSIMP_LIBRARY_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp-4.0.1/code)
 set(ASSIMP_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp-4.0.1/include ${CMAKE_CURRENT_SOURCE_DIR}/engine/assimp/include)
 include_directories(${ASSIMP_INCLUDE_DIRS})
 link_directories(${ASSIMP_LIBRARY_DIRS})
+
+# JSON
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/json ${CMAKE_CURRENT_SOURCE_DIR}/engine/json)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/json/include)
 
 # ENGINE
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include)

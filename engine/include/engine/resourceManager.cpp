@@ -7,6 +7,9 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+// #include "fsstream.h"
+
+// namespace fs = std::filesystem;
 
 // Instantiate static variables
 std::map<std::string, Texture2D> ResourceManager::Textures;
@@ -82,13 +85,7 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
     std::string fragmentCode;
     std::string geometryCode;
 
-    fstream fileStream;
-    fileStream.open(vShaderFile);
-    if (fileStream.fail())
-    {
-        consoleLog("GLSL FILE NOT FOUND");
-        // file could not be opened
-    }
+    // std::cout << "Current path is " << fs::current_path() << '\n';
 
     try
     {

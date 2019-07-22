@@ -8,25 +8,43 @@
 #include <engine/context.h>
 #include <engine/logger.h>
 
-float vertices[] = {
-    -0.5f, -0.5f, 0.0f,
-    0.5f, -0.5f, 0.0f,
-    0.0f, 0.5f, 0.0f};
+float vertices1[] = {
+    -1.0f,
+    -0.5f,
+    0.0f,
+    0.0f,
+    -0.5f,
+    0.0f,
+    -0.5f,
+    0.5f,
+    0.0f,
 
-const char *vertexShaderSource = "#version 330 core\n"
-                                 "layout (location = 0) in vec3 aPos;\n"
-                                 "void main()\n"
-                                 "{\n"
-                                 "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-                                 "}\0";
-const char *fragmentShaderSource = "#version 330 core\n"
-                                   "out vec4 FragColor;\n"
-                                   "void main()\n"
-                                   "{\n"
-                                   "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-                                   "}\n\0";
+    0.0f,
+    -0.5f,
+    0.0f,
+    1.0f,
+    -0.5f,
+    0.0f,
+    0.5f,
+    0.5f,
+    0.0f,
+};
+
+float vertices2[] = {
+
+    -0.5f,
+    1.0f,
+    0.0f,
+    0.5f,
+    1.0f,
+    0.0f,
+    0.0f,
+    0.0f,
+    0.0f,
+};
 
 GLuint VBO, VAO;
+GLuint VBO2, VAO2;
 
 TestObject::TestObject()
 {
@@ -37,16 +55,29 @@ void TestObject::init()
     RenderObject::init();
 
     // shader
-    Shader shader = ResourceManager::LoadShader("/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleVertex.glsl", "/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleFragment.glsl", NULL, "triangle");
+    Shader shader = ResourceManager::LoadShader("build/assets/shaders/TriangleVertex.glsl", "build/assets/shaders/TriangleFragment.glsl", NULL, "triangle");
+    // Shader shader = ResourceManager::LoadShader("/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleVertex.glsl", "/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleFragment.glsl", NULL, "triangle");
 
     // VBO
-    glGenBuffers(1, &VBO); // vertices buffer
+    glGenBuffers(1, &VBO);      // vertices buffer
     glGenVertexArrays(1, &VAO); // vertices array
-    glBindVertexArray(VAO); // set active
+    glBindVertexArray(VAO);     // set active
 
     // 2. copy our vertices array in a buffer for OpenGL to use
-    glBindBuffer(GL_ARRAY_BUFFER, VBO); // set active
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // how to read vertices array
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);                                          // set active
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW); // how to read vertices array
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(0);
+
+    // VBO 2
+    glGenBuffers(1, &VBO2);      // vertices buffer
+    glGenVertexArrays(1, &VAO2); // vertices array
+    glBindVertexArray(VAO2);     // set active
+
+    // 2. copy our vertices array in a buffer for OpenGL to use
+    glBindBuffer(GL_ARRAY_BUFFER, VBO2);                                         // set active
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices2, GL_STATIC_DRAW); // how to read vertices array
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
@@ -71,7 +102,12 @@ void TestObject::draw()
     Shader triangleShader = ResourceManager::GetShader("triangle");
     triangleShader.Use();
 
+    // first MESH
     glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    // second MESH
+    glBindVertexArray(VAO2);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 };
 

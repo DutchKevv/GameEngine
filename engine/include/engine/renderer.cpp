@@ -4,6 +4,7 @@
 #endif
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <vector>
 #include <STB/stb_image.h>
 #include "logger.h"
@@ -82,19 +83,12 @@ void Renderer::handleInput()
 
 void Renderer::update()
 {
-    for (RenderObject *child : children)
-    {
-        consoleLog("update");
-        child->update();
-    }
+    BaseObject::update();
 }
 
 void Renderer::draw()
 {
-    for (RenderObject *obj : children)
-    {
-        obj->draw();
-    }
+    BaseObject::draw();
 
     // We are done
     glfwSwapBuffers(context->window);
@@ -127,6 +121,9 @@ void Renderer::createWindow()
     }
 
     glfwMakeContextCurrent(context->window);
+
+    // bind openGL entrypoints to context
+    gladLoadGL();
 
     // on window resize
     glfwSetWindowSizeCallback(context->window, _windowSizeCallback);

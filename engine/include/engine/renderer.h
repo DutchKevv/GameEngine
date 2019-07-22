@@ -16,7 +16,6 @@ class Renderer: public RenderObject
 
 public:
     GLFWwindow *window;
-    vector<RenderObject *> children;
 
     // SpriteRenderer *sprite;
 

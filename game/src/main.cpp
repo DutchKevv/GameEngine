@@ -7,14 +7,15 @@ int main(void)
     Engine *game = new Engine(0);
 
     // init with options
+    // TODO - options
     game->init();
 
     // create window
     game->renderer->createWindow();
 
-    // add main menu
-    MenuScene *menuScene = new MenuScene();
-    game->renderer->addChild(menuScene);
+    // // add main menu
+    // MenuScene *menuScene = new MenuScene();
+    // game->renderer->addChild(menuScene);
 
     // add world
     // TODO - load async (after user presses 'start' in game)
@@ -25,5 +26,5 @@ int main(void)
     game->start();
 
     // exit program
-    // exit(EXIT_?SUCCESS);
+    exit(EXIT_SUCCESS);
 }

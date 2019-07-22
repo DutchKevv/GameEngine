@@ -16,6 +16,6 @@ class WorldScene : public Scene
     }
 
     void update() {
-        consoleLog("update");
+        Scene::update();
     }
 };

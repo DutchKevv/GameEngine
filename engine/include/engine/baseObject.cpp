@@ -1,21 +1,32 @@
 #include "baseObject.h"
 #include "shader.h"
 
-BaseObject::BaseObject()  {
-
+BaseObject::BaseObject()
+{
 }
 
-void BaseObject::init() {
-
+void BaseObject::init()
+{
 }
 
-void BaseObject::update() {
-
+void BaseObject::update()
+{
+    for (BaseObject *child : children)
+    {
+        // consoleLog("update");
+        child->update();
+    }
 }
 
-void BaseObject::draw() {
-
+void BaseObject::draw()
+{
+    for (BaseObject *child : children)
+    {
+        // consoleLog("draw");
+        child->draw();
+    }
 }
 
-void BaseObject::destroy() {
+void BaseObject::destroy()
+{
 }

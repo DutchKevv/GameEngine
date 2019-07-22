@@ -14,7 +14,7 @@
 class Renderer {
 
 public:
-    vector<World*> worlds;
+    // vector<World*> worlds;
     SpriteRenderer *sprite;
 
     Renderer();

@@ -12,6 +12,8 @@
 #include "renderer.h"
 #include "context.h"
 
+using namespace std;
+
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -68,11 +70,25 @@ void _windowCloseCallback(GLFWwindow *window)
     //    renderer->windowCloseCallback(window);
 }
 
-using namespace std;
-
 void error_callback(int error, const char *description)
 {
     fprintf(stderr, "Error: %s\n", description);
+}
+
+void Renderer::init()
+{
+    this->initSpriteHandler();
+}
+
+void Renderer::initSpriteHandler()
+{
+    // Shader shader = ResourceManager::LoadShader("build/assets/shaders/sprite.v.glsl", "build/assets/shaders/sprite.f.glsl", nullptr, "sprite");
+
+    // glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(context->windowW), static_cast<GLfloat>(context->windowW), 0.0f, -1.0f, 1.0f);
+    // shader.Use().SetInteger("sprite", 0);
+    // shader.SetMatrix4("projection", projection);
+
+    // this->sprite = new SpriteRenderer(shader);
 }
 
 void Renderer::handleInput()
@@ -173,23 +189,3 @@ void Renderer::destroy()
     destroyWindow();
     glfwTerminate();
 };
-
-/**
- * Game Loop
- */
-// void Renderer::gameLoop() {
-
-//     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-//     World *world = worlds[0];
-
-//     for (BaseRenderObj *obj : world->renderObjects) {
-//         obj->update();
-//     }
-
-//     world->draw();
-
-//     // We are done
-//     glfwSwapBuffers(context->window);
-//     glfwPollEvents();
-// }

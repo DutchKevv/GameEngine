@@ -14,9 +14,10 @@ Engine::Engine(int type)
 
 void Engine::init()
 {
-    consoleLog("Engine init");
-
     this->renderer = context->renderer = new Renderer();
+    this->renderer->init();
+
+    consoleLog("Engine initialized");
 }
 
 void Engine::start()

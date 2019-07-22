@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.8)
 
 project(Engine)
 
@@ -26,15 +26,16 @@ include_directories(${ASSIMP_INCLUDE_DIRS})
 link_directories(${ASSIMP_LIBRARY_DIRS})
 
 set(ENGINE_SOURCE_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/engine.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/engine.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderer.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderer.cpp
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/constants.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/camera.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/camera.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/constants.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/camera.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/camera.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/context.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/context.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/shader.h
@@ -42,22 +43,20 @@ set(ENGINE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/logger.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/logger.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/constants.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/text.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/text.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/text.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/text.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderObject.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderObject.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseDataObj.cpp
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseDataObj.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/texture.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/texture.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/resourceManager.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/resourceManager.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/spriteRenderer.cpp
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/spriteRenderer.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/model.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/model.cpp
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/mesh.h
-        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/mesh.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/spriteRenderer.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/spriteRenderer.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/model.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/model.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/mesh.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/mesh.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/scene.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/scene.h
         ${CMAKE_CURRENT_LIST_DIR}/vendor/glad/src/glad.c
@@ -65,8 +64,6 @@ set(ENGINE_SOURCE_FILES
 
 target_sources(${CMAKE_PROJECT_NAME} PUBLIC ${ENGINE_SOURCE_FILES})
 
-
-# add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 # Install library headers
@@ -89,10 +86,14 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw-3.3/include)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/stb/include)
 
 # ASSIMP
-set(ASSIMP_LIBRARY_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp-4.0.1/code)
-set(ASSIMP_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp-4.0.1/include ${CMAKE_CURRENT_SOURCE_DIR}/engine/assimp/include)
+set(ASSIMP_LIBRARY_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/code)
+set(ASSIMP_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/include ${CMAKE_CURRENT_SOURCE_DIR}/engine/assimp/include)
 include_directories(${ASSIMP_INCLUDE_DIRS})
 link_directories(${ASSIMP_LIBRARY_DIRS})
+
+# FREETYPE
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/freetype-2.10.1 ${CMAKE_CURRENT_SOURCE_DIR}/engine/freetype)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/freetype-2.10.1/include)
 
 # JSON
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/json ${CMAKE_CURRENT_SOURCE_DIR}/engine/json)
@@ -111,8 +112,17 @@ else ()
     
 endif ()
 
-target_link_libraries(${CMAKE_PROJECT_NAME} ${OPENGL_LIBRARIES} glfw ${GLFW_LIBRARIES} )
+target_link_libraries(${CMAKE_PROJECT_NAME} ${OPENGL_LIBRARIES} glfw ${GLFW_LIBRARIES} ${FREETYPE_LIBRARIES} )
 
-file(COPY ${CMAKE_CURRENT_LIST_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
+# COPY ASSETS
+set (source "${CMAKE_CURRENT_LIST_DIR}/assets")
+set (destination "${CMAKE_CURRENT_BINARY_DIR}/assets")
+add_custom_command(
+ TARGET ${PROJECT_NAME} POST_BUILD
+ COMMAND ${CMAKE_COMMAND} -E create_symlink ${source} ${destination} 
+ DEPENDS ${destination}
+ COMMENT "symbolic link resources folder from ${source} => ${destination}"
+)
 
 # target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)

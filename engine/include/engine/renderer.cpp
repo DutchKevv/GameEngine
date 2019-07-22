@@ -113,6 +113,7 @@ void Renderer::createWindow()
 
     // create window
     context->window = this->window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Game Engine", NULL, NULL);
+    // context->window = this->window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Game Engine", glfwGetPrimaryMonitor(), NULL); // FULLSCREEN
 
     if (!window)
     {
@@ -154,9 +155,9 @@ void Renderer::resizeWindow(int width, int height)
 {
     if (window)
     {
-        glfwGetWindowSize(context->window, &context->windowW, &context->windowH);
-        context->mouseLastX = context->windowW / 2.0f;
-        context->mouseLastY = context->windowW / 2.0f;
+        // glfwSetWindowSize(context->window, context->windowW, context->windowH);
+        // context->mouseLastX = context->windowW / 2.0f;
+        // context->mouseLastY = context->windowW / 2.0f;
     }
 };
 

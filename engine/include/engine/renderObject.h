@@ -25,7 +25,7 @@ public:
 
     RenderObject();
 
-    // virtual void init();
+    // virtual void init() override;
 
     // virtual void update();
 

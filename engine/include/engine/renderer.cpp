@@ -12,9 +12,6 @@
 #include "engine.h"
 #include "context.h"
 
-void framebuffer_size_callback(GLFWwindow *window, int width, int height);
-void processInput(GLFWwindow *window);
-
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
@@ -27,10 +24,12 @@ const unsigned int SCR_HEIGHT = 600;
  *
  *
  */
-
 void _keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-    //    renderer->keyCallback(window, key, scancode, action, mods);
+    if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
+    {
+        context->renderer->destroy();
+    }
 }
 
 void _mouseCallback(GLFWwindow *window, double xpos, double ypos)
@@ -69,19 +68,6 @@ void _windowCloseCallback(GLFWwindow *window)
     //    renderer->windowCloseCallback(window);
 }
 
-const char *vertexShaderSource = "#version 330 core\n"
-                                 "layout (location = 0) in vec3 aPos;\n"
-                                 "void main()\n"
-                                 "{\n"
-                                 "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-                                 "}\0";
-const char *fragmentShaderSource = "#version 330 core\n"
-                                   "out vec4 FragColor;\n"
-                                   "void main()\n"
-                                   "{\n"
-                                   "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-                                   "}\n\0";
-
 using namespace std;
 
 void error_callback(int error, const char *description)
@@ -89,11 +75,17 @@ void error_callback(int error, const char *description)
     fprintf(stderr, "Error: %s\n", description);
 }
 
+void Renderer::handleInput()
+{
+    glfwPollEvents();
+}
+
 void Renderer::update()
 {
-    for (RenderObject *obj : children)
+    for (RenderObject *child : children)
     {
-        obj->update();
+        consoleLog("update");
+        child->update();
     }
 }
 
@@ -106,7 +98,6 @@ void Renderer::draw()
 
     // We are done
     glfwSwapBuffers(context->window);
-    glfwPollEvents();
 }
 
 void Renderer::createWindow()
@@ -145,6 +136,18 @@ void Renderer::createWindow()
 
     // on window 'internal' resize
     glfwSetFramebufferSizeCallback(context->window, _framebuffer_size_callback);
+
+    // on window scroll
+    glfwSetScrollCallback(context->window, _scroll_callback);
+
+    // on keyboard input
+    glfwSetInputMode(context->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    // on mouse input
+    glfwSetCursorPosCallback(context->window, _mouseCallback);
+
+    // on keyboard input
+    glfwSetKeyCallback(context->window, _keyCallback);
 
     this->resizeWindow(SCR_WIDTH, SCR_HEIGHT);
 };

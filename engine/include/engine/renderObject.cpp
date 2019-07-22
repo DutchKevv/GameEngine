@@ -6,7 +6,7 @@ RenderObject::RenderObject()  {
 }
 
 // void RenderObject::init() {
-
+//     BaseObject::init();
 // }
 
 // void RenderObject::update() {

@@ -7,6 +7,13 @@ project(Game)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/../engine/CMakeLists.txt)
 
-add_executable(Game ${SOURCE_FILES} ./src/main.cpp)
+set(SOURCE_FILES
+        ./src/objects/test.h
+        ./src/objects/test.cpp
+        ./src/objects/floor.h
+        ./src/objects/floor.cpp
+        )
+
+add_executable(Game ./src/main.cpp ${SOURCE_FILES})
 
 target_link_libraries(Game Engine)

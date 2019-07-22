@@ -22,7 +22,7 @@ add_definitions(
 include_directories(${ASSIMP_INCLUDE_DIRS})
 link_directories(${ASSIMP_LIBRARY_DIRS})
 
-set(SOURCE_FILES
+set(ENGINE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/engine.h
@@ -59,6 +59,8 @@ set(SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/scene.h
         ${CMAKE_CURRENT_LIST_DIR}/vendor/glad/src/glad.c
         )
+
+target_sources(${CMAKE_PROJECT_NAME} PUBLIC ${ENGINE_SOURCE_FILES})
 
 
 # add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR})

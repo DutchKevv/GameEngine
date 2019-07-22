@@ -5,14 +5,13 @@
 #include <nlohmann/json.hpp>
 #include <iostream>
 
+#include "baseObject.h"
 #include "renderer.h"
 // #include "constants.h"
-// #include "baseDataObj.h"
-
 
 // using json = nlohmann::json;
 
-class Engine
+class Engine : public BaseObject
 {
 private:
     int counter = 0;
@@ -20,8 +19,6 @@ private:
 public:
     bool isRunning;
     Renderer *renderer;
-
-    // vector<BaseDataObj *> dataObjects;
 
     Engine(int type = 0);
 

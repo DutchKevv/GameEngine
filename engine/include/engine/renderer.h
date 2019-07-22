@@ -24,6 +24,7 @@ public:
     void resizeWindow(int width, int height);
     void destroyWindow();
 
+    void handleInput();
     void update();
     void draw();
 

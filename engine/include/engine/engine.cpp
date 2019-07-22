@@ -16,7 +16,7 @@ void Engine::init()
 {
     consoleLog("Engine init");
 
-    this->renderer = new Renderer();
+    this->renderer = context->renderer = new Renderer();
 }
 
 void Engine::start()
@@ -31,7 +31,9 @@ void Engine::start()
 
 void Engine::tick()
 {
-    
+    this->renderer->handleInput();
+    this->renderer->update();
+    this->renderer->draw();
 }
 
 void Engine::stop()

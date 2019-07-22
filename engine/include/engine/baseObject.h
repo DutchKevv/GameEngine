@@ -2,26 +2,41 @@
 
 #include <vector>
 #include "shader.h"
+#include "logger.h"
 #include "resourceManager.h"
 
-class BaseObject {
+class BaseObject
+{
 public:
+    std::vector<BaseObject *> children;
 
-    std::vector<BaseObject*> children;
+    bool isInitialized = false;
+
     unsigned int id;
 
     BaseObject();
 
-    void init();
+    virtual void init();
 
-    void update();
+    virtual void update();
 
-    void draw();
+    virtual void draw();
 
-    void destroy();
+    virtual void destroy();
 
-    int addChild(BaseObject *child) {
+    /**
+     * TODO - shoud return index
+     */
+    int addChild(BaseObject *child)
+    {
         this->children.push_back(child);
+
+        if (child->isInitialized == false)
+        {
+            child->init();
+            child->isInitialized = true;
+        }
+
         return 0;
     };
 };

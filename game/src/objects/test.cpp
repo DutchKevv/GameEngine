@@ -36,19 +36,17 @@ void TestObject::init()
 {
     RenderObject::init();
 
+    // shader
+    Shader shader = ResourceManager::LoadShader("/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleVertex.glsl", "/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleFragment.glsl", NULL, "triangle");
+
     // VBO
-    glGenBuffers(1, &VBO);
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
+    glGenBuffers(1, &VBO); // vertices buffer
+    glGenVertexArrays(1, &VAO); // vertices array
+    glBindVertexArray(VAO); // set active
 
     // 2. copy our vertices array in a buffer for OpenGL to use
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
-    glEnableVertexAttribArray(0);
-
-    unsigned int shaderProgram = this->loadShaderProgram();
+    glBindBuffer(GL_ARRAY_BUFFER, VBO); // set active
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // how to read vertices array
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
@@ -58,58 +56,6 @@ void TestObject::init()
     glBindVertexArray(0);
 
     consoleLog("test object init done");
-}
-
-int TestObject::loadShaderProgram()
-{
-
-    Shader shader = ResourceManager::LoadShader("/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleVertex.glsl", "/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleFragment.glsl", NULL, "triangle");
-
-    // unsigned int vertexShader;
-    // vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    // glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    // glCompileShader(vertexShader);
-
-   
-    // Shader shader = ResourceManager::LoadShader("assets/shaders/hud.v.glsl", "assets/shaders/hud.f.glsl", NULL, "hud");
-
-    // int success;
-    // char infoLog[512];
-    // glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-
-    // if (!success)
-    // {
-    //     glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-    //     std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
-    //               << infoLog << std::endl;
-    // }
-
-    // unsigned int fragmentShader;
-    // fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    // glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    // glCompileShader(fragmentShader);
-
-    // unsigned int shaderProgram;
-    // shaderProgram = glCreateProgram();
-
-    // glAttachShader(shaderProgram, vertexShader);
-    // glAttachShader(shaderProgram, fragmentShader);
-    // glLinkProgram(shaderProgram);
-
-    // glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    // if (!success)
-    // {
-    //     glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-    //     std::cout << "ERROR::SHADER::PROGRAM::COMPILATION_FAILED\n"
-    //               << infoLog << std::endl;
-    // }
-
-    // glUseProgram(shaderProgram);
-
-    // glDeleteShader(vertexShader);
-    // glDeleteShader(fragmentShader);
-
-    return 0;
 }
 
 void TestObject::update()
@@ -122,7 +68,7 @@ void TestObject::update()
 void TestObject::draw()
 {
 
-    Shader triangleShader = ResourceManager::GetShader("skybox");
+    Shader triangleShader = ResourceManager::GetShader("triangle");
     triangleShader.Use();
 
     glBindVertexArray(VAO);

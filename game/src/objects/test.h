@@ -12,8 +12,6 @@ public:
 
     void draw();
 
-    int loadShaderProgram();
-
     int renderScene(Shader &shader, bool isShadowRender);
 
     void destroy();

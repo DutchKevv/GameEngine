@@ -110,6 +110,6 @@ endif ()
 
 target_link_libraries(${CMAKE_PROJECT_NAME} ${OPENGL_LIBRARIES} glfw ${GLFW_LIBRARIES} )
 
-set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES PUBLIC_HEADER include/mylib.h)
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 # target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)

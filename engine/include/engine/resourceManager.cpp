@@ -9,30 +9,35 @@
 #include <fstream>
 
 // Instantiate static variables
-std::map<std::string, Texture2D>    ResourceManager::Textures;
-std::map<std::string, Shader>       ResourceManager::Shaders;
+std::map<std::string, Texture2D> ResourceManager::Textures;
+std::map<std::string, Shader> ResourceManager::Shaders;
 
-Shader ResourceManager::LoadShader(const GLchar *vShaderFile, const GLchar *fShaderFile, const GLchar *gShaderFile, std::string name) {
+Shader ResourceManager::LoadShader(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile, std::string name)
+{
     Shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);
     return Shaders[name];
 }
 
-Shader ResourceManager::GetShader(std::string name) {
+Shader ResourceManager::GetShader(std::string name)
+{
     Shader shader = Shaders[name];
 
     return Shaders[name];
 }
 
-Texture2D ResourceManager::LoadTexture(const GLchar *file, GLboolean alpha, std::string name) {
+Texture2D ResourceManager::LoadTexture(const GLchar *file, GLboolean alpha, std::string name)
+{
     Textures[name] = loadTextureFromFile(file, alpha);
     return Textures[name];
 }
 
-Texture2D ResourceManager::GetTexture(std::string name) {
+Texture2D ResourceManager::GetTexture(std::string name)
+{
     return Textures[name];
 }
 
-void ResourceManager::Clear() {
+void ResourceManager::Clear()
+{
     // (Properly) delete all shaders
     for (auto iter : Shaders)
         glDeleteProgram(iter.second.ID);
@@ -41,37 +46,52 @@ void ResourceManager::Clear() {
         glDeleteTextures(1, &iter.second.ID);
 }
 
-char *file_read(const char *filename) {
+char *file_read(const char *filename)
+{
     FILE *in = fopen(filename, "rb");
-    if (in == NULL) return NULL;
+    if (in == NULL)
+        return NULL;
 
     int res_size = BUFSIZ;
-    char *res = (char *) malloc(res_size);
+    char *res = (char *)malloc(res_size);
     int nb_read_total = 0;
 
-    while (!feof(in) && !ferror(in)) {
-        if (nb_read_total + BUFSIZ > res_size) {
-            if (res_size > 10 * 1024 * 1024) break;
+    while (!feof(in) && !ferror(in))
+    {
+        if (nb_read_total + BUFSIZ > res_size)
+        {
+            if (res_size > 10 * 1024 * 1024)
+                break;
             res_size = res_size * 2;
-            res = (char *) realloc(res, res_size);
+            res = (char *)realloc(res, res_size);
         }
         char *p_res = res + nb_read_total;
         nb_read_total += fread(p_res, 1, BUFSIZ, in);
     }
 
     fclose(in);
-    res = (char *) realloc(res, nb_read_total + 1);
+    res = (char *)realloc(res, nb_read_total + 1);
     res[nb_read_total] = '\0';
     return res;
 }
 
-Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile) {
+Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile)
+{
     // 1. Retrieve the vertex/fragment source code from filePath
     std::string vertexCode;
     std::string fragmentCode;
     std::string geometryCode;
-    
-    try {
+
+    fstream fileStream;
+    fileStream.open(vShaderFile);
+    if (fileStream.fail())
+    {
+        consoleLog("GLSL FILE NOT FOUND");
+        // file could not be opened
+    }
+
+    try
+    {
         // Open files
         std::ifstream vertexShaderFile(vShaderFile);
         std::ifstream fragmentShaderFile(fShaderFile);
@@ -86,7 +106,8 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
         vertexCode = vShaderStream.str();
         fragmentCode = fShaderStream.str();
         // If geometry shader path is present, also load a geometry shader
-        if (gShaderFile != nullptr) {
+        if (gShaderFile != nullptr)
+        {
             std::ifstream geometryShaderFile(gShaderFile);
             std::stringstream gShaderStream;
             gShaderStream << geometryShaderFile.rdbuf();
@@ -94,7 +115,8 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
             geometryCode = gShaderStream.str();
         }
     }
-    catch (std::exception e) {
+    catch (std::exception e)
+    {
         consoleLog("ERROR::SHADER: Failed to read shader files");
     }
 
@@ -102,11 +124,11 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
     vertexCode = "#version 300 es \n" + vertexCode;
     fragmentCode = "#version 300 es \n precision mediump float;\n" + fragmentCode;
 
-//#ifdef GL_FRAGMENT_PRECISION_HIGH
-//    fragmentCode += "precision highp float;\n";
-//#else
-//    fragmentCode += "precision mediump float;\n";
-//#endif
+    //#ifdef GL_FRAGMENT_PRECISION_HIGH
+    //    fragmentCode += "precision highp float;\n";
+    //#else
+    //    fragmentCode += "precision mediump float;\n";
+    //#endif
 
 #else
     vertexCode = "#version 330 core\n" + vertexCode;
@@ -118,18 +140,22 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
     const char *gShaderCode = geometryCode.c_str();
     // 2. Now create shader object from source code
 
+    // consoleLog(vShaderFile);
+
     Shader shader;
     shader.Compile(vShaderCode, fShaderCode, gShaderFile != nullptr ? gShaderCode : nullptr);
     return shader;
 }
 
-Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alpha) {
-//    // Flip all textures on Y axis
-//    stbi_set_flip_vertically_on_load(false);
+Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alpha)
+{
+    //    // Flip all textures on Y axis
+    //    stbi_set_flip_vertically_on_load(false);
 
     // Create Texture object
     Texture2D texture;
-    if (alpha) {
+    if (alpha)
+    {
         texture.Internal_Format = GL_RGBA;
         texture.Image_Format = GL_RGBA;
     }
@@ -137,7 +163,8 @@ Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alp
     int width, height, nrChannels;
     unsigned char *image = stbi_load(file, &width, &height, &nrChannels, 0);
 
-    if (!image) {
+    if (!image)
+    {
         consoleLog("Failed to load texture");
     }
 

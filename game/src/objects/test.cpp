@@ -62,48 +62,54 @@ void TestObject::init()
 
 int TestObject::loadShaderProgram()
 {
-    unsigned int vertexShader;
-    vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-    glCompileShader(vertexShader);
 
-    int success;
-    char infoLog[512];
-    glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+    Shader shader = ResourceManager::LoadShader("/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleVertex.glsl", "/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleFragment.glsl", NULL, "triangle");
 
-    if (!success)
-    {
-        glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
-                  << infoLog << std::endl;
-    }
+    // unsigned int vertexShader;
+    // vertexShader = glCreateShader(GL_VERTEX_SHADER);
+    // glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+    // glCompileShader(vertexShader);
 
-    unsigned int fragmentShader;
-    fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-    glCompileShader(fragmentShader);
+   
+    // Shader shader = ResourceManager::LoadShader("assets/shaders/hud.v.glsl", "assets/shaders/hud.f.glsl", NULL, "hud");
 
-    unsigned int shaderProgram;
-    shaderProgram = glCreateProgram();
+    // int success;
+    // char infoLog[512];
+    // glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
 
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
+    // if (!success)
+    // {
+    //     glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+    //     std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n"
+    //               << infoLog << std::endl;
+    // }
 
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if (!success)
-    {
-        glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-        std::cout << "ERROR::SHADER::PROGRAM::COMPILATION_FAILED\n"
-                  << infoLog << std::endl;
-    }
+    // unsigned int fragmentShader;
+    // fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+    // glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+    // glCompileShader(fragmentShader);
 
-    glUseProgram(shaderProgram);
+    // unsigned int shaderProgram;
+    // shaderProgram = glCreateProgram();
 
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
+    // glAttachShader(shaderProgram, vertexShader);
+    // glAttachShader(shaderProgram, fragmentShader);
+    // glLinkProgram(shaderProgram);
 
-    return shaderProgram;
+    // glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    // if (!success)
+    // {
+    //     glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+    //     std::cout << "ERROR::SHADER::PROGRAM::COMPILATION_FAILED\n"
+    //               << infoLog << std::endl;
+    // }
+
+    // glUseProgram(shaderProgram);
+
+    // glDeleteShader(vertexShader);
+    // glDeleteShader(fragmentShader);
+
+    return 0;
 }
 
 void TestObject::update()
@@ -115,6 +121,10 @@ void TestObject::update()
 
 void TestObject::draw()
 {
+
+    Shader triangleShader = ResourceManager::GetShader("skybox");
+    triangleShader.Use();
+
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 };

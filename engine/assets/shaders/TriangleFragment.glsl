@@ -1,10 +1,6 @@
-in vec3 v_color;
-in vec2 texCoordinates;
+out vec4 FragColor;
 
-out vec4 colorOut;
-
-uniform sampler2D uTexture;
-
-void main() {
-    colorOut = texture(uTexture, texCoordinates);
-}
+void main()
+{
+    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+};

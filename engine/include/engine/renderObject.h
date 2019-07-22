@@ -5,11 +5,11 @@
 #include "baseObject.h"
 #include "resourceManager.h"
 
-class RenderObject : BaseObject
-{
-public:
-    std::vector<RenderObject*> children;
+class BaseObject;
 
+class RenderObject : public BaseObject {
+public:
+    std::vector<RenderObject *> children;
 
     unsigned int id;
     unsigned int width;
@@ -25,10 +25,9 @@ public:
 
     RenderObject();
 
-    virtual void init();
+    // virtual void init();
 
-    virtual void update();
+    // virtual void update();
 
-    virtual void draw();
-
+    // virtual void draw();
 };

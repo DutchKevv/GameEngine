@@ -7,6 +7,7 @@
 class BaseObject {
 public:
 
+    std::vector<BaseObject*> children;
     unsigned int id;
 
     BaseObject();
@@ -15,5 +16,12 @@ public:
 
     void update();
 
+    void draw();
+
     void destroy();
+
+    int addChild(BaseObject *child) {
+        this->children.push_back(child);
+        return 0;
+    };
 };

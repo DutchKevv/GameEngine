@@ -5,14 +5,14 @@ RenderObject::RenderObject()  {
 
 }
 
-void RenderObject::init() {
+// void RenderObject::init() {
 
-}
+// }
 
-void RenderObject::update() {
+// void RenderObject::update() {
 
-}
+// }
 
-void RenderObject::draw() {
+// void RenderObject::draw() {
 
-}
+// }

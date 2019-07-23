@@ -7,9 +7,6 @@
 #include <sstream>
 #include <fstream>
 #include "logger.h"
-// #include "fsstream.h"
-
-// namespace fs = std::filesystem;
 
 // Instantiate static variables
 std::map<std::string, Texture2D> ResourceManager::Textures;
@@ -28,11 +25,9 @@ Shader ResourceManager::GetShader(std::string name)
     return Shaders[name];
 }
 
-Texture2D ResourceManager::LoadTexture(const GLchar *file, GLboolean alpha, std::string name)
+Texture2D ResourceManager::LoadTexture(const GLchar *file, GLboolean alpha, std::string name, GLuint WRAP_S, GLuint WRAP_T)
 {
-    consoleLog("load");
-    
-    Textures[name] = loadTextureFromFile(file, alpha);
+    Textures[name] = loadTextureFromFile(file, alpha, WRAP_S, WRAP_T);
     return Textures[name];
 }
 
@@ -146,13 +141,17 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
     return shader;
 }
 
-Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alpha)
+Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alpha, GLuint WRAP_S, GLuint WRAP_T)
 {
     //    // Flip all textures on Y axis
     stbi_set_flip_vertically_on_load(true);
 
     // Create Texture object
     Texture2D texture;
+    
+    texture.Wrap_S = WRAP_S;
+    texture.Wrap_T = WRAP_T;
+
     if (alpha)
     {
         texture.Internal_Format = GL_RGBA;

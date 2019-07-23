@@ -5,6 +5,7 @@
 #include <string>
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 #include "texture.h"
 #include "shader.h"
@@ -26,7 +27,7 @@ public:
     // Retrieves a stored sader
     static Shader GetShader(std::string name);
     // Loads (and generates) a texture from file
-    static Texture2D LoadTexture(const GLchar *file, GLboolean alpha, std::string name);
+    static Texture2D LoadTexture(const GLchar *file, GLboolean alpha, std::string name, GLuint WRAP_S = GL_REPEAT, GLuint WRAP_T = GL_REPEAT);
     // Retrieves a stored texture
     static Texture2D GetTexture(std::string name);
     // Properly de-allocates all loaded resources
@@ -37,7 +38,7 @@ private:
     // Loads and generates a shader from file
     static Shader    loadShaderFromFile(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile = nullptr);
     // Loads a single texture from file
-    static Texture2D loadTextureFromFile(const GLchar *file, GLboolean alpha);
+    static Texture2D loadTextureFromFile(const GLchar *file, GLboolean alpha, GLuint WRAP_S, GLuint WRAP_T);
 };
 
 #endif

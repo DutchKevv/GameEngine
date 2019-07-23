@@ -14,10 +14,6 @@
 
 using namespace std;
 
-// settings
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
-
 /*
  *
  *
@@ -130,7 +126,7 @@ void Renderer::createWindow()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // create window
-    context->window = this->window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Game Engine", NULL, NULL);
+    context->window = this->window = glfwCreateWindow(context->windowW, context->windowH, "Game Engine", NULL, NULL);
     // context->window = this->window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Game Engine", glfwGetPrimaryMonitor(), NULL); // FULLSCREEN
 
     if (!window)
@@ -165,7 +161,9 @@ void Renderer::createWindow()
     // on keyboard input
     glfwSetKeyCallback(context->window, _keyCallback);
 
-    this->resizeWindow(SCR_WIDTH, SCR_HEIGHT);
+    glEnable(GL_DEPTH_TEST);
+
+    // this->resizeWindow(context->windowW, context->windowH);
 };
 
 // set the window size
@@ -183,12 +181,11 @@ void Renderer::destroyWindow()
 {
     if (window)
     {
-        glfwDestroyWindow(window);
+        glfwSetWindowShouldClose(window, true);
     }
 };
 
 void Renderer::destroy()
 {
     destroyWindow();
-    glfwTerminate();
 };

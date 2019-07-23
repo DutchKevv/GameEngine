@@ -8,43 +8,20 @@
 #include <engine/context.h>
 #include <engine/logger.h>
 
-float vertices1[] = {
-    -1.0f,
-    -0.5f,
-    0.0f,
-    0.0f,
-    -0.5f,
-    0.0f,
-    -0.5f,
-    0.5f,
-    0.0f,
-
-    0.0f,
-    -0.5f,
-    0.0f,
-    1.0f,
-    -0.5f,
-    0.0f,
-    0.5f,
-    0.5f,
-    0.0f,
+float vertices[] = {
+    // positions          // colors           // texture coords
+    0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,   // top right
+    0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,  // bottom right
+    -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
+    -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f   // top left
 };
 
-float vertices2[] = {
-
-    -0.5f,
-    1.0f,
-    0.0f,
-    0.5f,
-    1.0f,
-    0.0f,
-    0.0f,
-    0.0f,
-    0.0f,
+unsigned int indices[] = {
+    0, 1, 3, // first triangle
+    1, 2, 3  // second triangle
 };
 
-GLuint VBO, VAO;
-GLuint VBO2, VAO2;
+GLuint VBO, VAO, EBO;
 
 TestObject::TestObject()
 {
@@ -56,31 +33,29 @@ void TestObject::init()
 
     // shader
     Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/triangle.v.glsl", "build/engine-assets/shaders/triangle.f.glsl", NULL, "triangle");
-    // Shader shader = ResourceManager::LoadShader("/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleVertex.glsl", "/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleFragment.glsl", NULL, "triangle");
+    Texture2D texture = ResourceManager::LoadTexture("build/engine-assets/textures/grass.jpg", false, "test");
 
-    // FIRST MESH
-    glGenBuffers(1, &VBO);                                                       // vertices buffer
-    glGenVertexArrays(1, &VAO);                                                  // vertices array
-    glBindVertexArray(VAO);                                                      // set active
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);                                          // set active
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices1, GL_STATIC_DRAW); // how to read vertices array
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
+    glBindVertexArray(VAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    // position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
-
-    // SECOND MESH
-    glGenBuffers(1, &VBO2);                                                      // vertices buffer
-    glGenVertexArrays(1, &VAO2);                                                 // vertices array
-    glBindVertexArray(VAO2);                                                     // set active
-    glBindBuffer(GL_ARRAY_BUFFER, VBO2);                                         // set active
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices1), vertices2, GL_STATIC_DRAW); // how to read vertices array
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *)0);
-    glEnableVertexAttribArray(0);
-
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0);
+    // color attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+    // texture coord attribute
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
 
     consoleLog("test object init done");
 }
@@ -105,15 +80,14 @@ void TestObject::draw()
     // glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
     // update offset
-    triangleShader.SetFloat("offset",greenValue);
+    // triangleShader.SetFloat("offset",greenValue);
+
+    Texture2D texture = ResourceManager::GetTexture("test");
+    texture.Bind();
 
     // first MESH
     glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-
-    // second MESH
-    glBindVertexArray(VAO2);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 };
 
 void TestObject::destroy(){

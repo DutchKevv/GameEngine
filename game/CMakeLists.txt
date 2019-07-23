@@ -7,6 +7,7 @@ project(Game)
 
 include(${CMAKE_CURRENT_SOURCE_DIR}/../engine/CMakeLists.txt)
 
+# COPY ASSETS
 set (GAME_ASSETS_SOURCE "${CMAKE_CURRENT_LIST_DIR}/assets")
 set (GAME_ASSETS_DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/game-assets")
 add_custom_command(

@@ -1,12 +1,12 @@
 #define STB_IMAGE_IMPLEMENTATION
 
-#include "resourceManager.h"
 #include <STB/stb_image.h>
-#include "logger.h"
 
+#include "resourceManager.h"
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include "logger.h"
 // #include "fsstream.h"
 
 // namespace fs = std::filesystem;
@@ -30,6 +30,8 @@ Shader ResourceManager::GetShader(std::string name)
 
 Texture2D ResourceManager::LoadTexture(const GLchar *file, GLboolean alpha, std::string name)
 {
+    consoleLog("load");
+    
     Textures[name] = loadTextureFromFile(file, alpha);
     return Textures[name];
 }
@@ -147,7 +149,7 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
 Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alpha)
 {
     //    // Flip all textures on Y axis
-    //    stbi_set_flip_vertically_on_load(false);
+    stbi_set_flip_vertically_on_load(false);
 
     // Create Texture object
     Texture2D texture;

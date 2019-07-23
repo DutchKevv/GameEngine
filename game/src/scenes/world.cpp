@@ -8,9 +8,9 @@ class WorldScene : public Scene
 
     void init()
     {
-        // TestObject *testObject = new TestObject();
+        TestObject *testObject = new TestObject();
 
-        // this->addChild(testObject);
+        this->addChild(testObject);
 
         consoleLog("world init done");
     }

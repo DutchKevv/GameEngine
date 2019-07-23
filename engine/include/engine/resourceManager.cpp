@@ -149,7 +149,7 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
 Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alpha)
 {
     //    // Flip all textures on Y axis
-    stbi_set_flip_vertically_on_load(false);
+    stbi_set_flip_vertically_on_load(true);
 
     // Create Texture object
     Texture2D texture;

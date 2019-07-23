@@ -33,7 +33,15 @@ void TestObject::init()
 
     // shader
     Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/triangle.v.glsl", "build/engine-assets/shaders/triangle.f.glsl", NULL, "triangle");
-    Texture2D texture = ResourceManager::LoadTexture("build/engine-assets/textures/grass.jpg", false, "test");
+    ResourceManager::LoadTexture("build/engine-assets/textures/container.jpg", false, "container-side");
+
+    ResourceManager::LoadTexture("build/engine-assets/textures/grass.jpg", false, "grass");
+    ResourceManager::LoadTexture("build/engine-assets/textures/awesomeface.png", true, "smiley");
+
+    // set texture index
+    shader.Use();
+    shader.SetInteger("texture2", 1);
+    shader.SetInteger("texture3", 1);
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -80,10 +88,23 @@ void TestObject::draw()
     // glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
     // update offset
-    // triangleShader.SetFloat("offset",greenValue);
+    triangleShader.SetFloat("offset", greenValue);
 
-    Texture2D texture = ResourceManager::GetTexture("test");
+    Texture2D texture = ResourceManager::GetTexture("container-side");
+    Texture2D texture2 = ResourceManager::GetTexture("grass");
+    Texture2D texture3 = ResourceManager::GetTexture("smiley");
+
+    glActiveTexture(GL_TEXTURE0); // activate the texture unit first before binding texture
     texture.Bind();
+
+    glActiveTexture(GL_TEXTURE1); // activate the texture unit first before binding texture
+    texture3.Bind();
+
+    // glActiveTexture(GL_TEXTURE2); // activate the texture unit first before binding texture
+    // texture3.Bind();
+
+    // glActiveTexture(GL_TEXTURE0); // activate the texture unit first before binding texture
+    // glBindTexture(GL_TEXTURE_2D, texture);
 
     // first MESH
     glBindVertexArray(VAO);

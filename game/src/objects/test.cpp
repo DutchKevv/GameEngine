@@ -85,7 +85,7 @@ void TestObject::init()
     RenderObject::init();
 
     // shader
-    Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/triangle.v.glsl", "build/engine-assets/shaders/triangle.f.glsl", NULL, "triangle");
+    Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/simple_3d.vs", "build/engine-assets/shaders/simple_3d.fs", NULL, "triangle");
     ResourceManager::LoadTexture("build/engine-assets/textures/container.jpg", false, "container-side");
 
     ResourceManager::LoadTexture("build/engine-assets/textures/grass.jpg", false, "grass");
@@ -141,7 +141,7 @@ void TestObject::draw()
     model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
     model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
     view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-    projection = glm::perspective(glm::radians(45.0f), context->windowW / context->windowH, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(45.0f), (float)context->windowW / context->windowH, 0.1f, 100.0f);
 
     glUniformMatrix4fv(triangleShader.getUniformPos("model"), 1, GL_FALSE, glm::value_ptr(model));
     glUniformMatrix4fv(triangleShader.getUniformPos("view"), 1, GL_FALSE, glm::value_ptr(view));

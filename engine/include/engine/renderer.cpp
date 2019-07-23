@@ -127,7 +127,7 @@ void Renderer::createWindow()
 
     // create window
     context->window = this->window = glfwCreateWindow(context->windowW, context->windowH, "Game Engine", NULL, NULL);
-    // context->window = this->window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Game Engine", glfwGetPrimaryMonitor(), NULL); // FULLSCREEN
+    // context->window = this->window = glfwCreateWindow(context->windowW, context->windowH, "Game Engine", glfwGetPrimaryMonitor(), NULL); // FULLSCREEN
 
     if (!window)
     {

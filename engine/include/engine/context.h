@@ -12,8 +12,10 @@ struct Context
     Context();
 
     int type;
-    float windowW = 800;
-    float windowH = 600;
+    int windowW = 800;
+    int windowH = 600;
+    int resolutionW = 600;
+    int resolutionH = 600;
     int dayCycle;
     int dayCycleMax = 5000;
 

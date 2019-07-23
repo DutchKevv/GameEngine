@@ -23,6 +23,7 @@ public:
 
     void createWindow();
     void resizeWindow(int width, int height);
+    void changeResolution(int width, int height);
     void destroyWindow();
 
     void init();

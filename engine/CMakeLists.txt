@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
+# set(ASSIMP_BUILD_STATIC_LIB ON)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_library(${CMAKE_PROJECT_NAME} SHARED src/main.cpp)
@@ -22,8 +23,6 @@ add_definitions(
         -D_CRT_SECURE_NO_WARNINGS
 )
 
-include_directories(${ASSIMP_INCLUDE_DIRS})
-link_directories(${ASSIMP_LIBRARY_DIRS})
 
 set(ENGINE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/
@@ -82,6 +81,10 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glad/include)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw-3.3 ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/glfw-3.3)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw-3.3/include)
 
+# GLM
+# add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/glm ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/glm)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glm)
+
 # STB
 include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/stb/include)
 
@@ -90,6 +93,9 @@ set(ASSIMP_LIBRARY_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/code)
 set(ASSIMP_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/include ${CMAKE_CURRENT_SOURCE_DIR}/engine/assimp/include)
 include_directories(${ASSIMP_INCLUDE_DIRS})
 link_directories(${ASSIMP_LIBRARY_DIRS})
+
+# add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/assimp ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/assimp)
+# include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/include)
 
 # FREETYPE
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/freetype-2.10.1 ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/freetype)

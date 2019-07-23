@@ -79,7 +79,7 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glad/include)
 # include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glad/src)
 
 # GLFW
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw-3.3 ${CMAKE_CURRENT_SOURCE_DIR}/engine/glfw-3.3)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw-3.3 ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/glfw-3.3)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw-3.3/include)
 
 # STB
@@ -92,11 +92,11 @@ include_directories(${ASSIMP_INCLUDE_DIRS})
 link_directories(${ASSIMP_LIBRARY_DIRS})
 
 # FREETYPE
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/freetype-2.10.1 ${CMAKE_CURRENT_SOURCE_DIR}/engine/freetype)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/freetype-2.10.1 ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/freetype)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/freetype-2.10.1/include)
 
 # JSON
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/json ${CMAKE_CURRENT_SOURCE_DIR}/engine/json)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/json ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/json)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/json/include)
 
 # ENGINE
@@ -116,13 +116,13 @@ target_link_libraries(${CMAKE_PROJECT_NAME} ${OPENGL_LIBRARIES} glfw ${GLFW_LIBR
 
 
 # COPY ASSETS
-set (source "${CMAKE_CURRENT_LIST_DIR}/assets")
-set (destination "${CMAKE_CURRENT_BINARY_DIR}/assets")
+set (ENGINE_ASSETS_SOURCE "${CMAKE_CURRENT_LIST_DIR}/assets")
+set (ENGINE_ASSETS_DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/engine-assets")
 add_custom_command(
  TARGET ${PROJECT_NAME} POST_BUILD
- COMMAND ${CMAKE_COMMAND} -E create_symlink ${source} ${destination} 
- DEPENDS ${destination}
- COMMENT "symbolic link resources folder from ${source} => ${destination}"
+ COMMAND ${CMAKE_COMMAND} -E create_symlink ${ENGINE_ASSETS_SOURCE} ${ENGINE_ASSETS_DESTINATION} 
+ DEPENDS ${ENGINE_ASSETS_DESTINATION}
+ COMMENT "symbolic link resources folder from ${ENGINE_ASSETS_SOURCE} => ${ENGINE_ASSETS_DESTINATION}"
 )
 
 # target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)

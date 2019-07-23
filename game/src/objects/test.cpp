@@ -55,7 +55,7 @@ void TestObject::init()
     RenderObject::init();
 
     // shader
-    Shader shader = ResourceManager::LoadShader("build/assets/shaders/triangle.v.glsl", "build/assets/shaders/triangle.f.glsl", NULL, "triangle");
+    Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/triangle.v.glsl", "build/engine-assets/shaders/triangle.f.glsl", NULL, "triangle");
     // Shader shader = ResourceManager::LoadShader("/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleVertex.glsl", "/home/kewin/Projects/game-engine/engine/assets/shaders/TriangleFragment.glsl", NULL, "triangle");
 
     // FIRST MESH
@@ -101,8 +101,8 @@ void TestObject::draw()
     triangleShader.Use();
 
     // update color
-    int vertexColorLocation = triangleShader.getUniformPos("ourColor");
-    glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+    // int vertexColorLocation = triangleShader.getUniformPos("ourColor");
+    // glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
 
     // update offset
     triangleShader.SetFloat("offset",greenValue);

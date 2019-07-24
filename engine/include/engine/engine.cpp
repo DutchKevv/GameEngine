@@ -7,6 +7,10 @@
 #include "context.h"
 #include "logger.h"
 
+// timing
+float deltaTime = 0.0f; // time between current frame and last frame
+float lastFrame = 0.0f;
+
 Engine::Engine(int type)
 {
     context->type = 0;
@@ -32,9 +36,15 @@ void Engine::start()
 
 void Engine::tick()
 {
+    // per-frame time logic
+    // --------------------
+    float currentFrame = glfwGetTime();
+    deltaTime = currentFrame - lastFrame;
+    lastFrame = currentFrame;
+
     this->renderer->handleInput();
-    this->renderer->update();
-    this->renderer->draw();
+    this->renderer->update(deltaTime);
+    this->renderer->draw(deltaTime);
 }
 
 void Engine::stop()

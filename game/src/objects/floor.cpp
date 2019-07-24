@@ -5,103 +5,99 @@
 #include <engine/resourceManager.h>
 #include <engine/context.h>
 
-static unsigned int VBO, VAO;
+using namespace glm;
 
-static float vertices[] = {
-        500.0f, -0.0f,  500.0f,  500.0f, 0.0f,
-        -500.0f, -0.0f,  500.0f,  0.0f, 0.0f,
-        -500.0f, -0.0f, -500.0f,  0.0f, 500.0f,
+static unsigned int VBO, VAO, EBO;
 
-        500.0f, -0.0f,  500.0f,  500.0f, 0.0f,
-        -500.0f, -0.0f, -500.0f,  0.0f, 500.0f,
-        500.0f, -0.0f, -500.0f,  1.0f, 1.0f
+float vertices[] = {
+    // positions          // texture coords
+    100.0f, 100.0f, 1.0f, 100.0f, 100.0f, // top right
+    100.0f, -100.0f, 1.0f, 100.0f, 0.0f,  // bottom right
+    -100.0f, -100.0f, -1.0f, 0.0f, 0.0f,  // bottom left
+    -100.0f, 100.0f, -1.0f, 0.0f, 100.0f  // top left
+};
+unsigned int indices[] = {
+    0, 1, 3, // first triangle
+    1, 2, 3  // second triangle
 };
 
-Floor::Floor() : RenderObject() {
-
+Floor::Floor() : RenderObject()
+{
 }
 
-void Floor::init() {
+void Floor::init()
+{
     RenderObject::init();
 
-    /* FLOOR */
-//    ResourceManager::LoadShader("assets/shaders/light.v.glsl", "assets/shaders/light.f.glsl", NULL, "triangle");
+    // shader
+    Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/simple_3d.vs", "build/engine-assets/shaders/simple_3d.fs", NULL, "simple3D2");
+
+    ResourceManager::LoadTexture("build/engine-assets/textures/grass.jpg", false, "grass");
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO);
 
-    // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    // position attribute
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
+    
+    // texture coord attribute
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3* sizeof(float)));
-    glEnableVertexAttribArray(2);
-
-    // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-    // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-    glBindVertexArray(0);
-
-//    ResourceManager::LoadTexture("assets/textures/grass.jpg", GL_FALSE, "grass");
+    // set texture index
+    // shader.Use();
+    // shader.SetInteger("texture1", 0);
+    // shader.SetInteger("texture2", 1);
 }
 
-void Floor::update() {
-
+void Floor::update(float delta)
+{
 }
 
-void Floor::draw() {
-//    BaseRenderObj::draw();
-//
-//    Shader shader = ResourceManager::GetShader("world");
-//    shader.Use();
-//
-//    ResourceManager::GetTexture("grass").Bind();
-//
-//    glBindVertexArray(VAO);
-//
-////    glCullFace(GL_FRONT);
-////    glEnable(GL_CULL_FACE);
-//
-//    // create transformations
-//    glm::mat4 model;
-//
-//    // camera/view transformation
-////    shader.SetMatrix4("projection", projection);
-////    shader.SetMatrix4("view", view);
-//    shader.SetMatrix4("model", model);
-//
-//    glDrawArrays(GL_TRIANGLES, 0, 6);
-//
-//    glBindVertexArray(0);
-//    glActiveTexture(GL_TEXTURE0);
-//    glDisable(GL_CULL_FACE);
-};
+void Floor::draw(float delta)
+{
+    float greenValue = (sin(glfwGetTime()) / 2.0f) + 0.5f;
 
-int Floor::renderScene(Shader &shader, bool isShadowRender) {
-    // RenderObject::draw(shader, isShadowRender);
+    Shader shader = ResourceManager::GetShader("simple3D");
+    Texture2D texture = ResourceManager::GetTexture("grass");
 
-//    ResourceManager::GetTexture("grass").Bind();
+    shader.Use();
+    texture.Bind();
+    // Texture2D texture = ResourceManager::GetTexture("container-side");
 
-    glBindVertexArray(VAO);
-    glActiveTexture(GL_TEXTURE1); // active proper texture unit before binding
+    // bind textures on corresponding texture units
+    // glActiveTexture(GL_TEXTURE0);
+    
 
-    glm::mat4 model;
+    // create transformations
+    mat4 model = rotate(mat4(1.0f), radians(-90.0f), vec3(1.0f, 0.0f, 0.0f));
+    mat4 view = context->camera->GetViewMatrix();
+    mat4 projection = perspective(radians(context->camera->Zoom), (float)context->windowW / context->windowH, 0.1f, 100.0f);
+
+    model = translate(model, vec3(0.0f, 1.0f, 0.0f));
+    view = translate(view, vec3(0.0f, 0.0f, -3.0f));
+    projection = perspective(radians(45.0f), (float)context->windowW / context->windowH, 0.1f, 100.0f);
+
     shader.SetMatrix4("model", model);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-    glBindVertexArray(0);
-//    glActiveTexture(GL_TEXTURE0);
+    shader.SetMatrix4("view", view);
+    shader.SetMatrix4("projection", projection);
 
-    return 0;
+    // render container
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
-void Floor::destroy() {
+void Floor::destroy(){
     // Cleanup VBO
-//    shader->destroy();
+    //    shader->destroy();
 };

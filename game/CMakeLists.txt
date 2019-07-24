@@ -22,6 +22,8 @@ set(SOURCE_FILES
         ./src/objects/test.cpp
         ./src/objects/floor.h
         ./src/objects/floor.cpp
+        ./src/objects/player.cpp
+        ./src/objects/player.cpp
         )
 
 add_executable(Game ./src/main.cpp ${SOURCE_FILES})

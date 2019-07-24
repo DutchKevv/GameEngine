@@ -11,6 +11,8 @@
 #include <engine/context.h>
 #include <engine/logger.h>
 
+using namespace glm;
+
 float vertices2D[] = {
     // positions          // colors           // texture coords
     0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,   // top right
@@ -62,17 +64,17 @@ float vertices3D[] = {
     -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
     -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
 
-glm::vec3 cubePositions[] = {
-    glm::vec3(0.0f, 0.0f, 0.0f),
-    glm::vec3(2.0f, 5.0f, -15.0f),
-    glm::vec3(-1.5f, -2.2f, -2.5f),
-    glm::vec3(-3.8f, -2.0f, -12.3f),
-    glm::vec3(2.4f, -0.4f, -3.5f),
-    glm::vec3(-1.7f, 3.0f, -7.5f),
-    glm::vec3(1.3f, -2.0f, -2.5f),
-    glm::vec3(1.5f, 2.0f, -2.5f),
-    glm::vec3(1.5f, 0.2f, -1.5f),
-    glm::vec3(-1.3f, 1.0f, -1.5f)};
+vec3 cubePositions[] = {
+    vec3(0.0f, 0.0f, 0.0f),
+    vec3(2.0f, 5.0f, -15.0f),
+    vec3(-1.5f, -2.2f, -2.5f),
+    vec3(-3.8f, -2.0f, -12.3f),
+    vec3(2.4f, -0.4f, -3.5f),
+    vec3(-1.7f, 3.0f, -7.5f),
+    vec3(1.3f, -2.0f, -2.5f),
+    vec3(1.5f, 2.0f, -2.5f),
+    vec3(1.5f, 0.2f, -1.5f),
+    vec3(-1.3f, 1.0f, -1.5f)};
 
 GLuint VBO, VAO, EBO;
 
@@ -85,7 +87,7 @@ void TestObject::init()
     RenderObject::init();
 
     // shader
-    Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/simple_3d.vs", "build/engine-assets/shaders/simple_3d.fs", NULL, "triangle");
+    Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/simple_3d.vs", "build/engine-assets/shaders/simple_3d.fs", NULL, "simple3D");
     ResourceManager::LoadTexture("build/engine-assets/textures/container.jpg", false, "container-side");
 
     ResourceManager::LoadTexture("build/engine-assets/textures/grass.jpg", false, "grass");
@@ -116,43 +118,35 @@ void TestObject::init()
     consoleLog("test object init done");
 }
 
-void TestObject::update()
+void TestObject::update(float delta)
 {
-    RenderObject::update();
 
-    // consoleLog("testObject update");
 }
 
-void TestObject::draw()
+void TestObject::draw(float delta)
 {
     float greenValue = (sin(glfwGetTime()) / 2.0f) + 0.5f;
 
-    Shader triangleShader = ResourceManager::GetShader("triangle");
-    triangleShader.Use();
+    Shader shader = ResourceManager::GetShader("simple3D");
+    shader.Use();
 
     Texture2D texture = ResourceManager::GetTexture("container-side");
     Texture2D texture2 = ResourceManager::GetTexture("grass");
     Texture2D texture3 = ResourceManager::GetTexture("smiley");
 
-    glm::mat4 model = glm::mat4(1.0f);
-    glm::mat4 view = glm::mat4(1.0f);
-    glm::mat4 projection;
+    mat4 model = mat4(1.0f);
+    mat4 view = context->camera->GetViewMatrix();
+    mat4 projection = perspective(radians(context->camera->Zoom), (float)context->windowW / context->windowH, 0.1f, 100.0f);
 
-    model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
-    model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
-    view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-    projection = glm::perspective(glm::radians(45.0f), (float)context->windowW / context->windowH, 0.1f, 100.0f);
-
-    glUniformMatrix4fv(triangleShader.getUniformPos("model"), 1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(triangleShader.getUniformPos("view"), 1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(triangleShader.getUniformPos("projection"), 1, GL_FALSE, glm::value_ptr(projection));
+    shader.SetMatrix4("view", view);
+    shader.SetMatrix4("projection", projection);
 
     // update texture mix
-    int textureMixLocation = triangleShader.getUniformPos("textureMix");
+    int textureMixLocation = shader.getUniformPos("textureMix");
     glUniform1f(textureMixLocation, greenValue);
 
     // update offset
-    // triangleShader.SetFloat("offset", greenValue);
+    // shader.SetFloat("offset", greenValue);
 
     glActiveTexture(GL_TEXTURE0); // activate the texture unit first before binding texture
     texture.Bind();
@@ -160,24 +154,24 @@ void TestObject::draw()
     glActiveTexture(GL_TEXTURE1); // activate the texture unit first before binding texture
     texture3.Bind();
 
-    // glm::mat4 transform = glm::mat4(1.0f);
-    // transform = glm::translate(transform, glm::vec3(0.0f, 0.0f, 1.0f));
-    // transform = glm::rotate(transform, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+    // mat4 transform = mat4(1.0f);
+    // transform = translate(transform, vec3(0.0f, 0.0f, 1.0f));
+    // transform = rotate(transform, (float)glfwGetTime(), vec3(0.0f, 0.0f, 1.0f));
 
     // transform matrix
     // int transformLocation = triangleShader.getUniformPos("transform");
-    // glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(transform));
+    // glUniformMatrix4fv(transformLocation, 1, GL_FALSE, value_ptr(transform));
 
     // first MESH
     glBindVertexArray(VAO);
 
     for (unsigned int i = 0; i < 10; i++)
     {
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::translate(model, cubePositions[i]);
+        mat4 model = mat4(1.0f);
+        model = translate(model, cubePositions[i]);
         float angle = 20.0f * i;
-        model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(1.0f, 0.3f, 0.5f));
-        triangleShader.SetMatrix4("model", model);
+        model = rotate(model, (float)glfwGetTime() * radians(50.0f), vec3(1.0f, 0.3f, 0.5f));
+        shader.SetMatrix4("model", model);
 
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
@@ -185,10 +179,10 @@ void TestObject::draw()
 
     // second transformation
     // ---------------------
-    // transform = glm::mat4(1.0f); // reset it to identity matrix
-    // transform = glm::translate(transform, glm::vec3(-0.5f, 0.5f, 0.0f));
+    // transform = mat4(1.0f); // reset it to identity matrix
+    // transform = translate(transform, vec3(-0.5f, 0.5f, 0.0f));
     // float scaleAmount = sin(glfwGetTime());
-    // transform = glm::scale(transform, glm::vec3(scaleAmount, scaleAmount, scaleAmount));
+    // transform = scale(transform, vec3(scaleAmount, scaleAmount, scaleAmount));
     // glUniformMatrix4fv(transformLocation, 1, GL_FALSE, &transform[0][0]); // this time take the matrix value array's first element as its memory pointer value
 
     // now with the uniform matrix being replaced with new transformations, draw it again.

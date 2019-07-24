@@ -32,6 +32,10 @@ void consoleLog(int text) {
     consoleLog(to_string(text));
 }
 
+void consoleLog(double text) {
+    consoleLog(to_string(text));
+}
+
 void consoleLog(float text) {
     consoleLog(to_string(text));
 }

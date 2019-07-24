@@ -29,8 +29,8 @@ public:
     void init();
 
     void handleInput();
-    void update();
-    void draw();
+    void update(float delta);
+    void draw(float delta);
 
     void destroy();
 };

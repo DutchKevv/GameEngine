@@ -14,7 +14,10 @@ std::map<std::string, Shader> ResourceManager::Shaders;
 
 Shader ResourceManager::LoadShader(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile, std::string name)
 {
-    Shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);
+    if (Shaders.count(name) == 0) {
+         Shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);
+    }
+    
     return Shaders[name];
 }
 

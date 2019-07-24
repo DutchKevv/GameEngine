@@ -9,21 +9,21 @@ void BaseObject::init()
 {
 }
 
-void BaseObject::update()
+void BaseObject::update(float delta)
 {
     for (BaseObject *child : children)
     {
         // consoleLog("update");
-        child->update();
+        child->update(delta);
     }
 }
 
-void BaseObject::draw()
+void BaseObject::draw(float delta)
 {
     for (BaseObject *child : children)
     {
         // consoleLog("draw");
-        child->draw();
+        child->draw(delta);
     }
 }
 

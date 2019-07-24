@@ -6,6 +6,7 @@
 class Scene : public RenderObject {
     unsigned int idCounter = 0;
 public:
+    Camera *camera;
     RenderObject *player;
     RenderObject *skybox;
     RenderObject *hud;

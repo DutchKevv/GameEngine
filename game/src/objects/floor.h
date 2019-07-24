@@ -9,9 +9,9 @@ public:
 
     void init();
 
-    void update();
+    void update(float delta);
 
-    void draw();
+    void draw(float delta);
 
     int renderScene(Shader &shader, bool isShadowRender);
 

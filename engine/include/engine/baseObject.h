@@ -18,9 +18,9 @@ public:
 
     virtual void init();
 
-    virtual void update();
+    virtual void update(float delta);
 
-    virtual void draw();
+    virtual void draw(float delta);
 
     virtual void destroy();
 

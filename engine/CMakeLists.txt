@@ -25,6 +25,7 @@ add_definitions(
 
 
 set(ENGINE_SOURCE_FILES
+        ${CMAKE_CURRENT_LIST_DIR}/vendor/glad/src/glad.c
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.cpp
@@ -58,7 +59,9 @@ set(ENGINE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/mesh.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/scene.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/scene.h
-        ${CMAKE_CURRENT_LIST_DIR}/vendor/glad/src/glad.c
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/objects/cube.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/objects/cube.cpp
+
         )
 
 target_sources(${CMAKE_PROJECT_NAME} PUBLIC ${ENGINE_SOURCE_FILES})
@@ -89,10 +92,15 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glm)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/stb/include)
 
 # ASSIMP
-set(ASSIMP_LIBRARY_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/code)
-set(ASSIMP_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/include ${CMAKE_CURRENT_SOURCE_DIR}/engine/assimp/include)
-include_directories(${ASSIMP_INCLUDE_DIRS})
-link_directories(${ASSIMP_LIBRARY_DIRS})
+# set(ASSIMP_LIBRARY_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/code)
+# set(ASSIMP_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/include ${CMAKE_CURRENT_SOURCE_DIR}/engine/assimp/include)
+# include_directories(${ASSIMP_INCLUDE_DIRS})
+# link_directories(${ASSIMP_LIBRARY_DIRS})
+
+find_package(ASSIMP REQUIRED)
+if(ASSIMP_FOUND)
+    include_directories(${ASSIMP_INCLUDE_DIR})
+endif() 
 
 # add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/assimp ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/assimp)
 # include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/include)
@@ -118,7 +126,7 @@ else ()
     
 endif ()
 
-target_link_libraries(${CMAKE_PROJECT_NAME} ${OPENGL_LIBRARIES} glfw ${GLFW_LIBRARIES} ${FREETYPE_LIBRARIES} )
+target_link_libraries(${CMAKE_PROJECT_NAME} ${OPENGL_LIBRARIES} glfw ${GLFW_LIBRARIES} ${FREETYPE_LIBRARIES} ${ASSIMP_LIBRARIES})
 
 
 # COPY ASSETS

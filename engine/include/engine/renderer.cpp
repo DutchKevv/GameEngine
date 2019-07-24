@@ -32,17 +32,33 @@ void _keyCallback(GLFWwindow *window, int key, int scancode, int action, int mod
 
 void _mouseCallback(GLFWwindow *window, double xpos, double ypos)
 {
-    // context->renderer->mouseCallback(window, xpos, ypos);
+    if (context->mouse->firstMouse)
+    {
+        context->mouse->lastX = xpos;
+        context->mouse->lastY = ypos;
+        context->mouse->firstMouse = false;
+    }
+
+    context->mouse->offsetX = xpos - context->mouse->lastX;
+    context->mouse->offsetY = context->mouse->lastY - ypos; // reversed since y-coordinates go from bottom to top
+
+    context->mouse->lastX = xpos;
+    context->mouse->lastY = ypos;
+
+    context->mouse->active = true;
 }
 
-void _scroll_callback(GLFWwindow *window, double xOffset, double yOffet)
+void _scroll_callback(GLFWwindow *window, double offsetX, double offsetY)
 {
-    // context->renderer->scrollCallback(xOffset, yOffet);
+    context->scroll->active = true;
+    context->scroll->offsetX = offsetX;
+    context->scroll->offsetY = offsetY;
 }
 
 void _windowSizeCallback(GLFWwindow *window, int width, int height)
 {
-    // context->renderer->windowSizeCallback(width, height);
+    context->windowW = width;
+    context->windowH = height;
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
@@ -51,7 +67,7 @@ void _framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     // make sure the viewport matches the new window dimensions; note that width and
     // height will be significantly larger than specified on retina displays.
-    //    glViewport(0, 0, width, height);
+    glViewport(0, 0, width, height);
 }
 
 void _errorCallback(int error, const char *description)
@@ -92,17 +108,21 @@ void Renderer::handleInput()
     glfwPollEvents();
 }
 
-void Renderer::update()
+void Renderer::update(float delta)
 {
-    BaseObject::update();
+
+    BaseObject::update(delta);
+
+    context->mouse->active = false;
+    context->scroll->active = false;
 }
 
-void Renderer::draw()
+void Renderer::draw(float delta)
 {
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    BaseObject::draw();
+    BaseObject::draw(delta);
 
     // We are done
     glfwSwapBuffers(context->window);
@@ -126,8 +146,14 @@ void Renderer::createWindow()
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // create window
-    context->window = this->window = glfwCreateWindow(context->windowW, context->windowH, "Game Engine", NULL, NULL);
-    // context->window = this->window = glfwCreateWindow(context->windowW, context->windowH, "Game Engine", glfwGetPrimaryMonitor(), NULL); // FULLSCREEN
+    if (context->fullscreen)
+    {
+        context->window = this->window = glfwCreateWindow(context->windowW, context->windowH, "Game Engine", glfwGetPrimaryMonitor(), NULL); // FULLSCREEN
+    }
+    else
+    {
+        context->window = this->window = glfwCreateWindow(context->windowW, context->windowH, "Game Engine", NULL, NULL);
+    }
 
     if (!window)
     {
@@ -138,6 +164,12 @@ void Renderer::createWindow()
     glfwMakeContextCurrent(context->window);
 
     // bind openGL entrypoints to context
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        return;
+    }
+
     gladLoadGL();
 
     // on window resize
@@ -153,7 +185,7 @@ void Renderer::createWindow()
     glfwSetScrollCallback(context->window, _scroll_callback);
 
     // on keyboard input
-    glfwSetInputMode(context->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(context->window, GLFW_CURSOR, context->cursorBehavior);
 
     // on mouse input
     glfwSetCursorPosCallback(context->window, _mouseCallback);
@@ -161,6 +193,7 @@ void Renderer::createWindow()
     // on keyboard input
     glfwSetKeyCallback(context->window, _keyCallback);
 
+    // enable 3D
     glEnable(GL_DEPTH_TEST);
 
     // this->resizeWindow(context->windowW, context->windowH);

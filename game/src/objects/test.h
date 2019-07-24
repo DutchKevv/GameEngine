@@ -8,11 +8,9 @@ public:
 
     void init();
 
-    void update();
+    void update(float delta);
 
-    void draw();
-
-    int renderScene(Shader &shader, bool isShadowRender);
+    void draw(float delta);
 
     void destroy();
 private:

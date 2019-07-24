@@ -11,10 +11,10 @@ static unsigned int VBO, VAO, EBO;
 
 float vertices[] = {
     // positions          // texture coords
-    100.0f, 100.0f, 1.0f, 100.0f, 100.0f, // top right
-    100.0f, -100.0f, 1.0f, 100.0f, 0.0f,  // bottom right
-    -100.0f, -100.0f, -1.0f, 0.0f, 0.0f,  // bottom left
-    -100.0f, 100.0f, -1.0f, 0.0f, 100.0f  // top left
+    400.0f, 400.0f, 0.0f, 400.0f, 400.0f, // top right
+    400.0f, -400.0f, 0.0f, 400.0f, 0.0f,  // bottom right
+    -400.0f, -400.0f, -0.0f, 0.0f, 0.0f,  // bottom left
+    -400.0f, 400.0f, -0.0f, 0.0f, 400.0f  // top left
 };
 unsigned int indices[] = {
     0, 1, 3, // first triangle
@@ -51,8 +51,8 @@ void Floor::init()
     glEnableVertexAttribArray(0);
     
     // texture coord attribute
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+    glEnableVertexAttribArray(2);
 
     // set texture index
     // shader.Use();
@@ -73,11 +73,6 @@ void Floor::draw(float delta)
 
     shader.Use();
     texture.Bind();
-    // Texture2D texture = ResourceManager::GetTexture("container-side");
-
-    // bind textures on corresponding texture units
-    // glActiveTexture(GL_TEXTURE0);
-    
 
     // create transformations
     mat4 model = rotate(mat4(1.0f), radians(-90.0f), vec3(1.0f, 0.0f, 0.0f));
@@ -85,7 +80,7 @@ void Floor::draw(float delta)
     mat4 projection = perspective(radians(context->camera->Zoom), (float)context->windowW / context->windowH, 0.1f, 100.0f);
 
     model = translate(model, vec3(0.0f, 1.0f, 0.0f));
-    view = translate(view, vec3(0.0f, 0.0f, -3.0f));
+    // view = translate(view, vec3(0.0f, 0.0f, -3.0f));
     projection = perspective(radians(45.0f), (float)context->windowW / context->windowH, 0.1f, 100.0f);
 
     shader.SetMatrix4("model", model);

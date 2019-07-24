@@ -14,10 +14,11 @@ std::map<std::string, Shader> ResourceManager::Shaders;
 
 Shader ResourceManager::LoadShader(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile, std::string name)
 {
-    if (Shaders.count(name) == 0) {
-         Shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);
+    if (Shaders.count(name) == 0)
+    {
+        Shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);
     }
-    
+
     return Shaders[name];
 }
 
@@ -144,14 +145,15 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
     return shader;
 }
 
+// TODO - revert parameter (default false)
 Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alpha, GLuint WRAP_S, GLuint WRAP_T)
 {
-    //    // Flip all textures on Y axis
+     // enable reverting
     stbi_set_flip_vertically_on_load(true);
 
     // Create Texture object
     Texture2D texture;
-    
+
     texture.Wrap_S = WRAP_S;
     texture.Wrap_T = WRAP_T;
 
@@ -172,8 +174,11 @@ Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alp
     // Now generate texture
     texture.Generate(width, height, image);
 
-    // And finally free image data
+    // free image data
     stbi_image_free(image);
+
+    // disable reverting again
+    stbi_set_flip_vertically_on_load(false);
 
     return texture;
 }

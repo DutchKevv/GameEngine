@@ -11,9 +11,9 @@ public:
 
     Model *playerModel;
 
-    const float minSpeed = -0.5f;
-    const float maxSpeed = 1.0f;
-    const float airborneThreshold = 0.1f;
+    const float minSpeed = -0.1f;
+    const float maxSpeed = 0.1f;
+    const float airborneThreshold = 0.01f;
     bool isAirborne = false;
 
     enum Camera_Movement

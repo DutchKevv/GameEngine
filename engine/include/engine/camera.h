@@ -113,24 +113,24 @@ public:
             Zoom = 45.0f;
     }
 
-    void lookToObj(RenderObject *instance)
+    void followObject(RenderObject *instance)
     {
         Position.x = instance->position.x;
         Position.y = instance->position.y + 0.3f;
-        Position.z = instance->position.z - 1.0f;
+        Position.z = instance->position.z - 2.0f;
 
         if (Position.y < 0.1f)
             Position.y = 0.1f;
 
-        //        this->Yaw = instance.yaw;
-        //        updateCameraVectors();
-        //        consoleLog(yaw);
+        this->Yaw = instance->yaw;
+        updateCameraVectors();
+        //    consoleLog(this->Yaw);
 
-        //        glm::vec3 front;
-        //        front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-        //        front.y = sin(glm::radians(Pitch));
-        //        front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
-        //        Front = glm::normalize(front);
+        glm::vec3 front;
+        front.x = cos(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+        front.y = sin(glm::radians(Pitch));
+        front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
+        Front = glm::normalize(front);
     }
 
 private:

@@ -18,16 +18,12 @@ public:
     float speed;
     float xRadius = 0.0f;
     float yRadius = 0.0f;
+    float yaw = 90;
+    
     bool focused = false;
 
     glm::vec3 position;
     glm::vec3 rotation;
 
     RenderObject();
-
-    // virtual void init() override;
-
-    // virtual void update();
-
-    // virtual void draw();
 };

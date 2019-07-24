@@ -1,6 +1,7 @@
 #pragma once
 
 #include <engine/scene.h>
+#include <engine/model.h>
 #include <engine/context.h>
 #include <engine/objects/cube.h>
 #include "../objects/floor.h"
@@ -21,56 +22,111 @@ static vec3 cubePositions[] = {
     vec3(1.5f, 0.2f, -1.5f),
     vec3(-1.3f, 1.0f, -1.5f)};
 
+vector<glm::vec4> treePositions;
+vector<glm::vec4> rockPositions;
+
+Model *rockModel;
+Model *planeModel;
+Model *blenderModel;
+Model *treeModel;
+Model *cubeModel;
+
+const unsigned int space = 200;
+const unsigned int trees = 1000;
+const unsigned int rocks = 1000;
+
 class WorldScene : public Scene
 {
 
     void init()
     {
+        // create world objects
+        this->createEnvironment();
+
+        // attach player
+        Player *player = new Player();
+        this->addChild(player);
+
+        // attach camera
         this->camera = context->camera = new Camera();
 
+        // let the camera follow the player
+        this->camera->followObject(player);
+
+        consoleLog("world initialized");
+    }
+
+    void update(float delta)
+    {
+        Scene::update(delta);
+    }
+
+    void draw(float delta)
+    {
+        Scene::draw(delta);
+
+        Shader shader = ResourceManager::GetShader("simple3D");
+        
+        /*
+        *
+        * Rocks
+        *
+        */
+        for (unsigned int i = 0; i < 1; i++)
+        {
+            glm::mat4 model;
+            glm::vec4 random = rockPositions[i];
+
+            model = glm::translate(model, glm::vec3(random.x, random.y, random.z));
+            model = glm::scale(model, glm::vec3(random.w / 100));
+
+            shader.SetMatrix4("model", model);
+
+            rockModel->Draw(&shader);
+        }
+    }
+
+    void createEnvironment()
+    {
+        // load models
+        // -----------------------
+        rockModel = new Model("build/game-assets/models/rock/rock1.obj");
+        planeModel = new Model("build/game-assets/models/plane-ground/flyhigh.obj");
+        blenderModel = new Model("build/game-assets/models/blenderman/BLENDERMAN!.obj");
+        treeModel = new Model("build/game-assets/models/tree-low-poly/lowtree.obj");
+        cubeModel = new Model("build/game-assets/models/cube/cube.obj");
+
+        // load random positions for models
+        float halfSpace = space / 2;
+        for (int i = 0; i < trees; i++)
+        {
+            treePositions.push_back(
+                glm::vec4((rand() % space) - halfSpace, 0.0f, (rand() % space) - halfSpace, rand() % 100));
+        }
+
+        for (int i = 0; i < rocks; i++)
+        {
+            rockPositions.push_back(
+                glm::vec4((rand() % space) - halfSpace, 2.0f, (rand() % space) - halfSpace, rand() % 100));
+        }
+
+        // add floor (TEMP)
         this->addChild(new Floor());
 
+        // add BOXES (TEMP)
         for (unsigned int i = 0; i < 10; i++)
         {
             Cube *cube = new Cube();
             cube->position = cubePositions[i];
             this->addChild(cube);
         }
-        
-        Player *player = new Player();
 
-        this->addChild(player);
-
-        this->camera->lookToObj(player);
-
-        consoleLog("world init done");
-    }
-
-    void update(float delta)
-    {
-        Scene::update(delta);
-
-        // if (glfwGetKey(context->window, GLFW_KEY_W) == GLFW_PRESS)
+        // add rocks (TEMP)
+        // for (unsigned int i = 0; i < 10; i++)
         // {
-        //     context->camera->ProcessKeyboard(FORWARD, delta);
+        //     Model *rock = new Model("build/game-assets/models/plane/FREOBJ.obj");
+        //     rock->position = cubePositions[i];
+        //     this->addChild(rock);
         // }
-
-        // if (glfwGetKey(context->window, GLFW_KEY_S) == GLFW_PRESS)
-        //     context->camera->ProcessKeyboard(BACKWARD, delta);
-        // if (glfwGetKey(context->window, GLFW_KEY_A) == GLFW_PRESS)
-        //     context->camera->ProcessKeyboard(LEFT, delta);
-        // if (glfwGetKey(context->window, GLFW_KEY_D) == GLFW_PRESS)
-        //     context->camera->ProcessKeyboard(RIGHT, delta);
-
-        if (context->mouse->active)
-        {
-            // consoleLog("asdsd");
-            context->camera->ProcessMouseMovement(context->mouse->offsetX, context->mouse->offsetY);
-        }
-
-        if (context->scroll->active)
-        {
-            context->camera->ProcessMouseScroll(context->scroll->offsetY);
-        }
     }
 };

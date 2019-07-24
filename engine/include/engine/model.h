@@ -27,6 +27,16 @@ using namespace std;
 
 static unsigned int TextureFromFile(const char *path, const string &directory, bool gamma = false);
 
+// to convert Assimp to a Material struct :
+
+struct Material
+{
+    glm::vec3 Diffuse;
+    glm::vec3 Specular;
+    glm::vec3 Ambient;
+    float Shininess;
+};
+
 class Model : public RenderObject
 {
 public:
@@ -42,6 +52,27 @@ public:
     Model(string const &path, bool gamma = false) : gammaCorrection(gamma)
     {
         loadModel(path);
+    }
+
+    Material loadMaterial(aiMaterial *mat)
+    {
+        Material material;
+        aiColor3D color(0.f, 0.f, 0.f);
+        float shininess;
+
+        mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+        material.Diffuse = glm::vec3(color.r, color.b, color.g);
+
+        mat->Get(AI_MATKEY_COLOR_AMBIENT, color);
+        material.Ambient = glm::vec3(color.r, color.b, color.g);
+
+        mat->Get(AI_MATKEY_COLOR_SPECULAR, color);
+        material.Specular = glm::vec3(color.r, color.b, color.g);
+
+        mat->Get(AI_MATKEY_SHININESS, shininess);
+        material.Shininess = shininess;
+
+        return material;
     }
 
     void init()
@@ -193,6 +224,7 @@ private:
         // 4. height maps
         std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
         textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
+        
 
         // return a mesh object created from the extracted mesh data
         return Mesh(vertices, indices, textures);

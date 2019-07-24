@@ -73,7 +73,7 @@ void Cube::init()
 
     // set texture index
     shader.Use();
-    shader.SetInteger("texture1", 0);
+    shader.SetInteger("texture_diffuse", 0);
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);

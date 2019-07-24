@@ -18,13 +18,12 @@ Player::Player()
 void Player::init()
 {
     RenderObject::init();
-    position = glm::vec3(0.0f, 1.0f, 1.0f);
 
     Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/simple_3d.vs", "build/engine-assets/shaders/simple_3d.fs", NULL, "simple3D");
 
     playerModel = new Model("build/game-assets/models/plane/FREOBJ.obj");
 
-    // shader.SetInteger("texture1", 0);
+    // shader.SetInteger("texture_diffuse", 0);
     // glActiveTexture(GL_TEXTURE0);
 }
 
@@ -54,6 +53,16 @@ void Player::update(float delta)
         this->processKeyboard(A, delta);
     if (glfwGetKey(context->window, GLFW_KEY_D) == GLFW_PRESS)
         this->processKeyboard(D, delta);
+
+    if (context->mouse->active)
+    {
+        context->camera->ProcessMouseMovement(context->mouse->offsetX, context->mouse->offsetY);
+    }
+
+    if (context->scroll->active)
+    {
+        context->camera->ProcessMouseScroll(context->scroll->offsetY);
+    }
 }
 
 void Player::draw(float delta)

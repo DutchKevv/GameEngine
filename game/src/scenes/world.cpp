@@ -3,6 +3,7 @@
 #include <engine/scene.h>
 #include <engine/model.h>
 #include <engine/context.h>
+#include <engine/resourceManager.h>
 #include <engine/objects/cube.h>
 #include "../objects/floor.h"
 #include "../objects/player.h"
@@ -28,18 +29,40 @@ vector<glm::vec4> rockPositions;
 Model *rockModel;
 Model *planeModel;
 Model *blenderModel;
+Model *boulderModel;
 Model *treeModel;
 Model *cubeModel;
 
-const unsigned int space = 200;
-const unsigned int trees = 1000;
-const unsigned int rocks = 1000;
+Shader shader;
+Shader simpleDepthShader;
+Shader debugDepthQuad;
+
+const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+unsigned int depthMap;
+unsigned int depthMapFBO;
+
+// meshes
+unsigned int planeVAO;
+
+// lighting info
+// -------------
+glm::vec3 lightPos(-2.0f, 4.0f, -1.0f);
+
+const unsigned int space = 100;
+const unsigned int trees = 50;
+const unsigned int rocks = 500;
 
 class WorldScene : public Scene
 {
 
     void init()
     {
+        shader = ResourceManager::LoadShader("build/game-assets/shaders/shadow_mapping.vs", "build/game-assets/shaders/shadow_mapping.fs", nullptr, "shadowMapping");
+        simpleDepthShader = ResourceManager::LoadShader("build/game-assets/shaders/shadow_mapping_depth.vs", "build/game-assets/shaders/shadow_mapping_depth.fs", nullptr, "shadowDepth");
+        debugDepthQuad = ResourceManager::LoadShader("build/game-assets/shaders/debug_quad.vs", "build/game-assets/shaders/debug_quad.fs", nullptr, "quadDepth");
+
+        ResourceManager::LoadTexture("build/engine-assets/textures/grass.jpg", false, "grass");
+
         // create world objects
         this->createEnvironment();
 
@@ -53,6 +76,62 @@ class WorldScene : public Scene
         // let the camera follow the player
         this->camera->followObject(player);
 
+        // set up vertex data (and buffer(s)) and configure vertex attributes
+        // ------------------------------------------------------------------
+        float planeVertices[] = {
+            // positions            // normals         // texcoords
+            25.0f, -0.5f, 25.0f, 0.0f, 1.0f, 0.0f, 25.0f, 0.0f,
+            -25.0f, -0.5f, 25.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+            -25.0f, -0.5f, -25.0f, 0.0f, 1.0f, 0.0f, 0.0f, 25.0f,
+
+            25.0f, -0.5f, 25.0f, 0.0f, 1.0f, 0.0f, 25.0f, 0.0f,
+            -25.0f, -0.5f, -25.0f, 0.0f, 1.0f, 0.0f, 0.0f, 25.0f,
+            25.0f, -0.5f, -25.0f, 0.0f, 1.0f, 0.0f, 25.0f, 25.0f};
+        // plane VAO
+        unsigned int planeVBO;
+        glGenVertexArrays(1, &planeVAO);
+        glGenBuffers(1, &planeVBO);
+        glBindVertexArray(planeVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), planeVertices, GL_STATIC_DRAW);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
+        glBindVertexArray(0);
+
+        // configure depth map FBO
+        // -----------------------
+
+        glGenFramebuffers(1, &depthMapFBO);
+
+        // create depth texture
+        glGenTextures(1, &depthMap);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        float borderColor[] = {1.0, 1.0, 1.0, 1.0};
+        glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+        // attach depth texture as FBO's depth buffer
+        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+        glDrawBuffer(GL_NONE);
+        glReadBuffer(GL_NONE);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        // shader configuration
+        // --------------------
+        shader.Use();
+        shader.SetInteger("diffuseTexture", 0);
+        shader.SetInteger("shadowMap", 1);
+        debugDepthQuad.Use();
+        debugDepthQuad.SetInteger("depthMap", 0);
+
         consoleLog("world initialized");
     }
 
@@ -65,25 +144,76 @@ class WorldScene : public Scene
     {
         Scene::draw(delta);
 
-        Shader shader = ResourceManager::GetShader("simple3D");
-        
-        /*
-        *
-        * Rocks
-        *
-        */
-        for (unsigned int i = 0; i < 1; i++)
-        {
-            glm::mat4 model;
-            glm::vec4 random = rockPositions[i];
+        // change light position over time
+        lightPos.x = sin(glfwGetTime()) * 3.0f;
+        lightPos.z = cos(glfwGetTime()) * 2.0f;
+        lightPos.y = 5.0 + cos(glfwGetTime()) * 1.0f;
 
-            model = glm::translate(model, glm::vec3(random.x, random.y, random.z));
-            model = glm::scale(model, glm::vec3(random.w / 100));
+        // Shader shader = ResourceManager::GetShader("shadowMapping");
+        // // shader.Use();
 
-            shader.SetMatrix4("model", model);
+        // // shader.SetInteger("texture1", 0);
+        // // glActiveTexture(GL_TEXTURE0);
 
-            rockModel->Draw(&shader);
-        }
+        Texture2D texture = ResourceManager::GetTexture("container-side");
+        Texture2D textureGrass = ResourceManager::GetTexture("grass");
+
+        // glActiveTexture(GL_TEXTURE0);
+        // shader.SetInteger("texture_diffuse", 0);
+
+        // 1. render depth of scene to texture (from light's perspective)
+        // --------------------------------------------------------------
+        glm::mat4 lightProjection, lightView;
+        glm::mat4 lightSpaceMatrix;
+        float near_plane = 1.0f, far_plane = 7.5f;
+        //lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
+        lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+        lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+        lightSpaceMatrix = lightProjection * lightView;
+        // render scene from light's point of view
+        simpleDepthShader.Use();
+        simpleDepthShader.SetMatrix4("lightSpaceMatrix", lightSpaceMatrix);
+
+        glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
+        glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+        glClear(GL_DEPTH_BUFFER_BIT);
+        glActiveTexture(GL_TEXTURE0);
+        textureGrass.Bind();
+        renderScene(delta, simpleDepthShader);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        // reset viewport
+        glViewport(0, 0, context->windowW, context->windowH);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // 2. render scene as normal using the generated depth/shadow map
+        // --------------------------------------------------------------
+        Camera *camera = context->camera;
+
+        glViewport(0, 0, context->windowW, context->windowH);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        shader.Use();
+        glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)context->windowW / (float)context->windowH, 0.1f, 100.0f);
+        glm::mat4 view = camera->GetViewMatrix();
+        shader.SetMatrix4("projection", projection);
+        shader.SetMatrix4("view", view);
+        // set light uniforms
+        shader.SetVector3f("viewPos", camera->Position);
+        shader.SetVector3f("lightPos", lightPos);
+        shader.SetMatrix4("lightSpaceMatrix", lightSpaceMatrix);
+        glActiveTexture(GL_TEXTURE0);
+        texture.Bind();
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        renderScene(delta, shader);
+
+        // render Depth map to quad for visual debugging
+        // ---------------------------------------------
+        debugDepthQuad.Use();
+        debugDepthQuad.SetFloat("near_plane", near_plane);
+        debugDepthQuad.SetFloat("far_plane", far_plane);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
     }
 
     void createEnvironment()
@@ -91,10 +221,12 @@ class WorldScene : public Scene
         // load models
         // -----------------------
         rockModel = new Model("build/game-assets/models/rock/rock1.obj");
-        planeModel = new Model("build/game-assets/models/plane-ground/flyhigh.obj");
-        blenderModel = new Model("build/game-assets/models/blenderman/BLENDERMAN!.obj");
-        treeModel = new Model("build/game-assets/models/tree-low-poly/lowtree.obj");
-        cubeModel = new Model("build/game-assets/models/cube/cube.obj");
+        // rockModel = new Model("build/game-assets/models/rock1/Rock1.obj");
+        // boulderModel = new Model("build/game-assets/models/boulder/newboulder.obj");
+        // blenderModel = new Model("build/game-assets/models/blenderman/BLENDERMAN!.obj");
+        treeModel = new Model("build/game-assets/models/tree/trees.obj");
+        // treeModel = new Model("build/game-assets/models/tree-lp2/trees lo-poly.obj");
+        // cubeModel = new Model("build/game-assets/models/cube/cube.obj");
 
         // load random positions for models
         float halfSpace = space / 2;
@@ -107,11 +239,11 @@ class WorldScene : public Scene
         for (int i = 0; i < rocks; i++)
         {
             rockPositions.push_back(
-                glm::vec4((rand() % space) - halfSpace, 2.0f, (rand() % space) - halfSpace, rand() % 100));
+                glm::vec4((rand() % space) - halfSpace, 0.0f, (rand() % space) - halfSpace, rand() % 100));
         }
 
         // add floor (TEMP)
-        this->addChild(new Floor());
+        // this->addChild(new Floor());
 
         // add BOXES (TEMP)
         for (unsigned int i = 0; i < 10; i++)
@@ -128,5 +260,154 @@ class WorldScene : public Scene
         //     rock->position = cubePositions[i];
         //     this->addChild(rock);
         // }
+    }
+
+    // renders the 3D scene
+    // --------------------
+    void renderScene(float delta, Shader &shader)
+    {
+        // floor
+        Texture2D textureGrass = ResourceManager::GetTexture("grass");
+        glActiveTexture(GL_TEXTURE0);
+        textureGrass.Bind();
+
+        glm::mat4 model = glm::mat4(1.0f);
+        shader.SetMatrix4("model", model);
+        glBindVertexArray(planeVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        Texture2D textureContainer = ResourceManager::GetTexture("container-side");
+        glActiveTexture(GL_TEXTURE0);
+        textureContainer.Bind();
+
+        // cubes
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
+        model = glm::scale(model, glm::vec3(0.5f));
+        shader.SetMatrix4("model", model);
+        renderCube();
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0));
+        model = glm::scale(model, glm::vec3(0.5f));
+        shader.SetMatrix4("model", model);
+        renderCube();
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
+        model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
+        model = glm::scale(model, glm::vec3(0.25));
+        shader.SetMatrix4("model", model);
+        renderCube();
+
+        /*
+        *
+        * Trees
+        *
+        */
+        // for (unsigned int i = 0; i < trees; i++)
+        // {
+        //     glm::mat4 model;
+        //     glm::vec4 random = treePositions[i];
+
+        //     model = glm::translate(model, glm::vec3(random.x, 0.0f, random.z));
+        //     // model = glm::scale(model, glm::vec3(0.1f,));
+        //     model = glm::scale(model, glm::vec3(random.w / 100));
+
+        //     shader.SetMatrix4("model", model);
+
+        //     treeModel->draw(delta, &shader);
+        // }
+
+        /*
+        *
+        * rock
+        *
+        */
+        // for (unsigned int i = 0; i < rocks; i++)
+        // {
+        //     glm::mat4 model;
+        //     glm::vec4 random = rockPositions[i];
+
+        //     model = glm::translate(model, glm::vec3(random.x, 0.0f, random.z));
+        //     model = glm::scale(model, glm::vec3(1.0f));
+
+        //     shader.SetMatrix4("model", model);
+
+        //     rockModel->draw(delta, &shader);
+        // }
+    }
+
+    // renderCube() renders a 1x1 3D cube in NDC.
+    // -------------------------------------------------
+    unsigned int cubeVAO = 0;
+    unsigned int cubeVBO = 0;
+    void renderCube()
+    {
+        // initialize (if necessary)
+        if (cubeVAO == 0)
+        {
+            float vertices[] = {
+                // back face
+                -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+                1.0f, 1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,   // top-right
+                1.0f, -1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,  // bottom-right
+                1.0f, 1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,   // top-right
+                -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+                -1.0f, 1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,  // top-left
+                // front face
+                -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom-left
+                1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,  // bottom-right
+                1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,   // top-right
+                1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,   // top-right
+                -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,  // top-left
+                -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom-left
+                // left face
+                -1.0f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,   // top-right
+                -1.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,  // top-left
+                -1.0f, -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom-left
+                -1.0f, -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom-left
+                -1.0f, -1.0f, 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,  // bottom-right
+                -1.0f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,   // top-right
+                                                                    // right face
+                1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,     // top-left
+                1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,   // bottom-right
+                1.0f, 1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,    // top-right
+                1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,   // bottom-right
+                1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,     // top-left
+                1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,    // bottom-left
+                // bottom face
+                -1.0f, -1.0f, -1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, // top-right
+                1.0f, -1.0f, -1.0f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,  // top-left
+                1.0f, -1.0f, 1.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,   // bottom-left
+                1.0f, -1.0f, 1.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,   // bottom-left
+                -1.0f, -1.0f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,  // bottom-right
+                -1.0f, -1.0f, -1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, // top-right
+                // top face
+                -1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // top-left
+                1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,   // bottom-right
+                1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,  // top-right
+                1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,   // bottom-right
+                -1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // top-left
+                -1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f   // bottom-left
+            };
+            glGenVertexArrays(1, &cubeVAO);
+            glGenBuffers(1, &cubeVBO);
+            // fill buffer
+            glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+            // link vertex attributes
+            glBindVertexArray(cubeVAO);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
+            glEnableVertexAttribArray(1);
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
+            glEnableVertexAttribArray(2);
+            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            glBindVertexArray(0);
+        }
+        // render Cube
+        glBindVertexArray(cubeVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+        glBindVertexArray(0);
     }
 };

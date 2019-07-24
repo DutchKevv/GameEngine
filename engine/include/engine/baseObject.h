@@ -22,6 +22,8 @@ public:
 
     virtual void draw(float delta);
 
+    virtual void renderScene(float delta, Shader &shader, bool isShadowRender);
+
     virtual void destroy();
 
     /**

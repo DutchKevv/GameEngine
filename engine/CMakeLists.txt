@@ -29,36 +29,36 @@ set(ENGINE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/engine.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/engine.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderer.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderer.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/constants.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/camera.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/camera.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/context.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/context.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/shader.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/shader.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/constants.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/engine.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/engine.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/logger.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/logger.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/constants.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/text.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/text.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/model.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/mesh.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderer.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderer.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderObject.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/renderObject.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/texture.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/texture.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/resourceManager.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/resourceManager.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/spriteRenderer.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/spriteRenderer.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/model.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/model.cpp
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/mesh.h
-        ${CMAKE_CURRENT_LIST_DIR}/include/engine/mesh.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/scene.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/scene.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/shader.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/shader.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/skybox.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/skybox.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/spriteRenderer.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/spriteRenderer.h
+        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/text.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/text.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/texture.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/texture.h
+
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/objects/cube.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/objects/cube.cpp
 

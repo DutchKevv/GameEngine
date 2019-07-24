@@ -27,6 +27,15 @@ void BaseObject::draw(float delta)
     }
 }
 
+void BaseObject::renderScene(float delta, Shader &shader, bool isShadowRender)
+{
+    for (BaseObject *child : children)
+    {
+        // consoleLog("draw");
+        child->renderScene(delta, shader, isShadowRender);
+    }
+}
+
 void BaseObject::destroy()
 {
 }

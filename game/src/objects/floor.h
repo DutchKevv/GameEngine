@@ -5,15 +5,9 @@
 
 class Floor : public RenderObject {
 public:
-    Floor();
-
     void init();
 
-    void update(float delta);
-
-    void draw(float delta);
-
-    int renderScene(Shader &shader, bool isShadowRender);
+    void renderScene(float delta, Shader &shader, bool isShadowRender);
 
     void destroy();
 private:

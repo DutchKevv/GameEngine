@@ -9,22 +9,6 @@ Scene::Scene() {
 
 }
 
-// void Scene::init() {
-//     RenderObject::init();
-// }
-
-// void Scene::update() {
-//     RenderObject::update();
-// }
-
-// void Scene::draw() {
-//     RenderObject::draw();
-// }
-
-int Scene::renderScene(Shader &shader, bool isShadowRender) {
-    // RenderObject::renderScene(shader, isShadowRender);
-}
-
 /**
  *
  * @param instance

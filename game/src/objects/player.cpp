@@ -74,7 +74,8 @@ void Player::draw(float delta)
 
     position.z += speed * sinf(0.1f);
     position.x += speed * xRadius * sinf(0.1f);
-    position.y += yM;
+    position.y = 10.0f;
+    // position.y += yM;
 
     model = glm::translate(model, position);
     model = glm::scale(model, glm::vec3(0.2f));
@@ -95,7 +96,11 @@ void Player::draw(float delta)
     // glm::vec3 cPosition = glm::vec3(position.x, position.y, position.z);
     // context->camera->followObject(this);
 
-    playerModel->Draw(&shader);
+    playerModel->Draw(shader);
+}
+
+void Player::renderScene(float delta, Shader &shader, bool isShadowRender) {
+    // TextureFromFile
 }
 
 void Player::destroy(){

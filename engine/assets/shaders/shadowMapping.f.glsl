@@ -72,7 +72,7 @@ void main()
     vec3 normal = normalize(fs_in.Normal);
     vec3 lightColor = vec3(0.3);
     // ambient
-    vec3 ambient = 0.3 * color;
+    vec3 ambient = 1 * color;
     // diffuse
     vec3 lightDir = light.direction;
     float diff = max(dot(lightDir, normal), 0.0);

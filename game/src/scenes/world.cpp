@@ -4,6 +4,7 @@
 #include <engine/model.h>
 #include <engine/context.h>
 #include <engine/resourceManager.h>
+#include <engine/skybox.h>
 #include <engine/objects/cube.h>
 #include "../objects/floor.h"
 #include "../objects/player.h"
@@ -37,31 +38,38 @@ Shader shader;
 Shader simpleDepthShader;
 Shader debugDepthQuad;
 
-const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
 unsigned int depthMap;
 unsigned int depthMapFBO;
 
 // meshes
 unsigned int planeVAO;
 
+SkyBox *skybox;
+
 // lighting info
 // -------------
 glm::vec3 lightPos(-2.0f, 4.0f, -1.0f);
 
-const unsigned int space = 100;
+const unsigned int space = 30;
 const unsigned int trees = 50;
-const unsigned int rocks = 500;
+const unsigned int rocks = 100;
 
 class WorldScene : public Scene
 {
 
     void init()
     {
+
         shader = ResourceManager::LoadShader("build/game-assets/shaders/shadow_mapping.vs", "build/game-assets/shaders/shadow_mapping.fs", nullptr, "shadowMapping");
         simpleDepthShader = ResourceManager::LoadShader("build/game-assets/shaders/shadow_mapping_depth.vs", "build/game-assets/shaders/shadow_mapping_depth.fs", nullptr, "shadowDepth");
         debugDepthQuad = ResourceManager::LoadShader("build/game-assets/shaders/debug_quad.vs", "build/game-assets/shaders/debug_quad.fs", nullptr, "quadDepth");
 
         ResourceManager::LoadTexture("build/engine-assets/textures/grass.jpg", false, "grass");
+        ResourceManager::LoadTexture("build/engine-assets/textures/container.jpg", false, "container-side");
+
+        // attach camera
+        this->camera = context->camera = new Camera();
 
         // create world objects
         this->createEnvironment();
@@ -70,37 +78,14 @@ class WorldScene : public Scene
         Player *player = new Player();
         this->addChild(player);
 
-        // attach camera
-        this->camera = context->camera = new Camera();
-
         // let the camera follow the player
         this->camera->followObject(player);
 
-        // set up vertex data (and buffer(s)) and configure vertex attributes
+        // create skybox
+        skybox = new SkyBox();
+        skybox->init();
+        // this->addChild(skybox);
         // ------------------------------------------------------------------
-        float planeVertices[] = {
-            // positions            // normals         // texcoords
-            25.0f, -0.5f, 25.0f, 0.0f, 1.0f, 0.0f, 25.0f, 0.0f,
-            -25.0f, -0.5f, 25.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-            -25.0f, -0.5f, -25.0f, 0.0f, 1.0f, 0.0f, 0.0f, 25.0f,
-
-            25.0f, -0.5f, 25.0f, 0.0f, 1.0f, 0.0f, 25.0f, 0.0f,
-            -25.0f, -0.5f, -25.0f, 0.0f, 1.0f, 0.0f, 0.0f, 25.0f,
-            25.0f, -0.5f, -25.0f, 0.0f, 1.0f, 0.0f, 25.0f, 25.0f};
-        // plane VAO
-        unsigned int planeVBO;
-        glGenVertexArrays(1, &planeVAO);
-        glGenBuffers(1, &planeVBO);
-        glBindVertexArray(planeVAO);
-        glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), planeVertices, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
-        glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
-        glBindVertexArray(0);
 
         // configure depth map FBO
         // -----------------------
@@ -142,18 +127,14 @@ class WorldScene : public Scene
 
     void draw(float delta)
     {
-        Scene::draw(delta);
+        // Scene::draw(delta);
+
+        // consoleLog(this->player->position.x);
 
         // change light position over time
-        lightPos.x = sin(glfwGetTime()) * 3.0f;
-        lightPos.z = cos(glfwGetTime()) * 2.0f;
-        lightPos.y = 5.0 + cos(glfwGetTime()) * 1.0f;
-
-        // Shader shader = ResourceManager::GetShader("shadowMapping");
-        // // shader.Use();
-
-        // // shader.SetInteger("texture1", 0);
-        // // glActiveTexture(GL_TEXTURE0);
+        lightPos.x = sin(glfwGetTime()) * 5.0f;
+        lightPos.z = cos(glfwGetTime()) * 5.0f;
+        lightPos.y = 2.0 + cos(glfwGetTime()) * 1.0f;
 
         Texture2D texture = ResourceManager::GetTexture("container-side");
         Texture2D textureGrass = ResourceManager::GetTexture("grass");
@@ -178,8 +159,10 @@ class WorldScene : public Scene
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
         glClear(GL_DEPTH_BUFFER_BIT);
         glActiveTexture(GL_TEXTURE0);
+
         textureGrass.Bind();
-        renderScene(delta, simpleDepthShader);
+        renderScene(delta, simpleDepthShader, true);
+
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         // reset viewport
@@ -205,7 +188,7 @@ class WorldScene : public Scene
         texture.Bind();
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, depthMap);
-        renderScene(delta, shader);
+        renderScene(delta, shader, false);
 
         // render Depth map to quad for visual debugging
         // ---------------------------------------------
@@ -214,6 +197,76 @@ class WorldScene : public Scene
         debugDepthQuad.SetFloat("far_plane", far_plane);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, depthMap);
+
+        skybox->draw(delta);
+    }
+
+    // renders the 3D scene
+    // --------------------
+    void renderScene(float delta, Shader &shader, bool isShadowRender = false)
+    {
+        Scene::renderScene(delta, shader, isShadowRender);
+        
+        // Texture2D textureContainer = ResourceManager::GetTexture("container-side");
+        // glActiveTexture(GL_TEXTURE0);
+        // textureContainer.Bind();
+
+        // // cubes
+        // model = glm::mat4(1.0f);
+        // model = glm::translate(model, glm::vec3(-1.0f, 1.5f, 1.0));
+        // model = glm::scale(model, glm::vec3(0.5f));
+        // shader.SetMatrix4("model", model);
+        // renderCube();
+        // model = glm::mat4(1.0f);
+        // model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0));
+        // model = glm::scale(model, glm::vec3(0.5f));
+        // shader.SetMatrix4("model", model);
+        // renderCube();
+        // model = glm::mat4(1.0f);
+        // model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
+        // model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
+        // model = glm::scale(model, glm::vec3(0.25));
+        // shader.SetMatrix4("model", model);
+        // renderCube();
+
+        /*
+        *
+        * Trees
+        *
+        */
+
+        for (unsigned int i = 0; i < trees; i++)
+        {
+            glm::mat4 model;
+            glm::vec4 random = treePositions[i];
+
+            model = glm::translate(model, glm::vec3(random.x, -1.0f, random.z));
+            // model = glm::scale(model, glm::vec3(0.1f));
+            // model = glm::scale(model, glm::vec3(random.w / 100));
+
+            shader.SetMatrix4("model", model);
+
+            treeModel->Draw(shader);
+        }
+
+        // /*
+        // *
+        // * rock
+        // *
+        // */
+        for (unsigned int i = 0; i < rocks; i++)
+        {
+            glm::mat4 model;
+            glm::vec4 random = rockPositions[i];
+
+            model = glm::translate(model, glm::vec3(random.x, -0.6f, random.z));
+            model = glm::rotate(model, random.z, glm::vec3(random.x, random.y, random.z));
+            model = glm::scale(model, glm::vec3(0.1f));
+
+            shader.SetMatrix4("model", model);
+
+            boulderModel->draw(delta, shader);
+        }
     }
 
     void createEnvironment()
@@ -222,10 +275,12 @@ class WorldScene : public Scene
         // -----------------------
         rockModel = new Model("build/game-assets/models/rock/rock1.obj");
         // rockModel = new Model("build/game-assets/models/rock1/Rock1.obj");
-        // boulderModel = new Model("build/game-assets/models/boulder/newboulder.obj");
+        boulderModel = new Model("build/game-assets/models/boulder/newboulder.obj");
         // blenderModel = new Model("build/game-assets/models/blenderman/BLENDERMAN!.obj");
         treeModel = new Model("build/game-assets/models/tree/trees.obj");
-        // treeModel = new Model("build/game-assets/models/tree-lp2/trees lo-poly.obj");
+        // treeModel = new Model("build/game-assets/models/tree2/Hazelnut.obj");
+        // treeModel = new Model("build/game-assets/models/tree-lp2/trees-lo-poly.obj");
+        // treeModel = new Model("build/game-assets/models/tree-low-poly/lowtree.obj");
         // cubeModel = new Model("build/game-assets/models/cube/cube.obj");
 
         // load random positions for models
@@ -243,15 +298,15 @@ class WorldScene : public Scene
         }
 
         // add floor (TEMP)
-        // this->addChild(new Floor());
+        this->addChild(new Floor());
 
         // add BOXES (TEMP)
-        for (unsigned int i = 0; i < 10; i++)
-        {
-            Cube *cube = new Cube();
-            cube->position = cubePositions[i];
-            this->addChild(cube);
-        }
+        // for (unsigned int i = 0; i < 10; i++)
+        // {
+        //     Cube *cube = new Cube();
+        //     cube->position = cubePositions[i];
+        //     this->addChild(cube);
+        // }
 
         // add rocks (TEMP)
         // for (unsigned int i = 0; i < 10; i++)
@@ -259,80 +314,6 @@ class WorldScene : public Scene
         //     Model *rock = new Model("build/game-assets/models/plane/FREOBJ.obj");
         //     rock->position = cubePositions[i];
         //     this->addChild(rock);
-        // }
-    }
-
-    // renders the 3D scene
-    // --------------------
-    void renderScene(float delta, Shader &shader)
-    {
-        // floor
-        Texture2D textureGrass = ResourceManager::GetTexture("grass");
-        glActiveTexture(GL_TEXTURE0);
-        textureGrass.Bind();
-
-        glm::mat4 model = glm::mat4(1.0f);
-        shader.SetMatrix4("model", model);
-        glBindVertexArray(planeVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-
-        Texture2D textureContainer = ResourceManager::GetTexture("container-side");
-        glActiveTexture(GL_TEXTURE0);
-        textureContainer.Bind();
-
-        // cubes
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(0.0f, 1.5f, 0.0));
-        model = glm::scale(model, glm::vec3(0.5f));
-        shader.SetMatrix4("model", model);
-        renderCube();
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(2.0f, 0.0f, 1.0));
-        model = glm::scale(model, glm::vec3(0.5f));
-        shader.SetMatrix4("model", model);
-        renderCube();
-        model = glm::mat4(1.0f);
-        model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
-        model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
-        model = glm::scale(model, glm::vec3(0.25));
-        shader.SetMatrix4("model", model);
-        renderCube();
-
-        /*
-        *
-        * Trees
-        *
-        */
-        // for (unsigned int i = 0; i < trees; i++)
-        // {
-        //     glm::mat4 model;
-        //     glm::vec4 random = treePositions[i];
-
-        //     model = glm::translate(model, glm::vec3(random.x, 0.0f, random.z));
-        //     // model = glm::scale(model, glm::vec3(0.1f,));
-        //     model = glm::scale(model, glm::vec3(random.w / 100));
-
-        //     shader.SetMatrix4("model", model);
-
-        //     treeModel->draw(delta, &shader);
-        // }
-
-        /*
-        *
-        * rock
-        *
-        */
-        // for (unsigned int i = 0; i < rocks; i++)
-        // {
-        //     glm::mat4 model;
-        //     glm::vec4 random = rockPositions[i];
-
-        //     model = glm::translate(model, glm::vec3(random.x, 0.0f, random.z));
-        //     model = glm::scale(model, glm::vec3(1.0f));
-
-        //     shader.SetMatrix4("model", model);
-
-        //     rockModel->draw(delta, &shader);
         // }
     }
 

@@ -38,7 +38,7 @@ public:
 
     int processKeyboard(Camera_Movement direction, float velocity);
 
-    int renderScene(Shader &shader, bool isShadowRender);
+    void renderScene(float delta, Shader &shader, bool isShadowRender);
 
     void destroy();
 

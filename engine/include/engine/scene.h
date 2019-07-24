@@ -13,7 +13,7 @@ public:
 
     Scene();
 
-    int renderScene(Shader &shader, bool isShadowRender);
+    // void renderScene(float delta, Shader &shader, bool isShadowRender);
 
     int renderShadowScene(Shader &shader);
 

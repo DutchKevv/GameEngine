@@ -18,3 +18,4 @@ void main(){
 
     v_color = color; // gl_Position * 0.5 + 0.5;
 }
+

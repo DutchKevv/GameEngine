@@ -1,3 +1,5 @@
+#version 310 es
+
 out vec4 FragColor;
 
 in VS_OUT {
@@ -31,7 +33,8 @@ float ShadowCalculation(vec4 fragPosLightSpace)
     // float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
     // PCF
     float shadow = 0.0;
-    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    ivec2 aTextureSize = textureSize(shadowMap, 0);
+    vec2 texelSize = vec2(1, 1) / vec2(aTextureSize.x, aTextureSize.y);
     for(int x = -1; x <= 1; ++x)
     {
         for(int y = -1; y <= 1; ++y)

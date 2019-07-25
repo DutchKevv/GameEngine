@@ -43,14 +43,15 @@ void Floor::init()
 
 void Floor::renderScene(float delta, Shader &shader, bool isShadowRender)
 {
-    Texture2D textureGrass = ResourceManager::GetTexture("grass");
     glActiveTexture(GL_TEXTURE0);
+    Texture2D textureGrass = ResourceManager::GetTexture("grass");
     textureGrass.Bind();
 
     glm::mat4 model = glm::mat4(1.0f);
     shader.SetMatrix4("model", model);
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
 }
 
 void Floor::destroy(){

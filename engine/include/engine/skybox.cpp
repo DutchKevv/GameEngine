@@ -86,7 +86,7 @@ void SkyBox::init()
 {
 
     // shader
-    Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/skybox.v.glsl", "build/engine-assets/shaders/skybox.f.glsl", NULL, "skybox");
+    Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/skybox.vert", "build/engine-assets/shaders/skybox.frag", NULL, "skybox");
     ResourceManager::LoadTexture("build/engine-assets/textures/container.jpg", false, "container-side");
 
     glGenVertexArrays(1, &VAO);

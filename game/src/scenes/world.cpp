@@ -42,9 +42,6 @@ const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
 unsigned int depthMap;
 unsigned int depthMapFBO;
 
-// meshes
-unsigned int planeVAO;
-
 SkyBox *skybox;
 
 // lighting info
@@ -79,7 +76,7 @@ class WorldScene : public Scene
         this->addChild(player);
 
         // let the camera follow the player
-        this->camera->followObject(player);
+        // this->camera->followObject(player);
 
         // create skybox
         skybox = new SkyBox();
@@ -127,6 +124,8 @@ class WorldScene : public Scene
 
     void draw(float delta)
     {
+        // return;
+        
         // Scene::draw(delta);
 
         // consoleLog(this->player->position.x);
@@ -206,42 +205,15 @@ class WorldScene : public Scene
     void renderScene(float delta, Shader &shader, bool isShadowRender = false)
     {
         Scene::renderScene(delta, shader, isShadowRender);
-        
-        // Texture2D textureContainer = ResourceManager::GetTexture("container-side");
-        // glActiveTexture(GL_TEXTURE0);
-        // textureContainer.Bind();
 
-        // // cubes
-        // model = glm::mat4(1.0f);
-        // model = glm::translate(model, glm::vec3(-1.0f, 1.5f, 1.0));
-        // model = glm::scale(model, glm::vec3(0.5f));
-        // shader.SetMatrix4("model", model);
-        // renderCube();
-        // model = glm::mat4(1.0f);
-        // model = glm::translate(model, glm::vec3(2.0f, 0.0f, 0.0));
-        // model = glm::scale(model, glm::vec3(0.5f));
-        // shader.SetMatrix4("model", model);
-        // renderCube();
-        // model = glm::mat4(1.0f);
-        // model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
-        // model = glm::rotate(model, glm::radians(60.0f), glm::normalize(glm::vec3(1.0, 0.0, 1.0)));
-        // model = glm::scale(model, glm::vec3(0.25));
-        // shader.SetMatrix4("model", model);
-        // renderCube();
-
-        /*
-        *
-        * Trees
-        *
-        */
-
+        // trees
         for (unsigned int i = 0; i < trees; i++)
         {
             glm::mat4 model;
             glm::vec4 random = treePositions[i];
 
-            model = glm::translate(model, glm::vec3(random.x, -1.0f, random.z));
-            // model = glm::scale(model, glm::vec3(0.1f));
+            model = glm::translate(model, glm::vec3(random.x, -0.2f, random.z));
+            model = glm::scale(model, glm::vec3(0.2f));
             // model = glm::scale(model, glm::vec3(random.w / 100));
 
             shader.SetMatrix4("model", model);
@@ -249,11 +221,7 @@ class WorldScene : public Scene
             treeModel->Draw(shader);
         }
 
-        // /*
-        // *
-        // * rock
-        // *
-        // */
+        // rocks
         for (unsigned int i = 0; i < rocks; i++)
         {
             glm::mat4 model;
@@ -277,7 +245,9 @@ class WorldScene : public Scene
         // rockModel = new Model("build/game-assets/models/rock1/Rock1.obj");
         boulderModel = new Model("build/game-assets/models/boulder/newboulder.obj");
         // blenderModel = new Model("build/game-assets/models/blenderman/BLENDERMAN!.obj");
-        treeModel = new Model("build/game-assets/models/tree/trees.obj");
+        treeModel = new Model("build/game-assets/models/tree/cube.obj");
+        // treeModel = new Model("build/game-assets/models/tree2/Tree1.obj");
+        // treeModel = new Model("build/game-assets/models/tree/trees.obj");
         // treeModel = new Model("build/game-assets/models/tree2/Hazelnut.obj");
         // treeModel = new Model("build/game-assets/models/tree-lp2/trees-lo-poly.obj");
         // treeModel = new Model("build/game-assets/models/tree-low-poly/lowtree.obj");
@@ -299,96 +269,5 @@ class WorldScene : public Scene
 
         // add floor (TEMP)
         this->addChild(new Floor());
-
-        // add BOXES (TEMP)
-        // for (unsigned int i = 0; i < 10; i++)
-        // {
-        //     Cube *cube = new Cube();
-        //     cube->position = cubePositions[i];
-        //     this->addChild(cube);
-        // }
-
-        // add rocks (TEMP)
-        // for (unsigned int i = 0; i < 10; i++)
-        // {
-        //     Model *rock = new Model("build/game-assets/models/plane/FREOBJ.obj");
-        //     rock->position = cubePositions[i];
-        //     this->addChild(rock);
-        // }
-    }
-
-    // renderCube() renders a 1x1 3D cube in NDC.
-    // -------------------------------------------------
-    unsigned int cubeVAO = 0;
-    unsigned int cubeVBO = 0;
-    void renderCube()
-    {
-        // initialize (if necessary)
-        if (cubeVAO == 0)
-        {
-            float vertices[] = {
-                // back face
-                -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
-                1.0f, 1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,   // top-right
-                1.0f, -1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,  // bottom-right
-                1.0f, 1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f,   // top-right
-                -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
-                -1.0f, 1.0f, -1.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f,  // top-left
-                // front face
-                -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom-left
-                1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,  // bottom-right
-                1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,   // top-right
-                1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,   // top-right
-                -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,  // top-left
-                -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom-left
-                // left face
-                -1.0f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,   // top-right
-                -1.0f, 1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,  // top-left
-                -1.0f, -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom-left
-                -1.0f, -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom-left
-                -1.0f, -1.0f, 1.0f, -1.0f, 0.0f, 0.0f, 0.0f, 0.0f,  // bottom-right
-                -1.0f, 1.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 0.0f,   // top-right
-                                                                    // right face
-                1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,     // top-left
-                1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,   // bottom-right
-                1.0f, 1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,    // top-right
-                1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f,   // bottom-right
-                1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,     // top-left
-                1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,    // bottom-left
-                // bottom face
-                -1.0f, -1.0f, -1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, // top-right
-                1.0f, -1.0f, -1.0f, 0.0f, -1.0f, 0.0f, 1.0f, 1.0f,  // top-left
-                1.0f, -1.0f, 1.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,   // bottom-left
-                1.0f, -1.0f, 1.0f, 0.0f, -1.0f, 0.0f, 1.0f, 0.0f,   // bottom-left
-                -1.0f, -1.0f, 1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f,  // bottom-right
-                -1.0f, -1.0f, -1.0f, 0.0f, -1.0f, 0.0f, 0.0f, 1.0f, // top-right
-                // top face
-                -1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // top-left
-                1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,   // bottom-right
-                1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,  // top-right
-                1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,   // bottom-right
-                -1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // top-left
-                -1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f   // bottom-left
-            };
-            glGenVertexArrays(1, &cubeVAO);
-            glGenBuffers(1, &cubeVBO);
-            // fill buffer
-            glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-            // link vertex attributes
-            glBindVertexArray(cubeVAO);
-            glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
-            glEnableVertexAttribArray(1);
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
-            glEnableVertexAttribArray(2);
-            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
-            glBindVertexArray(0);
-        }
-        // render Cube
-        glBindVertexArray(cubeVAO);
-        glDrawArrays(GL_TRIANGLES, 0, 36);
-        glBindVertexArray(0);
     }
 };

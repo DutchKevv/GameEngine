@@ -110,7 +110,7 @@ void Shader::checkCompileErrors(GLuint object, std::string type, const GLchar *n
             consoleLog(name);
             consoleLog(infoLog);
 
-            std::cout << "| ERROR::SHADER: Compile-time error: Type: " << type << "\n"
+            std::cout << "| ERROR::SHADER: Compile-time error: Type: " << type << " Name: " << name << "\n"
                       << infoLog << "\n -- --------------------------------------------------- -- "
                       << name << "\n -- --------------------------------------------------- -- "
                       << std::endl;
@@ -125,7 +125,7 @@ void Shader::checkCompileErrors(GLuint object, std::string type, const GLchar *n
             consoleLog(name);
             consoleLog(infoLog);
 
-            std::cout << "| ERROR::Shader: Link-time error: Type: " << type << "\n"
+            std::cout << "| ERROR::Shader: Link-time error: Type: " << type << " Name: " << name << "\n"
                       << infoLog << "\n -- --------------------------------------------------- -- "
                       << name << "\n -- --------------------------------------------------- -- "
                       << std::endl;

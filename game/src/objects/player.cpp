@@ -19,8 +19,6 @@ void Player::init()
 {
     RenderObject::init();
 
-    Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/simple_3d.vs", "build/engine-assets/shaders/simple_3d.fs", NULL, "simple3D");
-
     playerModel = new Model("build/game-assets/models/plane/FREOBJ.obj");
 
     // shader.SetInteger("texture_diffuse", 0);
@@ -67,14 +65,16 @@ void Player::update(float delta)
 
 void Player::draw(float delta)
 {
-    Shader shader = ResourceManager::GetShader("simple3D");
-    shader.Use();
 
+}
+
+void Player::renderScene(float delta, Shader &shader, bool isShadowRender)
+{
     glm::mat4 model;
 
     position.z += speed * sinf(0.1f);
     position.x += speed * xRadius * sinf(0.1f);
-    position.y = 10.0f;
+    position.y = 0.0f;
     // position.y += yM;
 
     model = glm::translate(model, position);
@@ -94,13 +94,9 @@ void Player::draw(float delta)
     shader.SetMatrix4("model", model);
 
     // glm::vec3 cPosition = glm::vec3(position.x, position.y, position.z);
-    // context->camera->followObject(this);
+    context->camera->followObject(this);
 
     playerModel->Draw(shader);
-}
-
-void Player::renderScene(float delta, Shader &shader, bool isShadowRender) {
-    // TextureFromFile
 }
 
 void Player::destroy(){

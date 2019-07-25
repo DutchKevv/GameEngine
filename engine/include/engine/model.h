@@ -21,6 +21,7 @@
 #include "shader.h"
 #include "renderObject.h"
 #include "resourceManager.h"
+#include "logger.h"
 
 using namespace Assimp;
 using namespace std;
@@ -52,27 +53,6 @@ public:
     Model(string const &path, bool gamma = false) : gammaCorrection(gamma)
     {
         loadModel(path);
-    }
-
-    Material loadMaterial(aiMaterial *mat)
-    {
-        Material material;
-        aiColor3D color(0.f, 0.f, 0.f);
-        float shininess;
-
-        mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
-        material.Diffuse = glm::vec3(color.r, color.b, color.g);
-
-        mat->Get(AI_MATKEY_COLOR_AMBIENT, color);
-        material.Ambient = glm::vec3(color.r, color.b, color.g);
-
-        mat->Get(AI_MATKEY_COLOR_SPECULAR, color);
-        material.Specular = glm::vec3(color.r, color.b, color.g);
-
-        mat->Get(AI_MATKEY_SHININESS, shininess);
-        material.Shininess = shininess;
-
-        return material;
     }
 
     void init()
@@ -212,6 +192,8 @@ private:
         // specular: texture_specularN
         // normal: texture_normalN
 
+        Material material2 = loadMaterial(material);
+
         // 1. diffuse maps
         vector<Texture> diffuseMaps = loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
         textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
@@ -224,10 +206,34 @@ private:
         // 4. height maps
         std::vector<Texture> heightMaps = loadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
         textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
-        
 
         // return a mesh object created from the extracted mesh data
         return Mesh(vertices, indices, textures);
+    }
+
+    Material loadMaterial(aiMaterial *mat)
+    {
+        Material material;
+        aiColor3D color(0.f, 0.f, 0.f);
+        float shininess;
+
+        mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+        material.Diffuse = glm::vec3(color.r, color.b, color.g);
+
+        mat->Get(AI_MATKEY_COLOR_AMBIENT, color);
+        material.Ambient = glm::vec3(color.r, color.b, color.g);
+
+        mat->Get(AI_MATKEY_COLOR_SPECULAR, color);
+        material.Specular = glm::vec3(color.r, color.b, color.g);
+
+        mat->Get(AI_MATKEY_SHININESS, shininess);
+        material.Shininess = shininess;
+
+        consoleLog(material.Diffuse.x);
+        consoleLog(material.Diffuse.y);
+        consoleLog(material.Diffuse.z);
+
+        return material;
     }
 
     // checks all material textures of a given type and loads the textures if they're not loaded yet.

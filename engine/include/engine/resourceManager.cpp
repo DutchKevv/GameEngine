@@ -1,16 +1,19 @@
 #define STB_IMAGE_IMPLEMENTATION
 
-#include <STB/stb_image.h>
-
-#include "resourceManager.h"
+#include <string>
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <glad/glad.h>
+#include <STB/stb_image.h>
+
+#include "resourceManager.h"
 #include "logger.h"
 
 // Instantiate static variables
 std::map<std::string, Texture2D> ResourceManager::Textures;
 std::map<std::string, Shader> ResourceManager::Shaders;
+
 
 Shader ResourceManager::LoadShader(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile, std::string name)
 {
@@ -118,20 +121,18 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
         consoleLog("ERROR::SHADER: Failed to read shader files");
     }
 
-#ifdef __EMSCRIPTEN__
-    vertexCode = "#version 300 es \n" + vertexCode;
-    fragmentCode = "#version 300 es \n precision mediump float;\n" + fragmentCode;
 
-    //#ifdef GL_FRAGMENT_PRECISION_HIGH
-    //    fragmentCode += "precision highp float;\n";
-    //#else
-    //    fragmentCode += "precision mediump float;\n";
-    //#endif
+// #ifdef GL_FRAGMENT_PRECISION_HIGH
+    std::string precision = "precision highp float;\n\n";
+// #else
+    // std::string precision = "precision mediump float;\n\n";
+// #endif
 
-#else
-    vertexCode = "#version 330 core\n" + vertexCode;
-    fragmentCode = "#version 330 core\n" + fragmentCode;
-#endif
+    // vertexCode.insert(15, "#version 300 es \n" + precision);
+    fragmentCode.insert(17, precision);
+
+    // vertexCode = "#version 300 es \n" + vertexCode;
+
 
     const char *vShaderCode = vertexCode.c_str();
     const char *fShaderCode = fragmentCode.c_str();
@@ -148,7 +149,7 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
 // TODO - revert parameter (default false)
 Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alpha, GLuint WRAP_S, GLuint WRAP_T)
 {
-     // enable reverting
+    // enable reverting
     stbi_set_flip_vertically_on_load(true);
 
     // Create Texture object

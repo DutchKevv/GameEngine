@@ -59,6 +59,8 @@ set(ENGINE_SOURCE_FILES
 
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/objects/cube.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/objects/cube.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/objects/button/button.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/objects/button/button.cpp
 
         )
 

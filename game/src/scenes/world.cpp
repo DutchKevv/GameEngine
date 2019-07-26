@@ -35,9 +35,9 @@ Model *boulderModel;
 Model *treeModel;
 Model *cubeModel;
 
-Shader shader;
-Shader simpleDepthShader;
-Shader debugDepthQuad;
+static Shader shader;
+static Shader simpleDepthShader;
+static Shader debugDepthQuad;
 
 const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
 unsigned int depthMap;
@@ -59,11 +59,12 @@ class WorldScene : public Scene
     void init()
     {
 
+        this->isEnabled = true;
+
         shader = ResourceManager::LoadShader("game-assets/shaders/shadow_mapping.vs", "game-assets/shaders/shadow_mapping.fs", nullptr, "shadowMapping");
-        
         simpleDepthShader = ResourceManager::LoadShader("game-assets/shaders/shadow_mapping_depth.vs", "game-assets/shaders/shadow_mapping_depth.fs", nullptr, "shadowDepth");
         debugDepthQuad = ResourceManager::LoadShader("game-assets/shaders/debug_quad.vs", "game-assets/shaders/debug_quad.fs", nullptr, "quadDepth");
-        // return;
+
         ResourceManager::LoadTexture("engine-assets/textures/grass.jpg", false, "grass");
         ResourceManager::LoadTexture("engine-assets/textures/container.jpg", false, "container-side");
 
@@ -74,7 +75,7 @@ class WorldScene : public Scene
         this->createEnvironment();
 
         // attach player
-        Player *player = new Player();
+        player = new Player();
         this->addChild(player);
 
         // let the camera follow the player
@@ -122,20 +123,32 @@ class WorldScene : public Scene
     void update(float delta)
     {
         Scene::update(delta);
+
+        if (glfwGetKey(context->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        {
+            // context->renderer->destroy();
+            this->isEnabled = false;
+
+            context->engine->renderer->getChildByName("menu")->isEnabled = true;
+        }
     }
 
     void draw(float delta)
     {
         // return;
-        
+
         // Scene::draw(delta);
 
         // consoleLog(this->player->position.x);
+
+        // enable 3D
+        glEnable(GL_DEPTH_TEST);
 
         // change light position over time
         lightPos.x = sin(glfwGetTime()) * 5.0f;
         lightPos.z = cos(glfwGetTime()) * 5.0f;
         lightPos.y = 2.0 + cos(glfwGetTime()) * 1.0f;
+        lightPos = this->player->position;
 
         Texture2D texture = ResourceManager::GetTexture("container-side");
         Texture2D textureGrass = ResourceManager::GetTexture("grass");
@@ -148,9 +161,9 @@ class WorldScene : public Scene
         glm::mat4 lightProjection, lightView;
         glm::mat4 lightSpaceMatrix;
         float near_plane = 1.0f, far_plane = 7.5f;
-        //lightProjection = glm::perspective(glm::radians(45.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
-        lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-        lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
+        lightProjection = glm::perspective(glm::radians(90.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
+        // lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+        lightView = glm::lookAt(lightPos, glm::vec3(cos(glfwGetTime())), glm::vec3(player->position.x, 1.0, player->position.z));
         lightSpaceMatrix = lightProjection * lightView;
         // render scene from light's point of view
         simpleDepthShader.Use();
@@ -247,12 +260,12 @@ class WorldScene : public Scene
         // rockModel = new Model("game-assets/models/rock1/Rock1.obj");
         boulderModel = new Model("game-assets/models/boulder/newboulder.obj");
         // blenderModel = new Model("game-assets/models/blenderman/BLENDERMAN!.obj");
-        treeModel = new Model("game-assets/models/tree/cube.obj");
+        // treeModel = new Model("game-assets/models/tree/cube.obj");
         // treeModel = new Model("game-assets/models/tree2/Tree1.obj");
         // treeModel = new Model("game-assets/models/tree/trees.obj");
         // treeModel = new Model("game-assets/models/tree2/Hazelnut.obj");
         // treeModel = new Model("game-assets/models/tree-lp2/trees-lo-poly.obj");
-        // treeModel = new Model("game-assets/models/tree-low-poly/lowtree.obj");
+        treeModel = new Model("game-assets/models/tree-low-poly/lowtree.obj");
         // cubeModel = new Model("game-assets/models/cube/cube.obj");
 
         // load random positions for models

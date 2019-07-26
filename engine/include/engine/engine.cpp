@@ -15,6 +15,9 @@ void EMRenderLoopCallback(void* arg)
 
 Engine::Engine(char *argv[])
 {
+    // set reference to instance
+    context->engine = this;
+
     // set working directory
     std::string binPath = argv[0];
     context->paths->cwd = binPath.substr(0, binPath.find("Game", 0));

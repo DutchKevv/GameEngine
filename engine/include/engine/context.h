@@ -2,6 +2,7 @@
 
 #include "./opengl_headers.h"
 
+#include "engine.h"
 #include "constants.h"
 #include "camera.h"
 #include "renderer.h"
@@ -38,6 +39,11 @@ struct Context
 
     Context();
 
+    Engine *engine;
+    Renderer *renderer;
+    GLFWwindow *window;
+    Camera *camera;
+
     Paths *paths = new Paths();
 
     int type;
@@ -58,10 +64,6 @@ struct Context
     float mouseLastX;
     float mouseLastY;
     bool firstMouse;
-
-    GLFWwindow *window;
-    Renderer *renderer;
-    Camera *camera;
 };
 
 // extern CursorBehavior *CursorBehavior;

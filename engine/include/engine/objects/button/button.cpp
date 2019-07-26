@@ -1,136 +1,79 @@
 #include "button.h"
 
-#include "../opengl_headers.h"
+#include "../../opengl_headers.h"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "../shader.h"
-#include "../texture.h"
-#include "../resourceManager.h"
-#include "../context.h"
-#include "../logger.h"
+#include "../../shader.h"
+#include "../../texture.h"
+#include "../../resourceManager.h"
+#include "../../context.h"
+#include "../../logger.h"
 
 using namespace glm;
 
+static Shader shader;
+static Shader simpleDepthShader;
+static Shader debugDepthQuad;
+static unsigned int VBO, VAO, EBO;
+
 static float vertices[] = {
-    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-    0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-    0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-    0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-    -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+    // positions            // normals         // texcoords
+    0.2f, -0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.5f, 0.0f,
+    -0.2f, -0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+    -0.2f, -0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.5f,
 
-    -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-    0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-    -0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-    -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+    0.2f, -0.0f, 0.5f, 0.0f, 1.0f, 0.0f, 0.5f, 0.0f,
+    -0.2f, -0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.5f,
+    0.2f, -0.0f, -0.5f, 0.0f, 1.0f, 0.0f, 0.5f, 0.5f
+    };
 
-    -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-    -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-
-    0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-    0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-    0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-    0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-    0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-    0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-
-    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-    0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
-    0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-    0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-    -0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-
-    -0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-    0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-    0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-    0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-    -0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-    -0.5f, 0.5f, -0.5f, 0.0f, 1.0f};
-
-static GLuint VBO, VAO, EBO;
-
-Button::Cube()
+Button::Button()
 {
     RenderObject();
 }
 
 void Button::init()
 {
-    RenderObject::init();
-
-    // shader
-    Shader shader = ResourceManager::LoadShader("engine-assets/shaders/simple_3d.vs", "engine-assets/shaders/simple_3d.fs", NULL, "simple3D");
-    ResourceManager::LoadTexture("engine-assets/textures/container.jpg", false, "container-side");
-
-    // set texture index
-    shader.Use();
-    shader.SetInteger("texture_diffuse", 0);
+    ResourceManager::LoadTexture("engine-assets/textures/grass.jpg", false, "grass");
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
-
     glBindVertexArray(VAO);
-
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
     glEnableVertexAttribArray(0);
-    
-    // texture coord attribute
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)(3 * sizeof(float)));
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(3 * sizeof(float)));
     glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
+    glBindVertexArray(0);
 }
 
 void Button::update(float delta)
 {
 }
 
-void Button::draw(float delta)
+void Button::renderScene(float delta, Shader &shader, bool isShadowRender)
 {
-    float timeSin = (sin(glfwGetTime()) / 2.0f) + 0.5f;
-
-    Shader shader = ResourceManager::GetShader("simple3D");
-    Texture2D texture = ResourceManager::GetTexture("container-side");
-
-    shader.Use();
-
-    mat4 model = mat4(1.0f);
-    mat4 view = context->camera->GetViewMatrix();
-    mat4 projection = perspective(radians(context->camera->Zoom), (float)context->windowW / context->windowH, 0.1f, 100.0f);
-
+    glm::mat4 projection = glm::perspective(glm::radians(context->camera->Zoom), (float)context->windowW / (float)context->windowH, 0.1f, 100.0f);
+    glm::mat4 view = context->camera->GetViewMatrix();
     shader.SetMatrix4("projection", projection);
     shader.SetMatrix4("view", view);
 
-    // update texture mix
-    // int textureMixLocation = shader.getUniformPos("textureMix");
-    // glUniform1f(textureMixLocation, timeSin);
+    glActiveTexture(GL_TEXTURE0);
+    Texture2D textureGrass = ResourceManager::GetTexture("grass");
+    textureGrass.Bind();
 
-    glActiveTexture(GL_TEXTURE0); // activate the texture unit first before binding texture
-    texture.Bind();
-
-    glBindVertexArray(VAO);
-
-    // consoleLog(this->position.x);
-
-    // model = translate(model, vec3(0.0f, 1.0f, 0.0f));
-    model = translate(model, this->position);
-    model = rotate(model, (float)glfwGetTime() * radians(50.0f), vec3(1.0f, 0.3f, 0.5f));
+    glm::mat4 model = glm::mat4(1.0f);
+    // model = glm::rotate(model, 2.1f, glm::vec3(1.0f, 1, 1.0f));
     shader.SetMatrix4("model", model);
-
-    glDrawArrays(GL_TRIANGLES, 0, 36);
-};
+    glBindVertexArray(VAO);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+    glBindVertexArray(0);
+}
 
 void Button::destroy(){
 

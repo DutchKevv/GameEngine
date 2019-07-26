@@ -24,10 +24,7 @@ using namespace std;
  */
 void _keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-    if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-    {
-        context->renderer->destroy();
-    }
+  
 }
 
 void _mouseCallback(GLFWwindow *window, double xpos, double ypos)
@@ -195,9 +192,6 @@ void Renderer::createWindow()
 
     // on keyboard input
     glfwSetKeyCallback(context->window, _keyCallback);
-
-    // enable 3D
-    glEnable(GL_DEPTH_TEST);
 
     // this->resizeWindow(context->windowW, context->windowH);
 };

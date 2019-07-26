@@ -18,12 +18,12 @@ int main(int argc, char* argv[])
 
     // add main menu
     MenuScene *menuScene = new MenuScene();
-    game->renderer->addChild(menuScene);
+    game->renderer->addChild(menuScene, "menu");
 
     // add world
     // TODO - load async (after user presses 'start' in game)
     WorldScene *worldScene = new WorldScene();
-    game->renderer->addChild(worldScene);
+    game->renderer->addChild(worldScene, "world");
 
     // start main loop
     game->start();

@@ -13,8 +13,10 @@ void BaseObject::update(float delta)
 {
     for (BaseObject *child : children)
     {
-        // consoleLog("update");
-        child->update(delta);
+        if (child->isEnabled)
+        {
+            child->update(delta);
+        }
     }
 }
 
@@ -22,8 +24,10 @@ void BaseObject::draw(float delta)
 {
     for (BaseObject *child : children)
     {
-        // consoleLog("draw");
-        child->draw(delta);
+        if (child->isEnabled)
+        {
+            child->draw(delta);
+        }
     }
 }
 
@@ -31,7 +35,8 @@ void BaseObject::renderScene(float delta, Shader &shader, bool isShadowRender)
 {
     for (BaseObject *child : children)
     {
-        // consoleLog("draw");
+        shader.Use();
+
         child->renderScene(delta, shader, isShadowRender);
     }
 }

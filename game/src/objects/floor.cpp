@@ -9,19 +9,15 @@ using namespace glm;
 
 static unsigned int VBO, VAO, EBO;
 
-static Shader shader;
-static Shader simpleDepthShader;
-static Shader debugDepthQuad;
-
-float vertices[] = {
+static float vertices[] = {
     // positions            // normals         // texcoords
-    250.0f, -0.5f, 250.0f, 0.0f, 1.0f, 0.0f, 250.0f, 0.0f,
-    -250.0f, -0.5f, 250.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
-    -250.0f, -0.5f, -250.0f, 0.0f, 1.0f, 0.0f, 0.0f, 250.0f,
+    250.0f, -0.0f, 250.0f, 0.0f, 1.0f, 0.0f, 250.0f, 0.0f,
+    -250.0f, -0.0f, 250.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f,
+    -250.0f, -0.0f, -250.0f, 0.0f, 1.0f, 0.0f, 0.0f, 250.0f,
 
-    250.0f, -0.5f, 250.0f, 0.0f, 1.0f, 0.0f, 250.0f, 0.0f,
-    -250.0f, -0.5f, -250.0f, 0.0f, 1.0f, 0.0f, 0.0f, 250.0f,
-    250.0f, -0.5f, -250.0f, 0.0f, 1.0f, 0.0f, 250.0f, 250.0f};
+    250.0f, -0.0f, 250.0f, 0.0f, 1.0f, 0.0f, 250.0f, 0.0f,
+    -250.0f, -0.0f, -250.0f, 0.0f, 1.0f, 0.0f, 0.0f, 250.0f,
+    250.0f, -0.0f, -250.0f, 0.0f, 1.0f, 0.0f, 250.0f, 250.0f};
 
 void Floor::init()
 {

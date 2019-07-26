@@ -65,17 +65,19 @@ void Player::update(float delta)
 
 void Player::draw(float delta)
 {
-
 }
 
 void Player::renderScene(float delta, Shader &shader, bool isShadowRender)
 {
     glm::mat4 model;
 
-    position.z += speed * sinf(0.1f);
-    position.x += speed * xRadius * sinf(0.1f);
-    position.y = 0.0f;
-    // position.y += yM;
+
+    consoleLog(yM);
+
+    position.z += speed * cos(0.1f);
+    position.x += speed * sin(xRadius);
+    // position.y = 0.2f;
+    position.y += yM;
 
     model = glm::translate(model, position);
     model = glm::scale(model, glm::vec3(0.2f));
@@ -152,6 +154,7 @@ int Player::processKeyboard(Camera_Movement direction, float velocity)
     {
         speed = minSpeed;
     }
+
 
     return 0;
 }

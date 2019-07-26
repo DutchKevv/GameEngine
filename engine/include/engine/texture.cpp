@@ -1,5 +1,5 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "./opengl_headers.h"
+
 #include "texture.h"
 #include "logger.h"
 

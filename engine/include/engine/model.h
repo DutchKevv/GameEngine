@@ -7,8 +7,6 @@
 #include <iostream>
 #include <map>
 #include <vector>
-#include <glad/glad.h>
-
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -16,6 +14,8 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+
+#include "opengl_headers.h"
 
 #include "mesh.h"
 #include "shader.h"
@@ -57,7 +57,7 @@ public:
 
     void init()
     {
-        basicShader = ResourceManager::LoadShader("build/engine-assets/shaders/simple_3d.vs", "build/engine-assets/shaders/simple_3d.fs", NULL, "simple3D");
+        basicShader = ResourceManager::LoadShader("engine-assets/shaders/simple_3d.vs", "engine-assets/shaders/simple_3d.fs", NULL, "simple3D");
     }
 
     // draws the model, and thus all its meshes
@@ -228,11 +228,7 @@ private:
 
         mat->Get(AI_MATKEY_SHININESS, shininess);
         material.Shininess = shininess;
-
-        consoleLog(material.Diffuse.x);
-        consoleLog(material.Diffuse.y);
-        consoleLog(material.Diffuse.z);
-
+        
         return material;
     }
 

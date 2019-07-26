@@ -5,8 +5,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "./opengl_headers.h"
+
 #include <STB/stb_image.h>
 #include "skybox.h"
 #include "shader.h"
@@ -86,8 +86,8 @@ void SkyBox::init()
 {
 
     // shader
-    Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/skybox.vert", "build/engine-assets/shaders/skybox.frag", NULL, "skybox");
-    ResourceManager::LoadTexture("build/engine-assets/textures/container.jpg", false, "container-side");
+    Shader shader = ResourceManager::LoadShader("engine-assets/shaders/skybox.vert", "engine-assets/shaders/skybox.frag", NULL, "skybox");
+    ResourceManager::LoadTexture("engine-assets/textures/container.jpg", false, "container-side");
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -101,12 +101,12 @@ void SkyBox::init()
     // -------------
     vector<std::string> faces{
 
-        "build/engine-assets/textures/skybox/3/right.jpg",
-        "build/engine-assets/textures/skybox/3/left.jpg",
-        "build/engine-assets/textures/skybox/3/top.jpg",
-        "build/engine-assets/textures/skybox/3/bottom.jpg",
-        "build/engine-assets/textures/skybox/3/back.jpg",
-        "build/engine-assets/textures/skybox/3/front.jpg",
+        "engine-assets/textures/skybox/3/right.jpg",
+        "engine-assets/textures/skybox/3/left.jpg",
+        "engine-assets/textures/skybox/3/top.jpg",
+        "engine-assets/textures/skybox/3/bottom.jpg",
+        "engine-assets/textures/skybox/3/back.jpg",
+        "engine-assets/textures/skybox/3/front.jpg"
     };
 
     cubemapTexture = loadCubemap(faces);

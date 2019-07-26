@@ -14,7 +14,7 @@ CostDataFile:
 Site: kewin-X570-GAMING-X
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
-BuildName: Linux-c++
+BuildName: Emscripten-em++
 
 # Subprojects
 LabelsForSubprojects: 
@@ -72,8 +72,8 @@ UpdateOptions:
 UpdateType: 
 
 # Compiler info
-Compiler: /usr/bin/c++
-CompilerVersion: 7.4.0
+Compiler: /home/kewin/Projects/emsdk/fastcomp/emscripten/em++
+CompilerVersion: 6.0.1
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 

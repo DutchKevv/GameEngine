@@ -1,7 +1,7 @@
 #pragma once
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "./opengl_headers.h"
+
 #include <STB/stb_image.h>
 #include <vector>
 

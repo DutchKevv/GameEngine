@@ -1,6 +1,7 @@
 {
     "cmake.configureOnOpen": true,
     "cmake.sourceDirectory": "${workspaceRoot}/game",
+    "cmake.buildDirectory": "${workspaceRoot}/game/build/linux",
     "files.associations": {
         "vector": "cpp",
         "array": "cpp",

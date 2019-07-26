@@ -1,13 +1,12 @@
 #pragma once
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <nlohmann/json.hpp>
+#include "opengl_headers.h"
+
+// #include <nlohmann/json.hpp>
 #include <iostream>
 
 #include "baseObject.h"
 #include "renderer.h"
-// #include "constants.h"
 
 // using json = nlohmann::json;
 
@@ -20,7 +19,7 @@ public:
     bool isRunning;
     Renderer *renderer;
 
-    Engine(int type = 0);
+    Engine(char *argv[]);
 
     void init();
 
@@ -29,25 +28,4 @@ public:
     void stop();
 
     void tick();
-
-    // int addDataObj(BaseDataObj *dataObj, int id = -1);
-
-    // int updateDataObj(int id, json data);
-
-    // BaseDataObj *getDataObjById(int id);
-
-    // int update()
-    // {
-    //     return 0;
-    // }
-
-    // int destroy()
-    // {
-    //     return 0;
-    // }
-
-    // int loadModel()
-    // {
-    //     return 0;
-    // }
 };

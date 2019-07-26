@@ -5,6 +5,7 @@
 #include <engine/context.h>
 #include <engine/resourceManager.h>
 #include <engine/skybox.h>
+#include <engine/logger.h>
 #include <engine/objects/cube.h>
 #include "../objects/floor.h"
 #include "../objects/player.h"
@@ -58,12 +59,13 @@ class WorldScene : public Scene
     void init()
     {
 
-        shader = ResourceManager::LoadShader("build/game-assets/shaders/shadow_mapping.vs", "build/game-assets/shaders/shadow_mapping.fs", nullptr, "shadowMapping");
-        simpleDepthShader = ResourceManager::LoadShader("build/game-assets/shaders/shadow_mapping_depth.vs", "build/game-assets/shaders/shadow_mapping_depth.fs", nullptr, "shadowDepth");
-        debugDepthQuad = ResourceManager::LoadShader("build/game-assets/shaders/debug_quad.vs", "build/game-assets/shaders/debug_quad.fs", nullptr, "quadDepth");
-
-        ResourceManager::LoadTexture("build/engine-assets/textures/grass.jpg", false, "grass");
-        ResourceManager::LoadTexture("build/engine-assets/textures/container.jpg", false, "container-side");
+        shader = ResourceManager::LoadShader("game-assets/shaders/shadow_mapping.vs", "game-assets/shaders/shadow_mapping.fs", nullptr, "shadowMapping");
+        
+        simpleDepthShader = ResourceManager::LoadShader("game-assets/shaders/shadow_mapping_depth.vs", "game-assets/shaders/shadow_mapping_depth.fs", nullptr, "shadowDepth");
+        debugDepthQuad = ResourceManager::LoadShader("game-assets/shaders/debug_quad.vs", "game-assets/shaders/debug_quad.fs", nullptr, "quadDepth");
+        // return;
+        ResourceManager::LoadTexture("engine-assets/textures/grass.jpg", false, "grass");
+        ResourceManager::LoadTexture("engine-assets/textures/container.jpg", false, "container-side");
 
         // attach camera
         this->camera = context->camera = new Camera();
@@ -241,17 +243,17 @@ class WorldScene : public Scene
     {
         // load models
         // -----------------------
-        rockModel = new Model("build/game-assets/models/rock/rock1.obj");
-        // rockModel = new Model("build/game-assets/models/rock1/Rock1.obj");
-        boulderModel = new Model("build/game-assets/models/boulder/newboulder.obj");
-        // blenderModel = new Model("build/game-assets/models/blenderman/BLENDERMAN!.obj");
-        treeModel = new Model("build/game-assets/models/tree/cube.obj");
-        // treeModel = new Model("build/game-assets/models/tree2/Tree1.obj");
-        // treeModel = new Model("build/game-assets/models/tree/trees.obj");
-        // treeModel = new Model("build/game-assets/models/tree2/Hazelnut.obj");
-        // treeModel = new Model("build/game-assets/models/tree-lp2/trees-lo-poly.obj");
-        // treeModel = new Model("build/game-assets/models/tree-low-poly/lowtree.obj");
-        // cubeModel = new Model("build/game-assets/models/cube/cube.obj");
+        rockModel = new Model("game-assets/models/rock/rock1.obj");
+        // rockModel = new Model("game-assets/models/rock1/Rock1.obj");
+        boulderModel = new Model("game-assets/models/boulder/newboulder.obj");
+        // blenderModel = new Model("game-assets/models/blenderman/BLENDERMAN!.obj");
+        treeModel = new Model("game-assets/models/tree/cube.obj");
+        // treeModel = new Model("game-assets/models/tree2/Tree1.obj");
+        // treeModel = new Model("game-assets/models/tree/trees.obj");
+        // treeModel = new Model("game-assets/models/tree2/Hazelnut.obj");
+        // treeModel = new Model("game-assets/models/tree-lp2/trees-lo-poly.obj");
+        // treeModel = new Model("game-assets/models/tree-low-poly/lowtree.obj");
+        // cubeModel = new Model("game-assets/models/cube/cube.obj");
 
         // load random positions for models
         float halfSpace = space / 2;

@@ -19,7 +19,7 @@ void Player::init()
 {
     RenderObject::init();
 
-    playerModel = new Model("build/game-assets/models/plane/FREOBJ.obj");
+    playerModel = new Model("game-assets/models/plane/FREOBJ.obj");
 
     // shader.SetInteger("texture_diffuse", 0);
     // glActiveTexture(GL_TEXTURE0);

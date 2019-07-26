@@ -1,22 +1,29 @@
+#include "context.h"
+
 #define STB_IMAGE_IMPLEMENTATION
 
 #include <string>
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include <glad/glad.h>
+#include "./context.h"
+#include "./opengl_headers.h"
 #include <STB/stb_image.h>
 
 #include "resourceManager.h"
 #include "logger.h"
 
+using namespace std;
+
 // Instantiate static variables
 std::map<std::string, Texture2D> ResourceManager::Textures;
 std::map<std::string, Shader> ResourceManager::Shaders;
 
-
-Shader ResourceManager::LoadShader(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile, std::string name)
+Shader ResourceManager::LoadShader(string vShaderFile, string fShaderFile, const char *gShaderFile, std::string name)
 {
+    // vShaderFile = context->paths->cwd + vShaderFile;
+    // fShaderFile = context->paths->cwd + fShaderFile;
+
     if (Shaders.count(name) == 0)
     {
         Shaders[name] = loadShaderFromFile(vShaderFile, fShaderFile, gShaderFile);
@@ -32,8 +39,10 @@ Shader ResourceManager::GetShader(std::string name)
     return Shaders[name];
 }
 
-Texture2D ResourceManager::LoadTexture(const GLchar *file, GLboolean alpha, std::string name, GLuint WRAP_S, GLuint WRAP_T)
+Texture2D ResourceManager::LoadTexture(std::string file, GLboolean alpha, std::string name, GLuint WRAP_S, GLuint WRAP_T)
 {
+    // file = context->paths->cwd + file;
+
     Textures[name] = loadTextureFromFile(file, alpha, WRAP_S, WRAP_T);
     return Textures[name];
 }
@@ -82,7 +91,7 @@ char *file_read(const char *filename)
     return res;
 }
 
-Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *fShaderFile, const char *gShaderFile)
+Shader ResourceManager::loadShaderFromFile(string vShaderFile, string fShaderFile, const char *gShaderFile)
 {
     // 1. Retrieve the vertex/fragment source code from filePath
     std::string vertexCode;
@@ -121,18 +130,16 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
         consoleLog("ERROR::SHADER: Failed to read shader files");
     }
 
-
-// #ifdef GL_FRAGMENT_PRECISION_HIGH
+    // #ifdef GL_FRAGMENT_PRECISION_HIGH
     std::string precision = "precision highp float;\n\n";
-// #else
+    // #else
     // std::string precision = "precision mediump float;\n\n";
-// #endif
+    // #endif
 
     // vertexCode.insert(15, "#version 300 es \n" + precision);
     fragmentCode.insert(17, precision);
 
     // vertexCode = "#version 300 es \n" + vertexCode;
-
 
     const char *vShaderCode = vertexCode.c_str();
     const char *fShaderCode = fragmentCode.c_str();
@@ -147,7 +154,7 @@ Shader ResourceManager::loadShaderFromFile(const char *vShaderFile, const char *
 }
 
 // TODO - revert parameter (default false)
-Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alpha, GLuint WRAP_S, GLuint WRAP_T)
+Texture2D ResourceManager::loadTextureFromFile(std::string file, GLboolean alpha, GLuint WRAP_S, GLuint WRAP_T)
 {
     // enable reverting
     stbi_set_flip_vertically_on_load(true);
@@ -165,7 +172,7 @@ Texture2D ResourceManager::loadTextureFromFile(const GLchar *file, GLboolean alp
     }
     // Load image
     int width, height, nrChannels;
-    unsigned char *image = stbi_load(file, &width, &height, &nrChannels, 0);
+    unsigned char *image = stbi_load(file.c_str(), &width, &height, &nrChannels, 0);
 
     if (!image)
     {

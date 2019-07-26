@@ -1,7 +1,4 @@
-#ifdef __EMSCRIPTEN__
-#include <emscripten.h>
-#include <emscripten/html5.h>
-#endif
+#include <unistd.h>
 
 #include "engine.h"
 #include "context.h"
@@ -11,8 +8,18 @@
 float deltaTime = 0.0f; // time between current frame and last frame
 float lastFrame = 0.0f;
 
-Engine::Engine(int type)
+void EMRenderLoopCallback(void* arg)
 {
+  static_cast<Engine*>(arg)->tick();
+}
+
+Engine::Engine(char *argv[])
+{
+    // set working directory
+    std::string binPath = argv[0];
+    context->paths->cwd = binPath.substr(0, binPath.find("Game", 0));
+    chdir(context->paths->cwd.c_str());
+
     context->type = 0;
 }
 
@@ -28,10 +35,14 @@ void Engine::start()
 {
     this->isRunning = true;
 
+#ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop_arg(&EMRenderLoopCallback, this, 0, 0);
+#else
     while (!glfwWindowShouldClose(this->renderer->window))
     {
         this->tick();
     }
+#endif
 }
 
 void Engine::tick()
@@ -51,36 +62,3 @@ void Engine::stop()
 {
     this->isRunning = false;
 }
-
-// int Engine::addDataObj(BaseDataObj *dataObj, int id) {
-//     if (id == -1)
-//         id = counter++;
-
-//     dataObj->id = id;
-//     dataObjects.push_back(dataObj);
-//     return dataObj->id;
-// }
-
-// int Engine::updateDataObj(int id, json data) {
-//     BaseDataObj *dataObject = getDataObjById(id);
-
-//     if (!dataObject) {
-//         consoleLog("Error - DataObject not found");
-//         return -1;
-//     }
-
-//     dataObject->update(data);
-
-//     return 0;
-// }
-
-// BaseDataObj *Engine::getDataObjById(int id) {
-
-//     for (auto &dataObject : dataObjects) {
-//         if (dataObject->id == id) {
-//             return dataObject;
-//         }
-//     }
-
-//     return NULL;
-// }

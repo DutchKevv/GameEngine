@@ -1,7 +1,6 @@
 #include "test.h"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <engine/opengl_headers.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -87,11 +86,11 @@ void TestObject::init()
     RenderObject::init();
 
     // shader
-    Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/simple_3d.vs", "build/engine-assets/shaders/simple_3d.fs", NULL, "simple3D");
-    ResourceManager::LoadTexture("build/engine-assets/textures/container.jpg", false, "container-side");
+    Shader shader = ResourceManager::LoadShader("engine-assets/shaders/simple_3d.vs", "engine-assets/shaders/simple_3d.fs", NULL, "simple3D");
+    ResourceManager::LoadTexture("engine-assets/textures/container.jpg", false, "container-side");
 
-    ResourceManager::LoadTexture("build/engine-assets/textures/grass.jpg", false, "grass");
-    ResourceManager::LoadTexture("build/engine-assets/textures/awesomeface.png", true, "smiley");
+    ResourceManager::LoadTexture("engine-assets/textures/grass.jpg", false, "grass");
+    ResourceManager::LoadTexture("engine-assets/textures/awesomeface.png", true, "smiley");
 
     // set texture index
     shader.Use();

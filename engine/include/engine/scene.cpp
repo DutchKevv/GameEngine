@@ -2,6 +2,7 @@
 // Created by Kewin Brandsma on 04/08/2017.
 //
 
+#include "logger.h"
 #include "scene.h"
 #include "context.h"
 

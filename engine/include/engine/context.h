@@ -1,7 +1,7 @@
 #pragma once
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "./opengl_headers.h"
+
 #include "constants.h"
 #include "camera.h"
 #include "renderer.h"
@@ -28,10 +28,17 @@ struct ScrollState
     double offsetY = 0;
 };
 
+struct Paths
+{
+    std::string cwd = "";
+};
+
 struct Context
 {
 
     Context();
+
+    Paths *paths = new Paths();
 
     int type;
     bool fullscreen = false;

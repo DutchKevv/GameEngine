@@ -3,8 +3,8 @@
 #include <emscripten/html5.h>
 #endif
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "./opengl_headers.h"
+
 #include <vector>
 #include <STB/stb_image.h>
 #include "logger.h"
@@ -94,7 +94,7 @@ void Renderer::init()
 
 void Renderer::initSpriteHandler()
 {
-    // Shader shader = ResourceManager::LoadShader("build/assets/shaders/sprite.v.glsl", "build/assets/shaders/sprite.f.glsl", nullptr, "sprite");
+    // Shader shader = ResourceManager::LoadShader("assets/shaders/sprite.v.glsl", "assets/shaders/sprite.f.glsl", nullptr, "sprite");
 
     // glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(context->windowW), static_cast<GLfloat>(context->windowW), 0.0f, -1.0f, 1.0f);
     // shader.Use().SetInteger("sprite", 0);
@@ -164,14 +164,16 @@ void Renderer::createWindow()
 
     glfwMakeContextCurrent(context->window);
 
+#ifndef __EMSCRIPTEN__
     // bind openGL entrypoints to context
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
-        std::cout << "Failed to initialize GLAD" << std::endl;
+        consoleLog("Failed to initialize GLAD");
         return;
     }
 
     gladLoadGL();
+#endif
 
     // on window resize
     glfwSetWindowSizeCallback(context->window, _windowSizeCallback);

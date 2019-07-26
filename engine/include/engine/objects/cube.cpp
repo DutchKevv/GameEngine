@@ -1,15 +1,15 @@
 #include "cube.h"
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "../opengl_headers.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <engine/shader.h>
-#include <engine/texture.h>
-#include <engine/resourceManager.h>
-#include <engine/context.h>
-#include <engine/logger.h>
+#include "../shader.h"
+#include "../texture.h"
+#include "../resourceManager.h"
+#include "../context.h"
+#include "../logger.h"
 
 using namespace glm;
 
@@ -68,8 +68,8 @@ void Cube::init()
     RenderObject::init();
 
     // shader
-    Shader shader = ResourceManager::LoadShader("build/engine-assets/shaders/simple_3d.vs", "build/engine-assets/shaders/simple_3d.fs", NULL, "simple3D");
-    ResourceManager::LoadTexture("build/engine-assets/textures/container.jpg", false, "container-side");
+    Shader shader = ResourceManager::LoadShader("engine-assets/shaders/simple_3d.vs", "engine-assets/shaders/simple_3d.fs", NULL, "simple3D");
+    ResourceManager::LoadTexture("engine-assets/textures/container.jpg", false, "container-side");
 
     // set texture index
     shader.Use();

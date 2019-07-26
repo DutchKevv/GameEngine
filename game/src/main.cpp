@@ -1,11 +1,13 @@
 #include <engine/engine.h>
+#include <engine/opengl_headers.h>
 #include <engine/context.h>
 #include "scenes/menu.cpp"
 #include "scenes/world.cpp"
 
-int main(void)
+int main(int argc, char* argv[])
 {
-    Engine *game = new Engine(0);
+
+    Engine *game = new Engine(argv);
 
     // init with options
     // TODO - options

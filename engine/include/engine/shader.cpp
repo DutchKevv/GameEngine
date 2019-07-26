@@ -3,8 +3,8 @@
 #include <string>
 #include <limits.h>
 #include <unistd.h>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "./opengl_headers.h"
+
 #include "shader.h"
 #include "logger.h"
 

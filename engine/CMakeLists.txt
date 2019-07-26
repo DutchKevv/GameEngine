@@ -1,31 +1,28 @@
 cmake_minimum_required(VERSION 3.8)
 
-project(Engine)
-
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-set(JSON_BuildTests OFF CACHE INTERNAL "")
-# set(ASSIMP_BUILD_STATIC_LIB ON)
-
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
-add_library(${CMAKE_PROJECT_NAME} SHARED src/main.cpp)
-
-# Install library
-# install(TARGETS ${PROJECT_NAME} DESTINATION lib/${PROJECT_NAME})
+message(${CMAKE_SYSTEM_NAME})
 
 # DEFENITIONS
 add_definitions(
         -DTW_STATIC
         -DTW_NO_LIB_PRAGMA
         -DTW_NO_DIRECT3D
-        -DGLEW_STATIC
         -D_CRT_SECURE_NO_WARNINGS
 )
 
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+set(ASSIMP_BUILD_STATIC_LIB OFF)
+set(ASSIMP_BUILD_SAMPLES OFF)
+set(ASSIMP_BUILD_TESTS OFF)
+set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+        set(BUILD_PATH "${CMAKE_CURRENT_SOURCE_DIR}/build/web")
+else ()
+        set(BUILD_PATH "${CMAKE_CURRENT_SOURCE_DIR}/build/linux")
+endif ()
 
 set(ENGINE_SOURCE_FILES
-        ${CMAKE_CURRENT_LIST_DIR}/vendor/glad/src/glad.c
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.cpp
@@ -36,6 +33,7 @@ set(ENGINE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/constants.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/engine.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/engine.cpp
+        # ${CMAKE_CURRENT_LIST_DIR}/include/engine/filesystem.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/logger.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/logger.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/model.h
@@ -64,79 +62,78 @@ set(ENGINE_SOURCE_FILES
 
         )
 
-target_sources(${CMAKE_PROJECT_NAME} PUBLIC ${ENGINE_SOURCE_FILES})
+if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+        set(ENGINE_SOURCE_FILES ${ENGINE_SOURCE_FILES} ${CMAKE_CURRENT_LIST_DIR}/vendor/glad/src/glad.c)
+endif ()
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_sources(${CMAKE_PROJECT_NAME} PRIVATE ${ENGINE_SOURCE_FILES})
 
-# Install library headers
-# file(GLOB HEADERS include/**/*.h)
-# install(FILES ${HEADERS} DESTINATION include/${CMAKE_PROJECT_NAME})
 
-# OPENGL
-find_package(OpenGL REQUIRED)
-include_directories( ${OPENGL_INCLUDE_DIRS} )
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
 
-# GLAD
-include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glad/include)
 # include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glad/src)
+# OPENGL + GLAD + GLFW
+if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+       
+        find_package(OpenGL REQUIRED)
+        include_directories( ${OPENGL_INCLUDE_DIRS} )
 
-# GLFW
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw-3.3 ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/glfw-3.3)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw-3.3/include)
+        set(ENGINE_SOURCE_FILES ${ENGINE_SOURCE_FILES} ${CMAKE_CURRENT_LIST_DIR}/vendor/glad/src/glad.c)
+        
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glad/include)
+        add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw-3.3 ${CMAKE_CURRENT_SOURCE_DIR}/../engine/vendor/glfw-3.3/build)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glfw-3.3/include)       
+endif ()
 
 # GLM
-# add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/glm ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/glm)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/glm)
 
 # STB
 include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/stb/include)
 
 # ASSIMP
-# set(ASSIMP_LIBRARY_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/code)
-# set(ASSIMP_INCLUDE_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/include ${CMAKE_CURRENT_SOURCE_DIR}/engine/assimp/include)
-# include_directories(${ASSIMP_INCLUDE_DIRS})
-# link_directories(${ASSIMP_LIBRARY_DIRS})
-
-find_package(ASSIMP REQUIRED)
-if(ASSIMP_FOUND)
-    include_directories(${ASSIMP_INCLUDE_DIR})
-endif() 
-
-# add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/assimp ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/assimp)
-# include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/include)
-
-# FREETYPE
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/freetype-2.10.1 ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/freetype)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/freetype-2.10.1/include)
-
-# JSON
-add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/json ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/json)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/json/include)
-
-# ENGINE
-include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
-
-# EMSCRIPTEN
-if (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
-    include_directories(
-            /emscripten/
-            /emscripten/emscripten/incoming/system/include
-    )
-else ()
-    
+# find_package(ASSIMP REQUIRED)
+# if(ASSIMP_FOUND)
+#     include_directories(${ASSIMP_INCLUDE_DIR})
+# endif() 
+if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+        set(ASSIMP_LIBRARY_DIRS ${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/code)
+        set(ASSIMP_INCLUDE_DIRS  ${CMAKE_CURRENT_SOURCE_DIR}/engine/assimp/include)
+        include_directories(${ASSIMP_INCLUDE_DIRS})
+        link_directories(${ASSIMP_LIBRARY_DIRS})
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/include)
+else()
+        add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/assimp ${CMAKE_CURRENT_SOURCE_DIR}/../engine/vendor/assimp/build)
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/assimp/include)
 endif ()
 
-target_link_libraries(${CMAKE_PROJECT_NAME} ${OPENGL_LIBRARIES} glfw ${GLFW_LIBRARIES} ${FREETYPE_LIBRARIES} ${ASSIMP_LIBRARIES})
 
+# FREETYPE
+if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+        include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/freetype-2.10.1/include)  
+endif ()
+
+# JSON
+# add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/json ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/json)
+# include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/json/include)
+
+# link libraries
+target_link_libraries(${CMAKE_PROJECT_NAME} assimp ${ASSIMP_LIBRARIES})
+if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
+        target_link_libraries(${CMAKE_PROJECT_NAME} ${OPENGL_LIBRARIES} ${FREETYPE_LIBRARIES} glfw ${GLFW_LIBRARIES} )
+endif ()
 
 # COPY ASSETS
 set (ENGINE_ASSETS_SOURCE "${CMAKE_CURRENT_LIST_DIR}/assets")
-set (ENGINE_ASSETS_DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/engine-assets")
+set (ENGINE_ASSETS_DESTINATION "${BUILD_PATH}/engine-assets")
 add_custom_command(
  TARGET ${PROJECT_NAME} POST_BUILD
  COMMAND ${CMAKE_COMMAND} -E create_symlink ${ENGINE_ASSETS_SOURCE} ${ENGINE_ASSETS_DESTINATION} 
  DEPENDS ${ENGINE_ASSETS_DESTINATION}
  COMMENT "symbolic link resources folder from ${ENGINE_ASSETS_SOURCE} => ${ENGINE_ASSETS_DESTINATION}"
 )
+
+# set_target_properties(Engine PROPERTIES LINK_FLAGS "-o dist/engine.js -s USE_GLFW=3 -s TOTAL_MEMORY=167772160 -s USE_FREETYPE=1 -s DISABLE_EXCEPTION_CATCHING=0 -s NO_EXIT_RUNTIME=1 -s DEMANGLE_SUPPORT=1 -s SAFE_HEAP=1 --bind -s WASM=1 -O2 -s LEGACY_GL_EMULATION=0  -s GL_UNSAFE_OPTS=0 -s ASSERTIONS=1 -s GL_ASSERTIONS=1 -s INVOKE_RUN=0  -std=c++1y -s USE_WEBGL2=1 -s FULL_ES3=1 -s GL_DEBUG=1 -s OFFSCREENCANVAS_SUPPORT=0 --use-preload-plugins --preload-file assets --preload-file assets")
+
 
 # target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)

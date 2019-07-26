@@ -1,9 +1,9 @@
 #include <iostream>
 #include <cmath>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "./opengl_headers.h"
+
 #include <STB/stb_image.h>
-#include <freetype/ft2build.h>
+#include <ft2build.h>
 
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
@@ -12,6 +12,7 @@
 
 #include "text.h"
 #include "shader.h"
+#include "logger.h"
 
 static int initCommonResources();
 

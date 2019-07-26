@@ -25,7 +25,7 @@ float vertices[] = {
 
 void Floor::init()
 {
-    ResourceManager::LoadTexture("build/engine-assets/textures/grass.jpg", false, "grass");
+    ResourceManager::LoadTexture("engine-assets/textures/grass.jpg", false, "grass");
 
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);

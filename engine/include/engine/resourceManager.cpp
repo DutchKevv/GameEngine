@@ -98,8 +98,6 @@ Shader ResourceManager::loadShaderFromFile(string vShaderFile, string fShaderFil
     std::string fragmentCode;
     std::string geometryCode;
 
-    // std::cout << "Current path is " << fs::current_path() << '\n';
-
     try
     {
         // Open files
@@ -115,6 +113,17 @@ Shader ResourceManager::loadShaderFromFile(string vShaderFile, string fShaderFil
         // Convert stream into string
         vertexCode = vShaderStream.str();
         fragmentCode = fShaderStream.str();
+
+        if (vertexCode.empty())
+        {
+            consoleLog("ERROR::VERTEX::SHADER: Failed to read: " + vShaderFile);
+        }
+
+        if (vertexCode.empty())
+        {
+            consoleLog("ERROR::FRAGMENT::SHADER: Failed to read: " + fShaderFile);
+        }
+
         // If geometry shader path is present, also load a geometry shader
         if (gShaderFile != nullptr)
         {
@@ -136,18 +145,13 @@ Shader ResourceManager::loadShaderFromFile(string vShaderFile, string fShaderFil
     // std::string precision = "precision mediump float;\n\n";
     // #endif
 
-    // vertexCode.insert(15, "#version 300 es \n" + precision);
-    fragmentCode.insert(17, precision);
-
-    // vertexCode = "#version 300 es \n" + vertexCode;
+    fragmentCode.insert(16, precision);
 
     const char *vShaderCode = vertexCode.c_str();
     const char *fShaderCode = fragmentCode.c_str();
     const char *gShaderCode = geometryCode.c_str();
+
     // 2. Now create shader object from source code
-
-    // consoleLog(vShaderFile);
-
     Shader shader;
     shader.Compile(vShaderCode, fShaderCode, gShaderFile != nullptr ? gShaderCode : nullptr);
     return shader;

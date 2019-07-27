@@ -6,6 +6,7 @@
 #include <engine/resourceManager.h>
 #include <engine/skybox.h>
 #include <engine/logger.h>
+#include <engine/terrain.h>
 #include <engine/objects/cube.h>
 #include "../objects/floor.h"
 #include "../objects/player.h"
@@ -43,27 +44,27 @@ const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
 unsigned int depthMap;
 unsigned int depthMapFBO;
 
-SkyBox *skybox;
-
 // lighting info
 // -------------
 glm::vec3 lightPos(-2.0f, 4.0f, -1.0f);
 
 const unsigned int space = 30;
-const unsigned int trees = 50;
+const unsigned int trees = 500;
 const unsigned int rocks = 100;
 
 class WorldScene : public Scene
 {
+    SkyBox *skybox;
+    Model *terrain2;
 
     void init()
     {
 
         this->isEnabled = true;
 
-        shader = ResourceManager::LoadShader("game-assets/shaders/shadow_mapping.vs", "game-assets/shaders/shadow_mapping.fs", nullptr, "shadowMapping");
-        simpleDepthShader = ResourceManager::LoadShader("game-assets/shaders/shadow_mapping_depth.vs", "game-assets/shaders/shadow_mapping_depth.fs", nullptr, "shadowDepth");
-        debugDepthQuad = ResourceManager::LoadShader("game-assets/shaders/debug_quad.vs", "game-assets/shaders/debug_quad.fs", nullptr, "quadDepth");
+        shader = ResourceManager::LoadShader("game-assets/shaders/sunlight.vert", "game-assets/shaders/sunlight.frag", nullptr, "shadowMapping");
+        simpleDepthShader = ResourceManager::LoadShader("game-assets/shaders/sunlightDepth.vert", "game-assets/shaders/sunlightDepth.frag", nullptr, "shadowDepth");
+        debugDepthQuad = ResourceManager::LoadShader("game-assets/shaders/debug_quad.vert", "game-assets/shaders/debug_quad.frag", nullptr, "quadDepth");
 
         ResourceManager::LoadTexture("engine-assets/textures/grass.jpg", false, "grass");
         ResourceManager::LoadTexture("engine-assets/textures/container.jpg", false, "container-side");
@@ -71,7 +72,13 @@ class WorldScene : public Scene
         // attach camera
         this->camera = context->camera = new Camera();
 
-        // create world objects
+        Terrain *terrain = new Terrain("game-assets/heightmaps/heightmap.png");
+        // this->addChild(terrain);
+
+        terrain2 = new Model("game-assets/terrains/terrain1.obj");
+        // this->addChild(terrain2);
+
+        // add world objects
         this->createEnvironment();
 
         // attach player
@@ -89,7 +96,6 @@ class WorldScene : public Scene
 
         // configure depth map FBO
         // -----------------------
-
         glGenFramebuffers(1, &depthMapFBO);
 
         // create depth texture
@@ -145,10 +151,11 @@ class WorldScene : public Scene
         glEnable(GL_DEPTH_TEST);
 
         // change light position over time
-        lightPos.x = sin(glfwGetTime()) * 5.0f;
-        lightPos.z = cos(glfwGetTime()) * 5.0f;
-        lightPos.y = 2.0 + cos(glfwGetTime()) * 1.0f;
-        lightPos = this->player->position;
+        lightPos.x = cos(glfwGetTime()) * 10.0f;
+        lightPos.z = 100.0f;
+        // lightPos.z = cos(glfwGetTime()) * 5.0f;
+        lightPos.y = 200.0f;
+        // lightPos = this->player->position;
 
         Texture2D texture = ResourceManager::GetTexture("container-side");
         Texture2D textureGrass = ResourceManager::GetTexture("grass");
@@ -160,10 +167,10 @@ class WorldScene : public Scene
         // --------------------------------------------------------------
         glm::mat4 lightProjection, lightView;
         glm::mat4 lightSpaceMatrix;
-        float near_plane = 1.0f, far_plane = 7.5f;
-        lightProjection = glm::perspective(glm::radians(90.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
-        // lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
-        lightView = glm::lookAt(lightPos, glm::vec3(cos(glfwGetTime())), glm::vec3(player->position.x, 1.0, player->position.z));
+        float near_plane = 1.0f, far_plane = 700.5f;
+        // lightProjection = glm>::perspective(glm::radians(90.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
+        lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+        lightView = glm::lookAt(player->position, player->position, glm::vec3(player->position.x, 1.0, player->position.z));
         lightSpaceMatrix = lightProjection * lightView;
         // render scene from light's point of view
         simpleDepthShader.Use();
@@ -190,7 +197,7 @@ class WorldScene : public Scene
         glViewport(0, 0, context->windowW, context->windowH);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         shader.Use();
-        glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)context->windowW / (float)context->windowH, 0.1f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(camera->Zoom), (float)context->windowW / (float)context->windowH, 0.1f, 1000.0f);
         glm::mat4 view = camera->GetViewMatrix();
         shader.SetMatrix4("projection", projection);
         shader.SetMatrix4("view", view);
@@ -220,6 +227,17 @@ class WorldScene : public Scene
     void renderScene(float delta, Shader &shader, bool isShadowRender = false)
     {
         Scene::renderScene(delta, shader, isShadowRender);
+
+        glActiveTexture(GL_TEXTURE0);
+        Texture2D textureGrass = ResourceManager::GetTexture("grass");
+        textureGrass.Bind();
+
+        // Terrain
+        glm::mat4 model;
+        model = glm::translate(model, glm::vec3(0.0f, -100.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(500.0f));
+        shader.SetMatrix4("model", model);
+        terrain2->Draw(shader);
 
         // trees
         for (unsigned int i = 0; i < trees; i++)
@@ -283,6 +301,6 @@ class WorldScene : public Scene
         }
 
         // add floor (TEMP)
-        this->addChild(new Floor());
+        // this->addChild(new Floor());
     }
 };

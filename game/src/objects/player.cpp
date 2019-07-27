@@ -9,8 +9,6 @@
 
 using namespace glm;
 
-static unsigned int VBO, VAO, EBO;
-
 Player::Player()
 {
 }
@@ -70,9 +68,6 @@ void Player::draw(float delta)
 void Player::renderScene(float delta, Shader &shader, bool isShadowRender)
 {
     glm::mat4 model;
-
-
-    consoleLog(yM);
 
     position.z += speed * cos(0.1f);
     position.x += speed * sin(xRadius);

@@ -52,6 +52,7 @@ set(ENGINE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/skybox.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/spriteRenderer.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/spriteRenderer.h
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/terrain.h
         # ${CMAKE_CURRENT_LIST_DIR}/include/engine/text.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/text.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/texture.cpp

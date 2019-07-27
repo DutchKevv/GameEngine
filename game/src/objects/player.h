@@ -16,6 +16,8 @@ public:
     const float airborneThreshold = 0.01f;
     bool isAirborne = false;
 
+    unsigned int VBO, VAO, EBO;
+
     enum Camera_Movement
     {
         UP,

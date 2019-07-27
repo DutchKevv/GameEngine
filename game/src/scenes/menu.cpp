@@ -18,7 +18,7 @@ class MenuScene : public Scene
 
         this->isEnabled = false;
 
-        shader = ResourceManager::LoadShader("game-assets/shaders/shadow_mapping.vs", "game-assets/shaders/shadow_mapping.fs", nullptr, "shadowMapping");
+        shader = ResourceManager::LoadShader("game-assets/shaders/sunlight.vert", "game-assets/shaders/sunlight.frag", nullptr, "shadowMapping");
 
         // attach camera
         this->camera = context->camera = new Camera();

@@ -128,6 +128,7 @@ void SkyBox::draw(float delta)
 
     // draw skybox as last
     glDepthFunc(GL_LEQUAL); // change depth function so depth test passes when values are equal to depth buffer's content
+    glDepthMask(GL_FALSE); 
 
     glm::mat4 view = glm::mat4(glm::mat3(context->camera->GetViewMatrix())); // remove translation from the view matrix
     skyBoxShader.SetMatrix4("view", view);
@@ -140,6 +141,7 @@ void SkyBox::draw(float delta)
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);
     glDepthFunc(GL_LESS); // set depth function back to default
+    glDepthMask(GL_TRUE); 
 };
 
 void SkyBox::destroy()

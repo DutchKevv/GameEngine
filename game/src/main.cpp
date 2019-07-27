@@ -7,26 +7,31 @@
 int main(int argc, char* argv[])
 {
 
-    Engine *game = new Engine(argv);
+    // set engine options
+    context->fullscreen = false;
+    context->windowH = 800;
+    context->windowW = 1024;
 
-    // init with options
-    // TODO - options
-    game->init();
+    // pass optional (terminal) arguments to engine (argv)
+    Engine game(argv);
+
+    // initialize
+    game.init();
 
     // create window
-    game->renderer->createWindow();
+    game.renderer->createWindow();
 
     // add main menu
     MenuScene *menuScene = new MenuScene();
-    game->renderer->addChild(menuScene, "menu");
+    game.renderer->addChild(menuScene, "menu");
 
     // add world
     // TODO - load async (after user presses 'start' in game)
     WorldScene *worldScene = new WorldScene();
-    game->renderer->addChild(worldScene, "world");
+    game.renderer->addChild(worldScene, "world");
 
     // start main loop
-    game->start();
+    game.start();
 
     // exit program
     exit(EXIT_SUCCESS);

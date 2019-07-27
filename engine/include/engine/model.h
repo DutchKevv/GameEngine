@@ -57,7 +57,7 @@ public:
 
     void init()
     {
-        basicShader = ResourceManager::LoadShader("engine-assets/shaders/simple_3d.vs", "engine-assets/shaders/simple_3d.fs", NULL, "simple3D");
+        // basicShader = ResourceManager::LoadShader("engine-assets/shaders/simple_3d.vs", "engine-assets/shaders/simple_3d.fs", NULL, "simple3D");
     }
 
     // draws the model, and thus all its meshes
@@ -65,6 +65,12 @@ public:
     {
         for (unsigned int i = 0; i < meshes.size(); i++)
             meshes[i].Draw(shader);
+    }
+
+    // draws the model, and thus all its meshes
+    void renderscene(float delta, Shader &shader, bool isShadowRender)
+    {
+        // this->Draw(shader);
     }
 
     void draw(float delta)
@@ -228,7 +234,7 @@ private:
 
         mat->Get(AI_MATKEY_SHININESS, shininess);
         material.Shininess = shininess;
-        
+
         return material;
     }
 

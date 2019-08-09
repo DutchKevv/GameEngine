@@ -4,7 +4,16 @@
 #include "scenes/menu.cpp"
 #include "scenes/world.cpp"
 
-int main(int argc, char* argv[])
+#include "../CommonInterfaces/CommonExampleInterface.h"
+#include "../CommonInterfaces/CommonGUIHelperInterface.h"
+#include "BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "BulletCollision/CollisionShapes/btCollisionShape.h"
+#include "BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h"
+
+#include "LinearMath/btTransform.h"
+#include "LinearMath/btHashMap.h"
+
+int main(int argc, char *argv[])
 {
 
     // set engine options
@@ -31,8 +40,13 @@ int main(int argc, char* argv[])
     game.renderer->addChild(worldScene, "world");
 
     // start main loop
+
+    
+
     game.start();
 
+    // delete example;
+
     // exit program
-    exit(EXIT_SUCCESS);
+    // exit(EXIT_SUCCESS);
 }

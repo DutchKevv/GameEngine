@@ -12,7 +12,26 @@
 #include "../objects/player.h"
 // #include "../objects/test.h"
 
+#include "btBulletDynamicsCommon.h"
+#define ARRAY_SIZE_Y 5
+#define ARRAY_SIZE_X 5
+#define ARRAY_SIZE_Z 5
+
+#include "LinearMath/btVector3.h"
+#include "LinearMath/btAlignedObjectArray.h"
+
+#include "../CommonInterfaces/CommonExampleInterface.h"
+#include "../CommonInterfaces/CommonGUIHelperInterface.h"
+#include "BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include "BulletCollision/CollisionShapes/btCollisionShape.h"
+#include "BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h"
+
+#include "LinearMath/btTransform.h"
+#include "LinearMath/btHashMap.h"
+
 using namespace glm;
+
+CommonExampleInterface *example;
 
 static vec3 cubePositions[] = {
     vec3(0.0f, 0.0f, 0.0f),
@@ -51,6 +70,111 @@ glm::vec3 lightPos(-2.0f, 4.0f, -1.0f);
 const unsigned int space = 30;
 const unsigned int trees = 500;
 const unsigned int rocks = 100;
+
+#include <engine/bodyBase.h>
+
+struct BasicExample : public CommonRigidBodyBase
+{
+    BasicExample(struct GUIHelperInterface *helper)
+        : CommonRigidBodyBase(helper)
+    {
+    }
+    virtual ~BasicExample() {}
+    virtual void initPhysics();
+    virtual void renderScene();
+    void resetCamera()
+    {
+        consoleLog("re");
+        float dist = 4;
+        float pitch = -35;
+        float yaw = 52;
+        float targetPos[3] = {0, 0, 0};
+        m_guiHelper->resetCamera(dist, yaw, pitch, targetPos[0], targetPos[1], targetPos[2]);
+    }
+};
+
+void BasicExample::initPhysics()
+{
+    m_guiHelper->setUpAxis(1);
+
+    createEmptyDynamicsWorld();
+    //m_dynamicsWorld->setGravity(btVector3(0,0,0));
+    m_guiHelper->createPhysicsDebugDrawer(m_dynamicsWorld);
+
+    if (m_dynamicsWorld->getDebugDrawer())
+        m_dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawWireframe + btIDebugDraw::DBG_DrawContactPoints);
+
+    ///create a few basic rigid bodies
+    btBoxShape *groundShape = createBoxShape(btVector3(btScalar(50.), btScalar(50.), btScalar(50.)));
+
+    //groundShape->initializePolyhedralFeatures();
+    //btCollisionShape* groundShape = new btStaticPlaneShape(btVector3(0,1,0),50);
+
+    m_collisionShapes.push_back(groundShape);
+
+    btTransform groundTransform;
+    groundTransform.setIdentity();
+    groundTransform.setOrigin(btVector3(0, -50, 0));
+
+    {
+        btScalar mass(0.);
+        createRigidBody(mass, groundTransform, groundShape, btVector4(0, 0, 1, 1));
+    }
+
+    {
+        //create a few dynamic rigidbodies
+        // Re-using the same collision is better for memory usage and performance
+
+        btBoxShape *colShape = createBoxShape(btVector3(.1, .1, .1));
+
+        //btCollisionShape* colShape = new btSphereShape(btScalar(1.));
+        m_collisionShapes.push_back(colShape);
+
+        /// Create Dynamic Objects
+        btTransform startTransform;
+        startTransform.setIdentity();
+
+        btScalar mass(1.f);
+
+        //rigidbody is dynamic if and only if mass is non zero, otherwise static
+        bool isDynamic = (mass != 0.f);
+
+        btVector3 localInertia(0, 0, 0);
+        if (isDynamic)
+            colShape->calculateLocalInertia(mass, localInertia);
+
+        for (int k = 0; k < ARRAY_SIZE_Y; k++)
+        {
+            for (int i = 0; i < ARRAY_SIZE_X; i++)
+            {
+                for (int j = 0; j < ARRAY_SIZE_Z; j++)
+                {
+                    startTransform.setOrigin(btVector3(
+                        btScalar(0.2 * i),
+                        btScalar(2 + .2 * k),
+                        btScalar(0.2 * j)));
+
+                    createRigidBody(mass, startTransform, colShape);
+                }
+            }
+        }
+    }
+
+    m_guiHelper->autogenerateGraphicsObjects(m_dynamicsWorld);
+}
+
+void BasicExample::renderScene()
+{
+    consoleLog(" sdfdsf");
+    // CommonRigidBodyBase::renderScene();
+}
+
+CommonExampleInterface *BasicExampleCreateFunc(CommonExampleOptions &options)
+{
+    return new BasicExample(options.m_guiHelper);
+}
+
+B3_STANDALONE_EXAMPLE(BasicExampleCreateFunc)
 
 class WorldScene : public Scene
 {
@@ -124,11 +248,105 @@ class WorldScene : public Scene
         debugDepthQuad.SetInteger("depthMap", 0);
 
         consoleLog("world initialized");
+
+        ///-----initialization_start-----
+
+        ///collision configuration contains default setup for memory, collision setup. Advanced users can create their own configuration.
+        btDefaultCollisionConfiguration *collisionConfiguration = new btDefaultCollisionConfiguration();
+
+        ///use the default collision dispatcher. For parallel processing you can use a diffent dispatcher (see Extras/BulletMultiThreaded)
+        btCollisionDispatcher *dispatcher = new btCollisionDispatcher(collisionConfiguration);
+
+        ///btDbvtBroadphase is a good general purpose broadphase. You can also try out btAxis3Sweep.
+        btBroadphaseInterface *overlappingPairCache = new btDbvtBroadphase();
+
+        ///the default constraint solver. For parallel processing you can use a different solver (see Extras/BulletMultiThreaded)
+        btSequentialImpulseConstraintSolver *solver = new btSequentialImpulseConstraintSolver;
+
+        btDiscreteDynamicsWorld *dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
+
+        dynamicsWorld->setGravity(btVector3(0, -10, 0));
+
+        ///-----initialization_end-----
+
+        //keep track of the shapes, we release memory at exit.
+        //make sure to re-use collision shapes among rigid bodies whenever possible!
+        btAlignedObjectArray<btCollisionShape *> collisionShapes;
+
+        ///create a few basic rigid bodies
+
+        {
+            btCollisionShape *groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(50.), btScalar(50.)));
+
+            collisionShapes.push_back(groundShape);
+
+            btTransform groundTransform;
+            groundTransform.setIdentity();
+            groundTransform.setOrigin(btVector3(0, -56, 0));
+
+            btScalar mass(0.);
+
+            //rigidbody is dynamic if and only if mass is non zero, otherwise static
+            bool isDynamic = (mass != 0.f);
+
+            btVector3 localInertia(0, 0, 0);
+            if (isDynamic)
+                groundShape->calculateLocalInertia(mass, localInertia);
+
+            //using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
+            btDefaultMotionState *myMotionState = new btDefaultMotionState(groundTransform);
+            btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
+            btRigidBody *body = new btRigidBody(rbInfo);
+
+            //add the body to the dynamics world
+            dynamicsWorld->addRigidBody(body);
+        }
+
+        {
+            //create a dynamic rigidbody
+
+            //btCollisionShape* colShape = new btBoxShape(btVector3(1,1,1));
+            btCollisionShape *colShape = new btSphereShape(btScalar(1.));
+            collisionShapes.push_back(colShape);
+
+            /// Create Dynamic Objects
+            btTransform startTransform;
+            startTransform.setIdentity();
+
+            btScalar mass(1.f);
+
+            //rigidbody is dynamic if and only if mass is non zero, otherwise static
+            bool isDynamic = (mass != 0.f);
+
+            btVector3 localInertia(0, 0, 0);
+            if (isDynamic)
+                colShape->calculateLocalInertia(mass, localInertia);
+
+            startTransform.setOrigin(btVector3(2, 10, 0));
+
+            //using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
+            btDefaultMotionState *myMotionState = new btDefaultMotionState(startTransform);
+            btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+            btRigidBody *body = new btRigidBody(rbInfo);
+
+            dynamicsWorld->addRigidBody(body);
+        }
+
+        DummyGUIHelper noGfx;
+
+        CommonExampleOptions options(&noGfx);
+        example = BasicExampleCreateFunc(options);
+
+        example->initPhysics();
+
+        // example->exitPhysics();
     }
 
     void update(float delta)
     {
         Scene::update(delta);
+
+        GLFWwindow *window = context->window;
 
         if (glfwGetKey(context->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         {
@@ -137,10 +355,25 @@ class WorldScene : public Scene
 
             context->engine->renderer->getChildByName("menu")->isEnabled = true;
         }
+
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+            camera->ProcessKeyboard(FORWARD, delta);
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+            camera->ProcessKeyboard(BACKWARD, delta);
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            camera->ProcessKeyboard(LEFT, delta);
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            camera->ProcessKeyboard(RIGHT, delta);
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+            camera->ProcessKeyboard(UP, delta);
+        if (glfwGetKey(window, GLFW_KEY_Z) == GLFW_PRESS)
+            camera->ProcessKeyboard(DOWN, delta);
     }
 
     void draw(float delta)
     {
+        example->stepSimulation(1.f / 60.f);
+        // example->renderScene();
         // return;
 
         // Scene::draw(delta);
@@ -228,14 +461,14 @@ class WorldScene : public Scene
     {
         Scene::renderScene(delta, shader, isShadowRender);
 
-        glActiveTexture(GL_TEXTURE0);
+        glActiveTexture(GL_TEXTURE1);
         Texture2D textureGrass = ResourceManager::GetTexture("grass");
         textureGrass.Bind();
 
         // Terrain
         glm::mat4 model;
-        model = glm::translate(model, glm::vec3(0.0f, -100.0f, 0.0f));
-        model = glm::scale(model, glm::vec3(500.0f));
+        model = glm::translate(model, glm::vec3(0.0f, -10.0f, 0.0f));
+        model = glm::scale(model, glm::vec3(50.0f));
         shader.SetMatrix4("model", model);
         terrain2->Draw(shader);
 
@@ -251,7 +484,7 @@ class WorldScene : public Scene
 
             shader.SetMatrix4("model", model);
 
-            treeModel->Draw(shader);
+            // treeModel->Draw(shader);
         }
 
         // rocks
@@ -266,7 +499,7 @@ class WorldScene : public Scene
 
             shader.SetMatrix4("model", model);
 
-            boulderModel->draw(delta, shader);
+            // boulderModel->draw(delta, shader);
         }
     }
 

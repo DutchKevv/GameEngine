@@ -50,7 +50,7 @@ public:
 
         this->load(filePath);
         this->make_point_connections(height, width, connect_points);
-        printf("%llu", sizeof(connect_points));
+        // printf("%llu", sizeof(connect_points));
 
         glGenVertexArrays(1, &VAO);
         glGenBuffers(1, &VBO);
@@ -115,20 +115,28 @@ public:
 
     void draw(float delta)
     {
-        ResourceManager::GetShader("shadowMapping").Use();
+        
     }
 
     void renderScene(float delta, Shader &shader, bool isShadowRender)
     {
+        ResourceManager::GetShader("shadowMapping").Use();
+
+        glEnable(GL_CULL_FACE);
+        glFrontFace(GL_CCW);
+        glCullFace (GL_FRONT_AND_BACK);
+
         glActiveTexture(GL_TEXTURE0);
+        // Texture2D textureGrass = ResourceManager::GetTexture("container-side");
         Texture2D textureGrass = ResourceManager::GetTexture("grass");
         textureGrass.Bind();
 
         glm::mat4 model = glm::mat4(1.0f);
         shader.SetMatrix4("model", model);
         glBindVertexArray(VAO);
-        glDrawArrays(GL_TRIANGLES, 0, 5000);
+        glDrawArrays(GL_TRIANGLES, 0,  sizeof(vertices));
         glBindVertexArray(0);
+        // glCullFace(GL_BACK);
     }
 
     void make_point_connections(int BMP_HT,

@@ -43,6 +43,7 @@ struct Context
     Renderer *renderer;
     GLFWwindow *window;
     Camera *camera;
+    struct GLFWOpenGLWindowInternalData *m_data;
 
     Paths *paths = new Paths();
 

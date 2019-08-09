@@ -12,6 +12,50 @@
 #include "renderer.h"
 #include "context.h"
 
+struct GLFWOpenGLWindowInternalData
+{
+	bool m_requestedExit;
+	bool m_hasCursorPos;
+	bool m_altPressed;
+	bool m_shiftPressed;
+	bool m_ctrlPressed;
+	float m_cursorXPos;
+	float m_cursorYPos;
+	// b3MouseMoveCallback m_mouseMoveCallback;
+	// b3MouseButtonCallback m_mouseButtonCallback;
+	// b3ResizeCallback m_resizeCallback;
+	// b3WheelCallback m_wheelCallback;
+	// b3KeyboardCallback m_keyboardCallback;
+	// b3RenderCallback m_renderCallback;
+	int m_width;
+	int m_height;
+	float m_retinaScaleFactor;
+
+	GLFWwindow* m_glfwWindow;
+
+	GLFWOpenGLWindowInternalData()
+		: m_requestedExit(false),
+		  m_hasCursorPos(false),
+		  m_altPressed(false),
+		  m_shiftPressed(false),
+		  m_ctrlPressed(false),
+		  m_cursorXPos(0),
+		  m_cursorYPos(0),
+		//   m_mouseMoveCallback(0),
+		//   m_mouseButtonCallback(0),
+		//   m_resizeCallback(0),
+		//   m_wheelCallback(0),
+		//   m_keyboardCallback(0),
+		//   m_renderCallback(0),
+		  m_width(0),
+		  m_height(0),
+		  m_retinaScaleFactor(1),
+		  m_glfwWindow(0)
+	{
+	}
+};
+
+
 using namespace std;
 
 /*
@@ -146,7 +190,7 @@ void Renderer::createWindow()
     // create window
     if (context->fullscreen)
     {
-        context->window = this->window = glfwCreateWindow(context->windowW, context->windowH, "Game Engine", glfwGetPrimaryMonitor(), NULL); // FULLSCREEN
+        context->window = this->window = context->m_data->m_glfwWindow = glfwCreateWindow(context->windowW, context->windowH, "Game Engine", glfwGetPrimaryMonitor(), NULL); // FULLSCREEN
     }
     else
     {

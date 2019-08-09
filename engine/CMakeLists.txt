@@ -15,6 +15,7 @@ set(ASSIMP_BUILD_STATIC_LIB OFF)
 set(ASSIMP_BUILD_SAMPLES OFF)
 set(ASSIMP_BUILD_TESTS OFF)
 set(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
+set(BULLET_PHYSICS_SOURCE_DIR "${CMAKE_CURRENT_LIST_DIR}/vendor/bullet3-master")
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
         set(BUILD_PATH "${CMAKE_CURRENT_SOURCE_DIR}/build/web")
@@ -26,6 +27,7 @@ set(ENGINE_SOURCE_FILES
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/baseObject.cpp
+        ${CMAKE_CURRENT_LIST_DIR}/include/engine/bodyBase.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/camera.h
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/camera.cpp
         ${CMAKE_CURRENT_LIST_DIR}/include/engine/context.h
@@ -120,6 +122,23 @@ endif ()
 # add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/vendor/json ${CMAKE_CURRENT_SOURCE_DIR}/engine/vendor/json)
 # include_directories(${CMAKE_CURRENT_LIST_DIR}/vendor/json/include)
 
+target_link_libraries(${PROJECT_NAME}
+    ${CMAKE_CURRENT_LIST_DIR}/vendor/bullet3-master/build3/src/BulletDynamics/libBulletDynamics.a
+    ${CMAKE_CURRENT_LIST_DIR}/vendor/bullet3-master/build3/src/BulletCollision/libBulletCollision.a
+    ${CMAKE_CURRENT_LIST_DIR}/vendor/bullet3-master/build3/src/LinearMath/libLinearMath.a
+    -lGL -lGLU)
+
+    
+INCLUDE_DIRECTORIES(
+        ${BULLET_PHYSICS_SOURCE_DIR}/src
+        ${BULLET_PHYSICS_SOURCE_DIR}/btgui
+        ${BULLET_PHYSICS_SOURCE_DIR}/examples
+        ${BULLET_PHYSICS_SOURCE_DIR}/examples/CommonInterfaces
+        ${BULLET_PHYSICS_SOURCE_DIR}/examples/ThirdPartyLibs/glad
+)
+
+message(${BULLET_PHYSICS_SOURCE_DIR})
+
 # link libraries
 target_link_libraries(${CMAKE_PROJECT_NAME} assimp ${ASSIMP_LIBRARIES})
 if (NOT ${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
@@ -135,6 +154,7 @@ add_custom_command(
  DEPENDS ${ENGINE_ASSETS_DESTINATION}
  COMMENT "symbolic link resources folder from ${ENGINE_ASSETS_SOURCE} => ${ENGINE_ASSETS_DESTINATION}"
 )
+
 
 # set_target_properties(Engine PROPERTIES LINK_FLAGS "-o dist/engine.js -s USE_GLFW=3 -s TOTAL_MEMORY=167772160 -s USE_FREETYPE=1 -s DISABLE_EXCEPTION_CATCHING=0 -s NO_EXIT_RUNTIME=1 -s DEMANGLE_SUPPORT=1 -s SAFE_HEAP=1 --bind -s WASM=1 -O2 -s LEGACY_GL_EMULATION=0  -s GL_UNSAFE_OPTS=0 -s ASSERTIONS=1 -s GL_ASSERTIONS=1 -s INVOKE_RUN=0  -std=c++1y -s USE_WEBGL2=1 -s FULL_ES3=1 -s GL_DEBUG=1 -s OFFSCREENCANVAS_SUPPORT=0 --use-preload-plugins --preload-file assets --preload-file assets")
 

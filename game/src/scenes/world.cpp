@@ -68,7 +68,7 @@ unsigned int depthMapFBO;
 glm::vec3 lightPos(-2.0f, 4.0f, -1.0f);
 
 const unsigned int space = 30;
-const unsigned int trees = 500;
+const unsigned int trees = 5;
 const unsigned int rocks = 100;
 
 #include <engine/bodyBase.h>
@@ -191,6 +191,7 @@ class WorldScene : public Scene
         debugDepthQuad = ResourceManager::LoadShader("game-assets/shaders/debug_quad.vert", "game-assets/shaders/debug_quad.frag", nullptr, "quadDepth");
 
         ResourceManager::LoadTexture("engine-assets/textures/grass.jpg", false, "grass");
+        ResourceManager::LoadTexture("engine-assets/textures/boulder.jpg", false, "rock");
         ResourceManager::LoadTexture("engine-assets/textures/container.jpg", false, "container-side");
 
         // attach camera
@@ -210,7 +211,7 @@ class WorldScene : public Scene
         this->addChild(player);
 
         // let the camera follow the player
-        // this->camera->followObject(player);
+        this->camera->followObject(player);
 
         // create skybox
         skybox = new SkyBox();
@@ -385,15 +386,15 @@ class WorldScene : public Scene
 
         // change light position over time
         lightPos.x = cos(glfwGetTime()) * 10.0f;
-        lightPos.z = 100.0f;
-        // lightPos.z = cos(glfwGetTime()) * 5.0f;
-        lightPos.y = 200.0f;
+        lightPos.z = 10.0f;
+        lightPos.z = cos(glfwGetTime()) * 5.0f;
+        // lightPos.y = 20.0f;
         // lightPos = this->player->position;
 
         Texture2D texture = ResourceManager::GetTexture("container-side");
         Texture2D textureGrass = ResourceManager::GetTexture("grass");
 
-        // glActiveTexture(GL_TEXTURE0);
+        glActiveTexture(GL_TEXTURE0);
         // shader.SetInteger("texture_diffuse", 0);
 
         // 1. render depth of scene to texture (from light's perspective)
@@ -401,8 +402,8 @@ class WorldScene : public Scene
         glm::mat4 lightProjection, lightView;
         glm::mat4 lightSpaceMatrix;
         float near_plane = 1.0f, far_plane = 700.5f;
-        // lightProjection = glm>::perspective(glm::radians(90.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
-        lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+        lightProjection = glm::perspective(glm::radians(90.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
+        // lightProjection = glm::ortho(10.0f, 10.0f, 10.0f, 10.0f, near_plane, far_plane);
         lightView = glm::lookAt(player->position, player->position, glm::vec3(player->position.x, 1.0, player->position.z));
         lightSpaceMatrix = lightProjection * lightView;
         // render scene from light's point of view
@@ -414,7 +415,7 @@ class WorldScene : public Scene
         glClear(GL_DEPTH_BUFFER_BIT);
         glActiveTexture(GL_TEXTURE0);
 
-        textureGrass.Bind();
+        // textureGrass.Bind();
         renderScene(delta, simpleDepthShader, true);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -463,14 +464,15 @@ class WorldScene : public Scene
 
         glActiveTexture(GL_TEXTURE1);
         Texture2D textureGrass = ResourceManager::GetTexture("grass");
-        textureGrass.Bind();
+        Texture2D textureRock = ResourceManager::GetTexture("rock");
+        // textureGrass.Bind();
 
         // Terrain
         glm::mat4 model;
         model = glm::translate(model, glm::vec3(0.0f, -10.0f, 0.0f));
         model = glm::scale(model, glm::vec3(50.0f));
         shader.SetMatrix4("model", model);
-        terrain2->Draw(shader);
+        // terrain2->Draw(shader);
 
         // trees
         for (unsigned int i = 0; i < trees; i++)
@@ -478,13 +480,13 @@ class WorldScene : public Scene
             glm::mat4 model;
             glm::vec4 random = treePositions[i];
 
-            model = glm::translate(model, glm::vec3(random.x, -0.2f, random.z));
-            model = glm::scale(model, glm::vec3(0.2f));
+            model = glm::translate(model, glm::vec3(random.x, 0.0f, random.z));
+            model = glm::scale(model, glm::vec3(0.01f));
             // model = glm::scale(model, glm::vec3(random.w / 100));
 
             shader.SetMatrix4("model", model);
-
-            // treeModel->Draw(shader);
+            // textureGrass.Bind();
+            treeModel->Draw(shader);
         }
 
         // rocks
@@ -493,30 +495,32 @@ class WorldScene : public Scene
             glm::mat4 model;
             glm::vec4 random = rockPositions[i];
 
-            model = glm::translate(model, glm::vec3(random.x, -0.6f, random.z));
+            model = glm::translate(model, glm::vec3(random.x, 0.0f, random.z));
             model = glm::rotate(model, random.z, glm::vec3(random.x, random.y, random.z));
             model = glm::scale(model, glm::vec3(0.1f));
 
             shader.SetMatrix4("model", model);
-
-            // boulderModel->draw(delta, shader);
+            textureRock.Bind();
+            boulderModel->draw(delta, shader);
         }
+
+        glActiveTexture(GL_TEXTURE0);
     }
 
     void createEnvironment()
     {
         // load models
         // -----------------------
-        rockModel = new Model("game-assets/models/rock/rock1.obj");
-        // rockModel = new Model("game-assets/models/rock1/Rock1.obj");
+        // rockModel = new Model("game-assets/models/rock/rock1.obj");
+        rockModel = new Model("game-assets/models/rock1/Rock1.obj");
         boulderModel = new Model("game-assets/models/boulder/newboulder.obj");
         // blenderModel = new Model("game-assets/models/blenderman/BLENDERMAN!.obj");
-        // treeModel = new Model("game-assets/models/tree/cube.obj");
+        // treeModel = new Model("game-assets/models/tree/tree1.obj");
         // treeModel = new Model("game-assets/models/tree2/Tree1.obj");
         // treeModel = new Model("game-assets/models/tree/trees.obj");
         // treeModel = new Model("game-assets/models/tree2/Hazelnut.obj");
-        // treeModel = new Model("game-assets/models/tree-lp2/trees-lo-poly.obj");
-        treeModel = new Model("game-assets/models/tree-low-poly/lowtree.obj");
+        treeModel = new Model("game-assets/models/tree-lp2/trees-lo-poly.obj");
+        // treeModel = new Model("game-assets/models/tree-low-poly/lowtree.obj");
         // cubeModel = new Model("game-assets/models/cube/cube.obj");
 
         // load random positions for models
@@ -534,6 +538,6 @@ class WorldScene : public Scene
         }
 
         // add floor (TEMP)
-        // this->addChild(new Floor());
+        this->addChild(new Floor());
     }
 };

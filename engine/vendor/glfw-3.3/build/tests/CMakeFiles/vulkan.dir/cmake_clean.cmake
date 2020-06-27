@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/vulkan.dir/vulkan.c.o"
   "CMakeFiles/vulkan.dir/__/deps/glad_vulkan.c.o"
-  "vulkan.pdb"
+  "CMakeFiles/vulkan.dir/vulkan.c.o"
   "vulkan"
+  "vulkan.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

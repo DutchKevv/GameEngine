@@ -1,9 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/windows.dir/windows.c.o"
   "CMakeFiles/windows.dir/__/deps/getopt.c.o"
   "CMakeFiles/windows.dir/__/deps/glad_gl.c.o"
-  "windows.pdb"
+  "CMakeFiles/windows.dir/windows.c.o"
   "windows"
+  "windows.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

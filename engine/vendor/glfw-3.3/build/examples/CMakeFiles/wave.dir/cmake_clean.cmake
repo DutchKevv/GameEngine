@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/wave.dir/wave.c.o"
   "CMakeFiles/wave.dir/__/deps/glad_gl.c.o"
-  "wave.pdb"
+  "CMakeFiles/wave.dir/wave.c.o"
   "wave"
+  "wave.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

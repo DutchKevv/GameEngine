@@ -278,6 +278,8 @@ static unsigned int TextureFromFile(const char *path, const string &directory, b
     string filename = string(path);
     filename = directory + '/' + filename;
 
+    consoleLog(filename);
+
     unsigned int textureID;
     glGenTextures(1, &textureID);
 

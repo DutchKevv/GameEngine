@@ -93,7 +93,7 @@ void Player::renderScene(float delta, Shader &shader, bool isShadowRender)
     // glm::vec3 cPosition = glm::vec3(position.x, position.y, position.z);
     // context->camera->followObject(this);
 
-    // playerModel->Draw(shader);
+    playerModel->Draw(shader);
 }
 
 void Player::destroy(){

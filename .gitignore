@@ -1,2 +1,9 @@
 /build
 /build-em
+examples
+tests
+game/CMakeFiles
+game/Game
+game/CMakeCache.txt
+game/cmake_install.cmake
+game/Makefile

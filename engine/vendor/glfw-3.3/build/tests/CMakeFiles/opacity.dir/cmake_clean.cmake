@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/opacity.dir/opacity.c.o"
   "CMakeFiles/opacity.dir/__/deps/glad_gl.c.o"
-  "opacity.pdb"
+  "CMakeFiles/opacity.dir/opacity.c.o"
   "opacity"
+  "opacity.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

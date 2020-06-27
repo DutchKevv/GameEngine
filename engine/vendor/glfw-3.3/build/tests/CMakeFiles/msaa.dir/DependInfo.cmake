@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/deps/getopt.c" "/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/build/tests/CMakeFiles/msaa.dir/__/deps/getopt.c.o"
-  "/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/deps/glad_gl.c" "/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/build/tests/CMakeFiles/msaa.dir/__/deps/glad_gl.c.o"
-  "/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/tests/msaa.c" "/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/build/tests/CMakeFiles/msaa.dir/msaa.c.o"
+  "/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/getopt.c" "/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/tests/CMakeFiles/msaa.dir/__/deps/getopt.c.o"
+  "/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c" "/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/tests/CMakeFiles/msaa.dir/__/deps/glad_gl.c.o"
+  "/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/tests/msaa.c" "/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/tests/CMakeFiles/msaa.dir/msaa.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
@@ -20,15 +20,15 @@ set(CMAKE_TARGET_DEFINITIONS_C
 
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH
-  "/home/kewin/Projects/game-engine/engine/include"
-  "/home/kewin/Projects/game-engine/engine/vendor/glad/include"
-  "/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/deps"
-  "/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/include"
+  "/home/kewin/Projects/GameEngine/engine/include"
+  "/home/kewin/Projects/GameEngine/engine/vendor/glad/include"
+  "/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps"
+  "/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/include"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/build/src/CMakeFiles/glfw.dir/DependInfo.cmake"
+  "/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/src/CMakeFiles/glfw.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

@@ -1,9 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/threads.dir/threads.c.o"
-  "CMakeFiles/threads.dir/__/deps/tinycthread.c.o"
   "CMakeFiles/threads.dir/__/deps/glad_gl.c.o"
-  "threads.pdb"
+  "CMakeFiles/threads.dir/__/deps/tinycthread.c.o"
+  "CMakeFiles/threads.dir/threads.c.o"
   "threads"
+  "threads.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

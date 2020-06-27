@@ -31,8 +31,8 @@ int main(int argc, char *argv[])
     game.renderer->createWindow();
 
     // add main menu
-    MenuScene *menuScene = new MenuScene();
-    game.renderer->addChild(menuScene, "menu");
+    // MenuScene *menuScene = new MenuScene();
+    // game.renderer->addChild(menuScene, "menu");
 
     // add world
     // TODO - load async (after user presses 'start' in game)

@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/build/src/glfw_config.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/src/glfw_config.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/include/GLFW/glfw3.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/include/GLFW/glfw3.h
 stddef.h
 -
 stdint.h
@@ -52,7 +52,7 @@ GL/glu.h
 vulkan/vulkan.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/cocoa_joystick.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/cocoa_joystick.h
 IOKit/IOKitLib.h
 -
 IOKit/IOCFPlugIn.h
@@ -62,7 +62,7 @@ IOKit/hid/IOHIDLib.h
 IOKit/hid/IOHIDKeys.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/cocoa_platform.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/cocoa_platform.h
 stdint.h
 -
 dlfcn.h
@@ -76,19 +76,19 @@ CoreVideo/CVDisplayLink.h
 Cocoa/Cocoa.h
 -
 posix_thread.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/posix_thread.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/posix_thread.h
 cocoa_joystick.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/cocoa_joystick.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/cocoa_joystick.h
 nsgl_context.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/nsgl_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/nsgl_context.h
 egl_context.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/egl_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/egl_context.h
 osmesa_context.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/osmesa_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/osmesa_context.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/context.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/context.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 assert.h
 -
 stdio.h
@@ -100,9 +100,9 @@ limits.h
 stdio.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/egl_context.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/egl_context.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 stdio.h
 -
 string.h
@@ -112,13 +112,13 @@ stdlib.h
 assert.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/egl_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/egl_context.h
 EGL/eglplatform.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/glx_context.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/glx_context.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 string.h
 -
 stdlib.h
@@ -126,13 +126,13 @@ stdlib.h
 assert.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/glx_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/glx_context.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/init.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/init.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 mappings.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/mappings.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/mappings.h
 string.h
 -
 stdlib.h
@@ -144,9 +144,9 @@ stdarg.h
 assert.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/input.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/input.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 assert.h
 -
 float.h
@@ -158,25 +158,25 @@ stdlib.h
 string.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 glfw_config.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/glfw_config.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/glfw_config.h
 ../include/GLFW/glfw3.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/include/GLFW/glfw3.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/include/GLFW/glfw3.h
 cocoa_platform.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/cocoa_platform.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/cocoa_platform.h
 win32_platform.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/win32_platform.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/win32_platform.h
 x11_platform.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/x11_platform.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/x11_platform.h
 wl_platform.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/wl_platform.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/wl_platform.h
 null_platform.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/null_platform.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/null_platform.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/linux_joystick.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/linux_joystick.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 sys/types.h
 -
 sys/stat.h
@@ -198,7 +198,7 @@ string.h
 unistd.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/linux_joystick.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/linux_joystick.h
 linux/input.h
 -
 linux/limits.h
@@ -206,11 +206,11 @@ linux/limits.h
 regex.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/mappings.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/mappings.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/monitor.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/monitor.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 assert.h
 -
 math.h
@@ -224,25 +224,25 @@ stdlib.h
 limits.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/nsgl_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/nsgl_context.h
 stdatomic.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/null_joystick.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/null_joystick.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/null_platform.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/null_platform.h
 dlfcn.h
 -
 osmesa_context.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/osmesa_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/osmesa_context.h
 posix_time.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/posix_time.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/posix_time.h
 posix_thread.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/posix_thread.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/posix_thread.h
 null_joystick.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/null_joystick.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/null_joystick.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/osmesa_context.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/osmesa_context.c
 stdlib.h
 -
 string.h
@@ -250,37 +250,37 @@ string.h
 assert.h
 -
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/osmesa_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/osmesa_context.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/posix_thread.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/posix_thread.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 assert.h
 -
 string.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/posix_thread.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/posix_thread.h
 pthread.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/posix_time.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/posix_time.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 sys/time.h
 -
 time.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/posix_time.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/posix_time.h
 stdint.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/vulkan.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/vulkan.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 assert.h
 -
 string.h
@@ -288,11 +288,11 @@ string.h
 stdlib.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/wgl_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/wgl_context.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/win32_joystick.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/win32_joystick.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/win32_platform.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/win32_platform.h
 wctype.h
 -
 windows.h
@@ -306,17 +306,17 @@ dbt.h
 dwmapi.h
 -
 win32_joystick.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/win32_joystick.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/win32_joystick.h
 wgl_context.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/wgl_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/wgl_context.h
 egl_context.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/egl_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/egl_context.h
 osmesa_context.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/osmesa_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/osmesa_context.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/window.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/window.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 assert.h
 -
 string.h
@@ -326,7 +326,7 @@ stdlib.h
 float.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/wl_platform.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/wl_platform.h
 wayland-client.h
 -
 xkbcommon/xkbcommon.h
@@ -336,35 +336,35 @@ xkbcommon/xkbcommon-compose.h
 dlfcn.h
 -
 posix_thread.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/posix_thread.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/posix_thread.h
 posix_time.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/posix_time.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/posix_time.h
 linux_joystick.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/linux_joystick.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/linux_joystick.h
 null_joystick.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/null_joystick.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/null_joystick.h
 xkb_unicode.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/xkb_unicode.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/xkb_unicode.h
 egl_context.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/egl_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/egl_context.h
 osmesa_context.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/osmesa_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/osmesa_context.h
 wayland-xdg-shell-client-protocol.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/wayland-xdg-shell-client-protocol.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/wayland-xdg-shell-client-protocol.h
 wayland-xdg-decoration-client-protocol.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/wayland-xdg-decoration-client-protocol.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/wayland-xdg-decoration-client-protocol.h
 wayland-viewporter-client-protocol.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/wayland-viewporter-client-protocol.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/wayland-viewporter-client-protocol.h
 wayland-relative-pointer-unstable-v1-client-protocol.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/wayland-relative-pointer-unstable-v1-client-protocol.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/wayland-relative-pointer-unstable-v1-client-protocol.h
 wayland-pointer-constraints-unstable-v1-client-protocol.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/wayland-pointer-constraints-unstable-v1-client-protocol.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/wayland-pointer-constraints-unstable-v1-client-protocol.h
 wayland-idle-inhibit-unstable-v1-client-protocol.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/wayland-idle-inhibit-unstable-v1-client-protocol.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/wayland-idle-inhibit-unstable-v1-client-protocol.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/x11_init.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/x11_init.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 X11/Xresource.h
 -
 stdlib.h
@@ -378,9 +378,9 @@ stdio.h
 locale.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/x11_monitor.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/x11_monitor.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 limits.h
 -
 stdlib.h
@@ -390,7 +390,7 @@ string.h
 math.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/x11_platform.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/x11_platform.h
 unistd.h
 -
 signal.h
@@ -416,25 +416,25 @@ X11/extensions/Xinerama.h
 X11/extensions/XInput2.h
 -
 posix_thread.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/posix_thread.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/posix_thread.h
 posix_time.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/posix_time.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/posix_time.h
 xkb_unicode.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/xkb_unicode.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/xkb_unicode.h
 glx_context.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/glx_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/glx_context.h
 egl_context.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/egl_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/egl_context.h
 osmesa_context.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/osmesa_context.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/osmesa_context.h
 linux_joystick.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/linux_joystick.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/linux_joystick.h
 null_joystick.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/null_joystick.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/null_joystick.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/x11_window.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/x11_window.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 X11/cursorfont.h
 -
 X11/Xmd.h
@@ -454,9 +454,9 @@ errno.h
 assert.h
 -
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/xkb_unicode.c
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/xkb_unicode.c
 internal.h
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/internal.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/internal.h
 
-/home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/src/xkb_unicode.h
+/home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/src/xkb_unicode.h
 

@@ -140,12 +140,12 @@ Shader ResourceManager::loadShaderFromFile(string vShaderFile, string fShaderFil
     }
 
     // #ifdef GL_FRAGMENT_PRECISION_HIGH
-    std::string precision = "precision highp float;\n\n";
+    std::string precision = "\n precision highp float;\n\n";
     // #else
-    // std::string precision = "precision mediump float;\n\n";
+    // std::string precision = "\n precision mediump float;\n\n";
     // #endif
 
-    fragmentCode.insert(16, precision);
+    fragmentCode.insert(17, precision);
 
     const char *vShaderCode = vertexCode.c_str();
     const char *fShaderCode = fragmentCode.c_str();

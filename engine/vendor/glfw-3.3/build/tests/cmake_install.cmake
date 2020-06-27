@@ -1,4 +1,4 @@
-# Install script for directory: /home/kewin/Projects/game-engine/engine/vendor/glfw-3.3/tests
+# Install script for directory: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/tests
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

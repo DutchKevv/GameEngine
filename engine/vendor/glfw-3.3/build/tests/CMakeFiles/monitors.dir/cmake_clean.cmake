@@ -1,9 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/monitors.dir/monitors.c.o"
   "CMakeFiles/monitors.dir/__/deps/getopt.c.o"
   "CMakeFiles/monitors.dir/__/deps/glad_gl.c.o"
-  "monitors.pdb"
+  "CMakeFiles/monitors.dir/monitors.c.o"
   "monitors"
+  "monitors.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

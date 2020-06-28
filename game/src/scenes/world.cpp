@@ -48,6 +48,7 @@ static vec3 cubePositions[] = {
 vector<glm::vec4> treePositions;
 vector<glm::vec4> rockPositions;
 
+Model *houseModel;
 Model *rockModel;
 Model *planeModel;
 Model *blenderModel;
@@ -59,7 +60,7 @@ static Shader shader;
 static Shader simpleDepthShader;
 static Shader debugDepthQuad;
 
-const unsigned int SHADOW_WIDTH = 2048, SHADOW_HEIGHT = 2048;
+const unsigned int SHADOW_WIDTH = 256, SHADOW_HEIGHT = 256;
 unsigned int depthMap;
 unsigned int depthMapFBO;
 
@@ -386,7 +387,7 @@ class WorldScene : public Scene
 
         // change light position over time
         lightPos.x = cos(glfwGetTime()) * 10.0f;
-        lightPos.z = 10.0f;
+        lightPos.y = 10.0f;
         lightPos.z = cos(glfwGetTime()) * 5.0f;
         // lightPos.y = 20.0f;
         // lightPos = this->player->position;
@@ -401,10 +402,10 @@ class WorldScene : public Scene
         // --------------------------------------------------------------
         glm::mat4 lightProjection, lightView;
         glm::mat4 lightSpaceMatrix;
-        float near_plane = 1.0f, far_plane = 700.5f;
+        float near_plane = 10.0f, far_plane = 30.5f;
         lightProjection = glm::perspective(glm::radians(90.0f), (GLfloat)SHADOW_WIDTH / (GLfloat)SHADOW_HEIGHT, near_plane, far_plane); // note that if you use a perspective projection matrix you'll have to change the light position as the current light position isn't enough to reflect the whole scene
-        // lightProjection = glm::ortho(10.0f, 10.0f, 10.0f, 10.0f, near_plane, far_plane);
-        lightView = glm::lookAt(player->position, player->position, glm::vec3(player->position.x, 1.0, player->position.z));
+        // lightProjection = glm::ortho(10.0f, 0.0f, 10.0f, 10.0f, near_plane, far_plane);
+        lightView = glm::lookAt(player->position, player->position, glm::vec3(player->position.x, 0.0f, player->position.z));
         lightSpaceMatrix = lightProjection * lightView;
         // render scene from light's point of view
         simpleDepthShader.Use();
@@ -485,8 +486,22 @@ class WorldScene : public Scene
             // model = glm::scale(model, glm::vec3(random.w / 100));
 
             shader.SetMatrix4("model", model);
-            // textureGrass.Bind();
+            textureGrass.Bind();
             treeModel->Draw(shader);
+        }
+
+        for (unsigned int i = 0; i < trees; i++)
+        {
+            glm::mat4 model;
+            glm::vec4 random = treePositions[i];
+
+            model = glm::translate(model, glm::vec3(random.x + 2.0f, 0.0f, random.z + 2.0f));
+            model = glm::scale(model, glm::vec3(0.1f));
+            // model = glm::scale(model, glm::vec3(random.w / 100));
+
+            shader.SetMatrix4("model", model);
+            textureGrass.Bind();
+            houseModel->Draw(shader);
         }
 
         // rocks
@@ -512,6 +527,7 @@ class WorldScene : public Scene
         // load models
         // -----------------------
         // rockModel = new Model("game-assets/models/rock/rock1.obj");
+        houseModel = new Model("game-assets/models/House1/house1.obj");
         rockModel = new Model("game-assets/models/rock1/Rock1.obj");
         boulderModel = new Model("game-assets/models/boulder/newboulder.obj");
         // blenderModel = new Model("game-assets/models/blenderman/BLENDERMAN!.obj");

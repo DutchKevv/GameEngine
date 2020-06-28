@@ -12,7 +12,7 @@
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "/Projects/GameEngine/game/build/linux"
             },
             "problemMatcher": [
                 "$gcc"
@@ -20,7 +20,7 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
-            }
+            },
         }
     ]
 }

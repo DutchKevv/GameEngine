@@ -51,7 +51,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/kewin/Projects/GameEngine/game
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/kewin/Projects/GameEngine/game
+CMAKE_BINARY_DIR = /home/kewin/Projects/GameEngine/game/build/linux
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,14 +126,14 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/kewin/Projects/GameEngine/game && $(CMAKE_COMMAND) -E cmake_progress_start /home/kewin/Projects/GameEngine/game/CMakeFiles /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/progress.marks
-	cd /home/kewin/Projects/GameEngine/game && $(MAKE) -f CMakeFiles/Makefile2 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/kewin/Projects/GameEngine/game/CMakeFiles 0
+	cd /home/kewin/Projects/GameEngine/game/build/linux && $(CMAKE_COMMAND) -E cmake_progress_start /home/kewin/Projects/GameEngine/game/build/linux/CMakeFiles /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/progress.marks
+	cd /home/kewin/Projects/GameEngine/game/build/linux && $(MAKE) -f CMakeFiles/Makefile2 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/kewin/Projects/GameEngine/game/build/linux/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/kewin/Projects/GameEngine/game && $(MAKE) -f CMakeFiles/Makefile2 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/clean
+	cd /home/kewin/Projects/GameEngine/game/build/linux && $(MAKE) -f CMakeFiles/Makefile2 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/clean
 .PHONY : clean
 
 # The main clean target
@@ -143,22 +143,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/kewin/Projects/GameEngine/game && $(MAKE) -f CMakeFiles/Makefile2 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/preinstall
+	cd /home/kewin/Projects/GameEngine/game/build/linux && $(MAKE) -f CMakeFiles/Makefile2 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/kewin/Projects/GameEngine/game && $(MAKE) -f CMakeFiles/Makefile2 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/preinstall
+	cd /home/kewin/Projects/GameEngine/game/build/linux && $(MAKE) -f CMakeFiles/Makefile2 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/kewin/Projects/GameEngine/game && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/kewin/Projects/GameEngine/game/build/linux && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/uninstall.dir/rule:
-	cd /home/kewin/Projects/GameEngine/game && $(MAKE) -f CMakeFiles/Makefile2 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/uninstall.dir/rule
+	cd /home/kewin/Projects/GameEngine/game/build/linux && $(MAKE) -f CMakeFiles/Makefile2 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/uninstall.dir/rule
 .PHONY : /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/uninstall.dir/rule
 
 # Convenience name for target.
@@ -168,7 +168,7 @@ uninstall: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFil
 
 # fast build rule for target.
 uninstall/fast:
-	cd /home/kewin/Projects/GameEngine/game && $(MAKE) -f /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/uninstall.dir/build.make /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/uninstall.dir/build
+	cd /home/kewin/Projects/GameEngine/game/build/linux && $(MAKE) -f /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/uninstall.dir/build.make /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/uninstall.dir/build
 .PHONY : uninstall/fast
 
 # Help Target
@@ -195,6 +195,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/kewin/Projects/GameEngine/game && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/kewin/Projects/GameEngine/game/build/linux && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

@@ -46,7 +46,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/kewin/Projects/GameEngine/game
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/kewin/Projects/GameEngine/game
+CMAKE_BINARY_DIR = /home/kewin/Projects/GameEngine/game/build/linux
 
 # Utility rule file for uninstall.
 
@@ -71,6 +71,6 @@ uninstall: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFil
 .PHONY : /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/uninstall.dir/clean
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/uninstall.dir/depend:
-	cd /home/kewin/Projects/GameEngine/game && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kewin/Projects/GameEngine/game /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3 /home/kewin/Projects/GameEngine/game /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/kewin/Projects/GameEngine/game/build/linux && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kewin/Projects/GameEngine/game /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3 /home/kewin/Projects/GameEngine/game/build/linux /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/CMakeFiles/uninstall.dir/depend
 

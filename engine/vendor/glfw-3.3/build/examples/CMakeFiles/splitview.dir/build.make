@@ -46,7 +46,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/kewin/Projects/GameEngine/game
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/kewin/Projects/GameEngine/game
+CMAKE_BINARY_DIR = /home/kewin/Projects/GameEngine/game/build/linux
 
 # Include any dependencies generated for this target.
 include /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/depend.make
@@ -59,29 +59,29 @@ include /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CM
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/splitview.c.o: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/flags.make
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/splitview.c.o: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/splitview.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/GameEngine/game/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/splitview.c.o"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/splitview.dir/splitview.c.o   -c /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/splitview.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/GameEngine/game/build/linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/splitview.c.o"
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/splitview.dir/splitview.c.o   -c /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/splitview.c
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/splitview.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/splitview.dir/splitview.c.i"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/splitview.c > CMakeFiles/splitview.dir/splitview.c.i
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/splitview.c > CMakeFiles/splitview.dir/splitview.c.i
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/splitview.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/splitview.dir/splitview.c.s"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/splitview.c -o CMakeFiles/splitview.dir/splitview.c.s
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/splitview.c -o CMakeFiles/splitview.dir/splitview.c.s
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/__/deps/glad_gl.c.o: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/flags.make
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/__/deps/glad_gl.c.o: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/GameEngine/game/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/__/deps/glad_gl.c.o"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/splitview.dir/__/deps/glad_gl.c.o   -c /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/GameEngine/game/build/linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/__/deps/glad_gl.c.o"
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/splitview.dir/__/deps/glad_gl.c.o   -c /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/__/deps/glad_gl.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/splitview.dir/__/deps/glad_gl.c.i"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c > CMakeFiles/splitview.dir/__/deps/glad_gl.c.i
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c > CMakeFiles/splitview.dir/__/deps/glad_gl.c.i
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/__/deps/glad_gl.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/splitview.dir/__/deps/glad_gl.c.s"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c -o CMakeFiles/splitview.dir/__/deps/glad_gl.c.s
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c -o CMakeFiles/splitview.dir/__/deps/glad_gl.c.s
 
 # Object files for target splitview
 splitview_OBJECTS = \
@@ -100,7 +100,7 @@ splitview_EXTERNAL_OBJECTS =
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/splitview: /usr/lib/x86_64-linux-gnu/libm.so
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/splitview: /usr/lib/x86_64-linux-gnu/libX11.so
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/splitview: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kewin/Projects/GameEngine/game/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable splitview"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kewin/Projects/GameEngine/game/build/linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking C executable splitview"
 	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/splitview.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -113,6 +113,6 @@ splitview_EXTERNAL_OBJECTS =
 .PHONY : /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/clean
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/depend:
-	cd /home/kewin/Projects/GameEngine/game && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kewin/Projects/GameEngine/game /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples /home/kewin/Projects/GameEngine/game /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/kewin/Projects/GameEngine/game/build/linux && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kewin/Projects/GameEngine/game /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples /home/kewin/Projects/GameEngine/game/build/linux /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/splitview.dir/depend
 

@@ -46,7 +46,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/kewin/Projects/GameEngine/game
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/kewin/Projects/GameEngine/game
+CMAKE_BINARY_DIR = /home/kewin/Projects/GameEngine/game/build/linux
 
 # Include any dependencies generated for this target.
 include /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/depend.make
@@ -59,55 +59,55 @@ include /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CM
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/particles.c.o: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/flags.make
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/particles.c.o: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/particles.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/GameEngine/game/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/particles.c.o"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/particles.dir/particles.c.o   -c /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/particles.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/GameEngine/game/build/linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/particles.c.o"
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/particles.dir/particles.c.o   -c /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/particles.c
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/particles.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/particles.dir/particles.c.i"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/particles.c > CMakeFiles/particles.dir/particles.c.i
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/particles.c > CMakeFiles/particles.dir/particles.c.i
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/particles.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/particles.dir/particles.c.s"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/particles.c -o CMakeFiles/particles.dir/particles.c.s
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples/particles.c -o CMakeFiles/particles.dir/particles.c.s
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/tinycthread.c.o: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/flags.make
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/tinycthread.c.o: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/tinycthread.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/GameEngine/game/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/tinycthread.c.o"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/particles.dir/__/deps/tinycthread.c.o   -c /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/tinycthread.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/GameEngine/game/build/linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/tinycthread.c.o"
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/particles.dir/__/deps/tinycthread.c.o   -c /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/tinycthread.c
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/tinycthread.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/particles.dir/__/deps/tinycthread.c.i"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/tinycthread.c > CMakeFiles/particles.dir/__/deps/tinycthread.c.i
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/tinycthread.c > CMakeFiles/particles.dir/__/deps/tinycthread.c.i
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/tinycthread.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/particles.dir/__/deps/tinycthread.c.s"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/tinycthread.c -o CMakeFiles/particles.dir/__/deps/tinycthread.c.s
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/tinycthread.c -o CMakeFiles/particles.dir/__/deps/tinycthread.c.s
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/getopt.c.o: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/flags.make
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/getopt.c.o: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/getopt.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/GameEngine/game/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/getopt.c.o"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/particles.dir/__/deps/getopt.c.o   -c /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/getopt.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/GameEngine/game/build/linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/getopt.c.o"
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/particles.dir/__/deps/getopt.c.o   -c /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/getopt.c
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/getopt.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/particles.dir/__/deps/getopt.c.i"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/getopt.c > CMakeFiles/particles.dir/__/deps/getopt.c.i
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/getopt.c > CMakeFiles/particles.dir/__/deps/getopt.c.i
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/getopt.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/particles.dir/__/deps/getopt.c.s"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/getopt.c -o CMakeFiles/particles.dir/__/deps/getopt.c.s
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/getopt.c -o CMakeFiles/particles.dir/__/deps/getopt.c.s
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/glad_gl.c.o: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/flags.make
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/glad_gl.c.o: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/GameEngine/game/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/glad_gl.c.o"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/particles.dir/__/deps/glad_gl.c.o   -c /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/kewin/Projects/GameEngine/game/build/linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/glad_gl.c.o"
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/particles.dir/__/deps/glad_gl.c.o   -c /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/glad_gl.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/particles.dir/__/deps/glad_gl.c.i"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c > CMakeFiles/particles.dir/__/deps/glad_gl.c.i
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c > CMakeFiles/particles.dir/__/deps/glad_gl.c.i
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/__/deps/glad_gl.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/particles.dir/__/deps/glad_gl.c.s"
-	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c -o CMakeFiles/particles.dir/__/deps/glad_gl.c.s
+	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && /bin/x86_64-linux-gnu-gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/deps/glad_gl.c -o CMakeFiles/particles.dir/__/deps/glad_gl.c.s
 
 # Object files for target particles
 particles_OBJECTS = \
@@ -129,7 +129,7 @@ particles_EXTERNAL_OBJECTS =
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/particles: /usr/lib/x86_64-linux-gnu/librt.so
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/particles: /usr/lib/x86_64-linux-gnu/libX11.so
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/particles: /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kewin/Projects/GameEngine/game/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable particles"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/kewin/Projects/GameEngine/game/build/linux/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable particles"
 	cd /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/particles.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -142,6 +142,6 @@ particles_EXTERNAL_OBJECTS =
 .PHONY : /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/clean
 
 /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/depend:
-	cd /home/kewin/Projects/GameEngine/game && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kewin/Projects/GameEngine/game /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples /home/kewin/Projects/GameEngine/game /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/kewin/Projects/GameEngine/game/build/linux && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kewin/Projects/GameEngine/game /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/examples /home/kewin/Projects/GameEngine/game/build/linux /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : /home/kewin/Projects/GameEngine/engine/vendor/glfw-3.3/build/examples/CMakeFiles/particles.dir/depend
 
